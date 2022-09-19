@@ -1,1 +1,975 @@
+What is the output
+Send Feedback
+#include <iostream>
+using namespace std;
+int main() 
+{    
+         int x, y = 1;
+         x = 10;
+         if (x != 10 && x / 0 == 0)
+            cout << y;
+         else
+             cout << ++y;
+
+Options
+This problem has only one correct answer
+2
+1
+Error
+None of these
+check_circle
+Hurray! Correct Answer - 2
+Solution Description
+Even though you get the output as '2', you'll also get a "division by zero" warning. The reason you only get a warning but not an error is short-circuit evaluation. In the if statement, once the first condition (x != 10) is evaluated to be false, then the second condition (x / 0 == 0) is not even executed because the result of the overall condition (x != 10 && x / 0 == 0) will be false. Even if the second condition were true, it would not change the overall result of the two conditions.
+
+However, if the value of x or the first condition itself is changed so that it evaluates to true, then you will get an error because in that case the second condition would also be checked (or executed)
+
+
+
+
+What is the output
+Send Feedback
+#include <iostream>
+using namespace std;
+int main()
+{   
+    int x = 15;
+    int y = x++;
+    int z = ++x;
+    cout << y << “ “ << z;
+}
+Options
+This problem has only one correct answer
+15 16
+16 17
+15 17
+16 16
+check_circle
+Hurray! Correct Answer - 15 17
+
+
+What is the output
+Send Feedback
+#include <iostream>
+using namespace std;
+int main() 
+{        
+         int g = 3;
+         cout << (++g * 8);
+}
+Answer
+32
+Correct Answer
+
+
+What is the output
+Send Feedback
+#include <iostream>
+using namespace std;
+int main()
+{
+    int x = 10;
+    int y = 20;
+    if(x++ > 10 && ++y > 20 ){
+    cout << "Inside if ";
+    } else{
+    cout << "Inside else ";
+    }
+    cout << x << “ “ << y;
+}
+Options
+This problem has only one correct answer
+Inside if 11 21
+Inside if 10 21
+Inside else 11 20
+Inside else 11 21
+check_circle
+Hurray! Correct Answer- Inside else 11 20
+
+
+What is the output
+Send Feedback
+#include <iostream>
+using namespace std;
+int main()
+{
+    int x = 10;
+    int y = 20;
+    if(x++ > 10 || ++y > 20 ){
+    cout << "Inside if ";
+    } else{
+    cout << "Inside else ";
+    }
+    cout << x << “ “ << y;
+Options
+This problem has only one correct answer
+Inside if 11 21
+Inside if 10 21
+Inside else 11 20
+Inside else 11 21
+check_circle
+Hurray! Correct Answer-Inside if 11 21
+
+
+
+What is the output
+Send Feedback
+What will be the output the following code ?
+for(int i = 0; i < 5; i = i + 1){
+    cout << i << " ";
+    i = i + 1;
+}
+This problem has only one correct answer
+0 1 2 3 4
+0 2 4
+1 3
+1 2 3 4 5
+check_circle
+Hurray! Correct Answer - 0 2 4
+
+
+What is the output
+Send Feedback
+What will be the output the following code?
+for(int i = 1; i < 5; i = i + 1){
+    cout << i << " ";
+    i = i - 1;
+Options
+This problem has only one correct answer
+1 2 3 4
+Infinite 1s
+Compilation error
+None of these
+check_circle
+Hurray! Correct Answer - Infinite 1s
+
+
+What is the output
+Send Feedback
+What will be the output ?
+for(int i = 0; i < 2; i = i + 1) {
+     for(int j = 0; j < 2; j = j + 1) {
+          if (j == 1)
+              break;
+          cout << j << " ";
+      }
+ }
+ Options
+This problem has only one correct answer
+0 1 0 1
+0 0 0 0
+0 0
+0 1
+check_circle
+Hurray! Correct Answer - 0 0
+
+
+What is the output
+Send Feedback
+What will be the output ?
+for(int i = 0; i < 5; i = i + 1) {
+     if(i == 2) 
+           continue;
+    cout << i << " ";
+ Options
+This problem has only one correct answer
+0 1
+0 1 3 4
+0 1 2 3 4
+0 1 2 3 4 5
+check_circle
+Hurray! Correct Answer-0 1 3 4
+
+
+
+Nth Fibonacci Number
+Send Feedback
+Nth term of Fibonacci series F(n), where F(n) is a function, is calculated using the following formula -
+    F(n) = F(n-1) + F(n-2), 
+    Where, F(1) =  1, 
+           F(2) = 1
+Provided N you have to find out the Nth Fibonacci Number.
+Input Format :
+The first line of each test case contains a real number ‘N’.
+Output Format :
+For each test case, return its equivalent Fibonacci number.
+Constraints:
+1 <= N <= 10000     
+Where ‘N’ represents the number for which we have to find its equivalent Fibonacci number.
+
+Time Limit: 1 second
+Sample Input 1:
+6
+Sample Output 1:
+8
+Explanation of Sample Input 1:
+Now the number is ‘6’ so we have to find the “6th” Fibonacci number
+So by using the property of the Fibonacci series i.e 
+
+[ 1, 1, 2, 3, 5, 8, 13, 21]
+So the “6th” element is “8” hence we get the output.
+#include<bits/stdc++.h>
+using namespace std;
+#include<bits/stdc++.h>
+
+int main()
+{
+    int n,a = 1,b = 1,c;
+    cin>>n;
+    int fibo[n+5];
+    fibo[0] = 1; fibo[1] = 1;
+    for(int i = 2; i <= (n+4); i++)
+    {
+        c = ( a + b);
+        a = b;
+        b = c;
+        fibo[i] = c;
+        
+        }
+    cout<<fibo[n - 1];
+    return 0;
+}
+    
+
+Skip iteration
+Send Feedback
+Which of these jump statements can skip processing remainder of code in its body for a particular iteration ?
+Options
+This problem has only one correct answer
+break
+return
+continue
+check_circle
+Hurray! Correct Answer - continue
+Solution Description
+####"break" is used to exit from the current loop.
+####"return" statement is used to exit from the current function.
+####"continue" is used to skip the current iteration of a loop and continue with the next iteration
+
+
+What is the output
+Send Feedback
+int i = 1;
+while(i < 5) {
+    if(i == 3) {
+        break;
+    }
+    cout << i << " ";
+    i++;
+}
+Options
+This problem has only one correct answer
+1 2 3 4
+1 2
+1 2 4
+Infinite loop
+check_circle
+Hurray! Correct Answer- 1 2
+
+
+
+What is the output
+Send Feedback
+int i = 1;
+while(i < 5) {
+    if(i == 3) {
+        continue;
+    }
+    cout << i << " ";
+    i++;
+}
+Options
+This problem has only one correct answer
+1 2 3 4
+1 2
+1 2 4
+1 2 Infinite loop
+check_circle
+Hurray! Correct Answer-1 2 Infinite loop
+
+
+What is the output
+Send Feedback
+int i = 1;
+while(i < 3) {
+    int j = 1;
+    while(j < 5) {
+        if(j == 3) {
+            break;
+        }
+        cout << j << " ";
+        j++;
+    }
+    i++;
+}
+Options
+This problem has only one correct answer
+1 2 1 2
+1 2
+1 2 4 1 2 4
+Infinite loop
+check_circle
+Hurray! Correct Answer-1 2 1 2
+
+
+
+What is the output
+Send Feedback
+int i = 1;
+while(i < 3) {
+    int j = 0;
+    while(j < 5) {
+        j++;
+        if(j == 3) {
+            continue;
+        }
+        cout << j << " ";
+    }
+    i++;
+}
+Options
+This problem has only one correct answer
+1 2 1 2
+1 2 3 4 1 2 3 4
+1 2 4 5 1 2 4 5
+1 2 4 1 2 4
+check_circle
+Hurray! Correct Answer-1 2 4 5 1 2 4 5
+
+
+
+
+All Prime Numbers
+Send Feedback
+Given an integer N, print all the prime numbers that lie in the range 2 to N (both inclusive).
+Print the prime numbers in different lines.
+Input Format :
+Integer N
+Output Format :
+Prime numbers in different lines
+Constraints :
+1 <= N <= 100
+Sample Input 1:
+9
+Sample Output 1:
+2
+3
+5
+7
+Sample Input 2:
+20
+Sample Output 2:
+2
+3
+5
+7
+11
+13
+17
+19
+bool checkprime(int n)
+{
+    int flag = 1;
+    for( int i = 2 ; i <= ( n - 1 ) ; i++ )
+    {
+         if((n % i) == 0)
+         {
+             flag = (-1);
+             break;}
+    }
+    if(flag == (-1))
+        return false;
+    else
+        return true;
+    
+}
+
+
+
+#include <iostream>
+using namespace std;
+
+int main(){
+
+int i,N;
+cin>>N;    
+for( i = 2;i <= N ; i++ )    
+{
+    if(checkprime(i))
+        cout<<i<<endl;
+        
+}
+  
+}
+
+
+Check error
+Send Feedback
+Will following code generate error ?
+#include <iostream>
+using namespace std;
+int main() {
+    int a = 10;
+    if(a > 5) {
+        int b = 10;
+    }
+    cout << b << endl;
+Options
+This problem has only one correct answer
+Yes
+No
+check_circle
+Hurray! Correct Answer-Yes
+
+Check error
+Send Feedback
+Will following code generate error ?
+#include <iostream>
+using namespace std;
+int main() {
+    int a = 10;
+    if(a > 5) {
+        int a = 100;
+    }
+    cout << a << endl;
+Options
+This problem has only one correct answer
+Yes
+No
+check_circle
+Hurray! Correct Answer-No
+
+
+
+
+
+Fill the output
+Send Feedback
+What is the output ?
+#include <iostream>
+using namespace std;
+int main() {
+    int a = 10;
+    if(a > 5) {
+        int a = 100;
+    }
+    else {
+        int a = 110;
+    }
+    cout << a << endl;
+}
+Answer
+10
+Correct Answer
+
+
+
+Check the error
+Send Feedback
+Will following code generate error ?
+#include <iostream>
+using namespace std;
+int main() {
+    for(int i = 0; i < 3; i++) {
+        cout << i << " ";
+    }
+    cout << i << " ";
+Options
+This problem has only one correct answer
+Yes
+No
+check_circle
+Hurray! Correct Answer - Yes
+
+
+
+
+
+What is the output
+Send Feedback
+What is the output ?
+#include <iostream>
+using namespace std; 
+int main() {
+    int a = 10;
+    while(a > 5) {
+        int a = 1;
+        cout << a << " ";
+        a--;
+    }
+}
+Options
+This problem has only one correct answer
+10 9 8 7 6
+1 1 1 1 1
+Error
+Infinite loop
+check_circle
+Hurray! Correct Answer-Infinite loop
+
+
+
+
+Count Characters
+Send Feedback
+Write a program to count and print the total number of characters (lowercase english alphabets only), digits (0 to 9) and white spaces (single space, tab i.e. '\t' and newline i.e. '\n') entered till '$'.
+That is, input will be a stream of characters and you need to consider all the characters which are entered till '$'.
+Print count of characters, count of digits and count of white spaces respectively (separated by space).
+Input Format :
+A stream of characters terminated by '$'
+Output Format :
+3 integers i.e. count_of_characters count_of_digits count_of_whitespaces (separated by space)
+Sample Input :
+abc def4 5$
+Sample Output :
+6 2 2
+Sample Output Explanation :
+Number of characters : 6 (a, b, c, d, e, f)
+Number of digits : 2 (4, 5)
+Number of white spaces : 2 (one space after abc and one newline after 4
+
+// #include<iostream>
+// using namespace std;
+// #include<bits/stdc++.h>
+
+// int main(){
+    
+//     // char ch[1000];
+//     // char x;
+//     int cnt = 0, i = 0,sp = 0,dig = 0;
+//     char ch;
+//     ch = cin.get();
+//     while(ch != '$')
+//     {
+//         // if(s[0] == '$')sp++;
+
+//         if(ch == '\n' or ch == ' ' or ch == '\t')
+//             sp++;
+        
+//         else if(isdigit(ch))
+//             dig++;
+//         else
+//             cnt++;
+        
+// 		ch = cin.get();
+
+//         }
+//     cout<<cnt<<' '<<dig<<' '<<sp;
+    
+//     }
+#include<iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+int main(){
+    char ch[100000];
+    int cnt = 0, i = 0,sp = 0,dig = 0;
+    ch[0] = cin.get();
+    while(ch[i] != '$')
+    {
+         
+        if(isspace(ch[i]))
+            sp++;
+        
+        else if(isdigit(ch[i]))
+            dig++;
+        else
+            cnt++;
+        
+        i++;
+        ch[i] = cin.get();
+        }
+    cout<<cnt<<' '<<dig<<' '<<sp;
+    
+}
+
+
+
+
+
+Sum or Product
+Send Feedback
+Write a program that asks the user for a number N and a choice C. And then give them the possibility to choose between computing the sum and computing the product of all integers in the range 1 to N (both inclusive).
+If C is equal to -
+ 1, then print the sum
+ 2, then print the product
+ Any other number, then print '-1' (without the quotes)
+Input format :
+Line 1 : Integer N
+Line 2 : Choice C
+Output Format :
+ Sum or product according to user's choice
+Constraints :
+1 <= N <= 12
+Sample Input 1 :
+10
+1
+Sample Output 1 :
+55
+Sample Input 2 :
+10
+2
+Sample Output 2 :
+3628800
+Sample Input 3 :
+10
+4
+Sample Output 3 :
+-1
+
+#include<iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+int main() {
+	int n , C, sum = 0, pro = 1;
+    cin>>n>>C;
+    switch(C)
+    {
+        case 1:
+            for(int i = 0; i<=n ; i++ )
+            {sum = (sum + i);}
+            cout<<sum;
+            break;
+            
+        case 2:
+            for(int j = 1; j<=n ; j++ )
+            {pro = (pro * j);}
+            cout<<pro;
+            break;
+        default:
+            cout<<"-1";
+            break;
+        }
+    
+	
+}
+
+
+
+
+Terms of AP
+Send Feedback
+Write a program to print first x terms of the series 3N + 2 which are not multiples of 4.
+Input format :
+Integer x
+Output format :
+Terms of series (separated by space)
+Constraints :
+1 <= x <= 1,000
+Sample Input 1 :
+10
+Sample Output 1 :
+5 11 14 17 23 26 29 35 38 41
+Sample Input 2 :
+4
+Sample Output 2 :
+5 11 14 17
+
+#include<iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+
+
+int main() {
+	int x,i = 1,count = 0;
+    cin>>x;
+    while(count != x)
+    {
+        int a = ((3*i) + 2);
+        if((a % 4) != 0){
+		
+		count++;
+		cout<<a<<" ";
+		}
+        i++;
+		
+    
+    }
+    return 0;
+}
+	
+  
+  
+  Reverse of a number
+Send Feedback
+Write a program to generate the reverse of a given number N. Print the corresponding reverse number.
+Note : If a number has trailing zeros, then its reverse will not include them. For e.g., reverse of 10400 will be 401 instead of 00401.
+
+
+Input format :
+Integer N
+Output format :
+Corresponding reverse number
+Constraints:
+0 <= N < 10^8
+Sample Input 1 :
+1234
+Sample Output 1 :
+4321
+Sample Input 2 :
+1980
+Sample Output 2 :
+891
+
+#include<iostream>
+using namespace std;
+
+int main() {
+	long int n,rev = 0;
+    cin>>n;
+    while(n>0)
+    {
+         ( rev = (rev * 10) + (n%10));
+        n = (n/10) ;
+     
+    }
+    
+    cout<<rev;
+	
+}
+
+
+
+Binary to decimal
+Send Feedback
+Given a binary number as an integer N, convert it into decimal and print.
+Input format :
+An integer N in the Binary Format
+Output format :
+Corresponding Decimal number (as integer)
+Constraints :
+0 <= N <= 10^9
+Sample Input 1 :
+1100
+Sample Output 1 :
+12
+Sample Input 2 :
+111
+Sample Output 2 :
+7
+
+#include<iostream>
+using namespace std;
+#include<bits/stdc++.h>
+int main() {
+    long long int n;
+    int i = 0, sum = 0,power;
+    cin>>n;
+    if(( n == 1) || ( n == 0))
+        cout<<n;
+    else {
+    while(n > 0)
+    {
+        int a = (n % 10);
+        n = (n/10);
+        power = pow(2,i);
+        sum = (sum + (a * power));
+        i++;
+        }
+    cout<<sum;
+    
+}
+}
+
+
+
+
+
+Decimal to Binary
+Send Feedback
+Given a decimal number (integer N), convert it into binary and print.
+The binary number should be in the form of an integer.
+Note: The given input number could be large, so the corresponding binary number can exceed the integer range. So you may want to take the answer as long for CPP and Java.
+
+
+Note for C++ coders: Do not use the inbuilt implementation of "pow" function. The implementation of that function is done for 'double's and it may fail when used for 'int's, 'long's, or 'long long's. Implement your own "pow" function to work for non-float data types.
+
+
+Input format :
+Integer N
+Output format :
+Corresponding Binary number (long)
+Constraints :
+0 <= N <= 10^5
+Sample Input 1 :
+12
+Sample Output 1 :
+1100
+Sample Input 2 :
+7
+Sample Output 2 :
+111
+#include<iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+int main() {
+	  long long int n;
+    cin>>n;
+    if(( n == 0 ) || ( n == 1) )
+         cout<<n;
+    else {
+    stack<int> stack;
+    while(n > 0)
+    {
+        int a = n % 2;
+        n = (n/2);
+        stack.push(a);
+        }
+    while (!stack.empty()) {
+        cout<<stack.top();
+        stack.pop();
+    }
+    }
+
+}
+
+
+
+
+
+Square Root (Integral)
+Send Feedback
+Given a number N, find its square root. You need to find and print only the integral part of square root of N.
+For eg. if number given is 18, answer is 4.
+Input format :
+Integer N
+Output Format :
+Square root of N (integer part only)
+Constraints :
+0 <= N <= 10^8
+Sample Input 1 :
+10
+Sample Output 1 :
+3
+Sample Input 2 :
+4
+Sample Output 2 :
+2
+#include<iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+int main() {
+    int n, res;
+    cin>>n;
+    res = sqrt(n);
+    cout<<res;
+    return 0;
+	
+	
+}
+
+
+
+
+
+
+Check Number sequence
+Send Feedback
+You are given S, a sequence of n integers i.e. S = s1, s2, ..., sn. Compute if it is possible to split S into two parts : s1, s2, ..., si and si+1, si+2, ….., sn (0 <= i <= n) in such a way that the first part is strictly decreasing while the second is strictly increasing one.
+Note : We say that x is strictly larger than y when x > y.
+So, a strictly increasing sequence can be 1 4 8. However, 1 4 4 is NOT a strictly increasing sequence.
+
+
+That is, in the sequence if numbers are decreasing, they can start increasing at one point. And once the sequence of numbers starts increasing, they cannot decrease at any point further.
+Sequence made up of only increasing numbers or only decreasing numbers is a valid sequence. So, in both the cases, print true.
+
+
+You just need to print true/false. No need to split the sequence.
+Input format :
+Line 1 : Integer 'n'
+Line 2 and Onwards : 'n' integers on 'n' lines(single integer on each line)
+Output Format :
+"true" or "false" (without quotes)
+Constraints :
+1 <= n <= 10^7
+Sample Input 1 :
+5
+9
+8
+4
+5
+6
+Sample Output 1 :
+true
+Sample Input 2 :
+3
+1
+2
+3
+Sample Output 2 :
+true
+Sample Input 3 :
+3
+8
+7
+7
+Sample Output 3 :
+false
+Explanation for Sample Format 3 :
+8 7 7 is not strictly decreasing, so output is false.
+Sample Input 4 :
+6
+8
+7
+6
+5
+8
+2
+Sample Output 4 :
+false
+Explanation for Sample Input 4 :
+The series is :
+8 7 6 5 8 2
+It is strictly decreasing first (8 7 6 5). Then it's strictly increasing (5 8). But then it starts strictly decreasing again (8 2). Therefore, the output for this test case is 'false'
+
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+int n;
+cin>>n;
+int arr[n];
+int i=0;
+    
+while(i<n)
+{
+cin>>arr[i];
+i++;
+}
+    
+int comparearray[n-1];
+for(int j=0;j<n-1;j++)
+{
+comparearray[j]=arr[j]-arr[j+1];
+if(comparearray[j]==0)
+{
+cout<<"false";
+return 0;
+}
+}
+int count=0;
+for(int k=0;k<n-2;k++)
+{
+if((comparearray[k]>0 && comparearray[k+1]<0)||(comparearray[k]<0 && comparearray[k+1]>0)) 
+ count++; 
+}
+if(count>=2) 
+ cout<<"false"; 
+else 
+ cout<<"true"; 
+}
+
+
+
+
+
+
+
+
+
+
 
