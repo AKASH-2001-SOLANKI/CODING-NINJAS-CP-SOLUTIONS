@@ -1,1 +1,103 @@
+Array declaration
+Send Feedback
+Which of the following correctly declares an array of size 10 ?
+Options
+This problem has only one correct answer
+int array[10];
+int array;
+array{10};
+array array[10];
+check_circle
+Hurray! Correct Answer - int array[10];
+
+
+What is the output
+Send Feedback
+What will be the output of the following code ?
+int arr[100];
+cout << arr[0]
+Options
+This problem has only one correct answer
+0
+0 and Garbage value
+Error
+check_circle
+Hurray! Correct Answer - 0 and Garbage value
+
+
+Fill the output
+Send Feedback
+What is the index number of the last element of an array with 5 elements ?
+Answer
+4
+Correct Answer
+
+
+Access element
+Send Feedback
+Which of the following accesses the third element stored in array?
+Options
+This problem has only one correct answer
+array[3]
+array[2]
+array(3)
+array
+check_circle
+Hurray! Correct Answer - array[2]
+
+
+
+Array Sum
+Send Feedback
+Given an array of length N, you need to find and print the sum of all elements of the array.
+Input Format :
+Line 1 : An Integer N i.e. size of array
+Line 2 : N integers which are elements of the array, separated by spaces
+Output Format :
+Sum
+Constraints :
+1 <= N <= 10^6
+Sample Input :
+3
+9 8 9
+Sample Output :
+26
+
+#include<iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+int main(){
+    int N,sum = 0;
+    cin>>N;
+    int arr[N];
+    for(int i = 0 ; i < N ; i++)
+        cin>>arr[i];
+    for(int j = 0 ; j < N ; j++)
+        sum = (sum + arr[j]);
+    cout<<sum;
+    }
+
+/*#include<iostream>
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    double a[n];
+    int store =0;
+    for(int i=0; i<n;i++)
+    {
+        cin>>a[i];
+    }
+  
+    for(int i=0; i<n; i++)
+    {
+        store+= a[i];
+
+    }
+    cout<<store;
+    return 0;
+
+}*/
 
