@@ -1,1 +1,319 @@
+Return type
+Send Feedback
+What is the return type of a method that does not returns any value ?
+Options
+This problem has only one correct answer
+int
+double
+char
+void
+check_circle
+Hurray! Correct Answer- void
+Solution Description
+####The functions which doesn't return any value, their return type is "void".
 
+
+
+Return type
+Send Feedback
+Let’s say the problem is - You will be given two numbers(both integers) and you need to return their sum.
+For this problem, what should be the return type of function
+Options
+This problem has only one correct answer
+int
+boolean
+char
+void
+check_circle
+Hurray! Correct Answer-int
+Solution Description
+####We need to return the sum of two integers, which is again an integer. So the sum that we want to return is of type "int". Hence return type should be "int" for this function.
+
+
+
+What is the output
+Send Feedback
+What will be the output of following code ?
+    void func(int a, int b){
+    cout << (a + b);
+    }
+
+    int main() {
+    int a = 7;
+    func(a, 12);
+    }
+    Answer
+19
+Correct Answer
+
+
+
+What is the output
+Send Feedback
+What will be the output of the following code ?
+void demo(int a, int b){
+    cout << a << " " << b;
+}
+
+int main() {
+    int a = 5;
+    int b = 15; 
+    demo(a);
+}
+Options
+This problem has only one correct answer
+5 0
+Compilation Error
+5 15
+None of these
+check_circle
+Hurray! Correct Answer - Compilation Error
+
+
+
+Fahrenheit to Celsius Table
+Send Feedback
+Given three values - Start Fahrenheit Value (S), End Fahrenheit value (E) and Step Size (W), you need to convert all Fahrenheit values from Start to End at the gap of W, into their corresponding Celsius values and print the table.
+Input Format :
+3 integers - S, E and W respectively
+Output Format :
+Fahrenheit to Celsius conversion table. One line for every Fahrenheit and Celsius Fahrenheit value. Fahrenheit value and its corresponding Celsius value should be separate by tab ("\t")
+Constraints :
+0 <= S <= 1000
+0 <= E <= 1000
+0 <= W <= 1000
+Sample Input 1:
+0 
+100 
+20
+Sample Output 1:
+0   -17
+20  -6
+40  4
+60  15
+80  26
+100 37
+Sample Input 2:
+120 
+200 
+40
+Sample Output 2:
+120 48
+160 71
+200 93
+Explanation for Sample Output 2 :
+Start value is 120, end value is 200 and step size is 40. Therefore, the values we need to convert are 120, 120 + 40 = 160, and 160 + 40 = 200. 
+The formula for converting Fahrenheit to Celsius is:
+Celsius Value = (5/9)*(Fahrenheit Value - 32)  
+Plugging 120 into the formula, the celsius value will be (5 / 9)*(120 - 32) => (5 / 9) * 88 => (5 * 88) / 9 => 440 / 9 => 48.88
+But we'll only print 48 because we are only interested in the integral part of the value.
+
+#include<bits/stdc++.h>
+
+
+void printTable(int S, int E, int W) {
+
+     int C,i=1;
+     cin>>S>>E>>W;
+     int Cstart =(S - 32.0) * 5.0/9.0;
+     int Cend = (E - 32.0) * 5.0/9.0;
+    
+     cout<<S<<" "<<Cstart<<endl;                            
+     while(1)
+     {
+         int fahr = (S + (i*W));
+         if(fahr < E)
+         {
+         C = (fahr - 32.0) * 5.0/9.0;
+         cout<<fahr<<" "<<C<<endl;
+         }
+         else
+             break;
+         i++;
+         }
+    
+ 
+    
+    
+}
+
+
+Fibonacci Number
+Send Feedback
+Given a number N, figure out if it is a member of fibonacci series or not. Return true if the number is member of fibonacci series else false.
+Fibonacci Series is defined by the recurrence
+    F(n) = F(n-1) + F(n-2)
+where F(0) = 0 and F(1) = 1
+
+
+Input Format :
+Integer N
+Output Format :
+true or false
+Constraints :
+0 <= n <= 10^4
+Sample Input 1 :
+5
+Sample Output 1 :
+true
+Sample Input 2 :
+14
+Sample Output 2 :
+false 
+
+/*
+bool checkMember(int n){
+
+    
+    int a = 0,b = 1,c;
+    if((n == 0) || ( n == 1))
+        return true;
+    else{
+    while( c <= n)
+    {
+        c = ( a + b);
+        a = b;
+        b = c;
+        if( c == n)
+        {
+            return true;
+            break;}
+    }
+    return false;}
+}
+*/
+
+
+bool checkMember(int n){
+
+    int a = 0,b = 1,c;
+    int fibo[1000];
+    fibo[0] = 0; fibo[1] = 1;
+    for(int i = 2; i <= (1000); i++)
+    {
+        c = ( a + b);
+        a = b;
+        b = c;
+        fibo[i] = c;}
+    for( int i = 0 ; i <= 1000 ; i++)
+    {
+        if(fibo[i] == n)
+            return true;}
+    return false;}
+
+/*
+ int i=0;int j=1;int curr=0;if(n==0||n==1){return true;}
+    while(curr<=n){
+        curr=i+j;
+        i=j;
+        j=curr;
+        if(curr==n){return true;}
+        
+    }
+    return false;
+*/
+
+
+
+Check the error
+Send Feedback
+Will following code generate any error ?
+#include <iostream>
+using namespace std;
+void func(int a) {
+    int b = a;
+    b = b + 10;
+}
+
+int main() {
+    int a = 10;
+    func(a);
+    cout << b << endl;
+Options
+This problem has only one correct answer
+Yes
+No
+check_circle
+Hurray! Correct Answer - Yes
+
+
+Check the error
+Send Feedback
+Will following code generate any error ?
+#include <iostream>
+using namespace std;
+
+void func(int a) {
+    int b = 10;
+    a = b + 10;
+    cout << a << " ";
+}
+
+int main() {
+    int a = 10;
+    func(a);
+    cout << a << " ";
+}
+Options
+This problem has only one correct answer
+Yes
+No
+check_circle
+Hurray! Correct Answer - No
+
+
+
+
+
+Fill the output
+Send Feedback
+What will be the output of the following code ?
+void doubleValue(int a) {
+    a = a * 2;
+}
+int main() {
+    int a = 8;
+    doubleValue(a);
+    cout << a;
+}
+Answer
+8
+Correct Answer
+
+
+
+Fill the output
+Send Feedback
+What will be the output of the following code ?
+int func(int a){
+    a += 10;
+    return a;
+}
+
+int main() {
+    int a = 5;
+    func(a);
+    cout << a;
+}
+Answer
+5
+Correct Answer
+
+
+
+Fill the output
+Send Feedback
+What will be the output of the following code ?
+int square(int a){
+    int ans = a * a;
+    return ans;
+}
+
+int main() {
+    int a = 4;
+    a = square(a);
+    cout << a;
+}
+Answer
+16
+Correct Answer
