@@ -1,1 +1,1115 @@
+Check Palindrome
+Send Feedback
+Given a string, determine if it is a palindrome, considering only alphanumeric characters.
+Palindrome
+A palindrome is a word, number, phrase, or other sequences of characters which read the same backwards and forwards.
+Example:
+If the input string happens to be, "malayalam" then as we see that this word can be read the same as forward and backwards, it is said to be a valid palindrome.
 
+The expected output for this example will print, 'true'.
+From that being said, you are required to return a boolean value from the function that has been asked to implement.
+Input Format:
+The first and only line of input contains a string without any leading and trailing spaces. All the characters in the string would be in lower case.
+Output Format:
+The only line of output prints either 'true' or 'false'.
+Note:
+You are not required to print anything. It has already been taken care of.
+Constraints:
+0 <= N <= 10^6
+Where N is the length of the input string.
+
+Time Limit: 1 second
+Sample Input 1 :
+abcdcba
+Sample Output 1 :
+true 
+Sample Input 2:
+coding
+Sample Output 2:
+false
+
+/*#include<bits/stdc++.h>
+bool checkPalindrome(char a[]) {
+   int n = strlen(a);
+    for(int i = 0 ; i <= (n/2) ; i++)
+    {
+        if((a[i] == a[n - i - 1]) && (islower(a[i])))
+            return true;
+        else
+            return false;
+    }
+    
+    }*/
+
+#include<bits/stdc++.h>
+bool checkPalindrome(char a[]) {
+   int n = strlen(a);
+    for(int i = 0 ; i <= (n/2) ; i++)
+    {
+        if((a[i] != a[n - i - 1]) && (islower(a[i])))
+            return false;
+       
+    }
+    return true;
+    }
+
+
+
+
+Replace Character
+Send Feedback
+Given an input string S and two characters c1 and c2, you need to replace every occurrence of character c1 with character c2 in the given string.
+Input Format :
+Line 1 : Input String S
+Line 2 : Character c1 and c2 (separated by space)
+Output Format :
+Updated string
+Note :
+You don't need to output anything. Just implement the given function.
+Constraints :
+1 <= Length of String S <= 10^6
+Sample Input :
+abacd
+a x
+Sample Output :
+xbxcd
+#include<bits/stdc++.h>
+void replaceCharacter(char a[], char c1, char c2) {
+    int n = strlen(a);
+    for(int i = 0; i < n ; i++)
+    {
+        if(a[i] == c1)
+            a[i] = c2;}}
+
+
+
+
+Trim Spaces
+Send Feedback
+Given an input string S that contains multiple words, you need to remove all the spaces present in the input string.
+There can be multiple spaces present after any word.
+Input Format :
+ String S
+Output Format :
+Updated string
+Constraints :
+1 <= Length of string S <= 10^6
+Sample Input :
+abc def g hi
+Sample Output :
+abcdefghi
+#include<bits/stdc++.h>
+void trimSpaces(char a[]) {
+    int n = strlen(a);
+    for( int i = 0 ; i <= (n-1) ; i++ )
+    {
+      if((a[i] == (' ')) || (a[i] == ('\t')) || (a[i] == ('\n')) || (a[i] == ('\v')) || (a[i] == ('\f')) || (a[i] == ('\r')) )
+      {
+          for(int sp = i; sp <= ( n - 1) ; sp++)
+          {
+              a[sp] = a[sp + 1];
+          }i--;
+      }
+          
+        
+        
+        
+        }
+}
+/*
+
+#include<bits/stdc++.h>
+void trimSpaces(char a[]) {
+    int n = strlen(a);
+    for( int i = 0 ; i <= (n-1) ; i++ )
+    {
+      if((isspace(a[i])) )
+      {
+          for(int sp = i; sp <= ( n - 1) ; sp++)
+          {
+              a[sp] = a[sp + 1];
+          }i--;
+      }
+          
+        
+        
+        
+        }
+}
+*/
+
+
+Reverse Word Wise
+Send Feedback
+Reverse the given string word wise. That is, the last word in given string should come at 1st place, last second word at 2nd place and so on. Individual words should remain as it is.
+Input format :
+String in a single line
+Output format :
+Word wise reversed string in a single line
+Constraints :
+0 <= |S| <= 10^7
+where |S| represents the length of string, S.
+Sample Input 1:
+Welcome to Coding Ninjas
+Sample Output 1:
+Ninjas Coding to Welcome
+Sample Input 2:
+Always indent your code
+Sample Output 2:
+code your indent Always
+import java.util.Scanner;
+public class Solution {
+	public static String reverseWordWise(String input) {
+		// Write your code here
+int end = input.length() - 1,start,j;
+		String result ="",word = "";
+		for(int i= input.length() - 1;i >= 0;i--) {
+			if(input.charAt(i) == ' ') {
+				start = i + 1;
+				word = "";
+				for(j = start;j <= end;j++) {
+					word += input.charAt(j);
+				}
+				end  = i - 1;
+				result = result + word + " ";
+			}
+		}
+		word = "";
+		for(j = 0;j <= end;j++) {
+			word = word + input.charAt(j);
+		}
+		result += word;
+		return result;
+	}
+
+	public static void main(String[] args) {
+		 Scanner s = new Scanner(System.in);
+			String str = s.nextLine();
+			String str1 = reverseWordWise(str);
+System.out.print(str1); 
+	}
+}
+
+
+
+Print All Substrings
+Send Feedback
+For a given input string(str), write a function to print all the possible substrings.
+Substring
+A substring is a contiguous sequence of characters within a string. 
+Example: "cod" is a substring of "coding". Whereas, "cdng" is not as the characters taken are not contiguous
+Input Format:
+The first and only line of input contains a string without any leading and trailing spaces. All the characters in the string would be in lower case.
+Output Format:
+Print the total number of substrings possible, where every substring is printed on a single line and hence the total number of output lines will be equal to the total number of substrings.
+Note:
+The order in which the substrings are printed, does not matter.
+Constraints:
+0 <= N <= 10^6
+Where N is the length of the input string.
+
+Time Limit: 1 second
+Sample Input 1:
+abc
+Sample Output 1:
+a 
+ab 
+abc 
+b 
+bc 
+c 
+ Sample Input 2:
+co
+Sample Output 2:
+c 
+co 
+o
+#include<bits/stdc++.h>
+void printSubstrings(char a[]) {
+    int n = strlen(a);
+    for(int i = 0 ; i < n ;i++)
+    {
+        string str = "";
+        for(int j = i ; j < n ;j++)
+        {
+            str += a[j];
+            cout<<str<<endl;
+            
+        }
+        
+    }
+}
+    
+Column Wise Sum
+Send Feedback
+Given a 2D integer array of size M*N, find and print the sum of ith column elements separated by space.
+Input Format :
+First and only line of input contains M and N, followed by M * N space separated integers representing the elements in the 2D array.
+Output Format :
+Sum of every ith column elements (separated by space)
+Constraints :
+1 <= M, N <= 10^3
+Sample Input :
+4 2 1 2 3 4 5 6 7 8
+Sample Output :
+16 20
+#include<iostream>
+using namespace std;
+#include<bits/stdc++.h>
+int main(){ 
+        int m, n;
+		cin >> m >> n;
+		int **a = new int *[m];
+		for (int i = 0; i < m; i++)
+		{
+			a[i] = new int[n];
+			for (int j = 0; j < n; j++)
+			{
+				cin >> a[i][j];
+			}
+		}
+    
+      for (int j = 0; j < n; j++) {
+          int sum = 0;
+        for (int i = 0; i < m; i++) {
+            sum = sum + a[i][j];
+            }
+          cout<<sum<<' ';
+      }
+return 0;
+}
+
+Largest Row or Column
+Send Feedback
+For a given two-dimensional integer array/list of size (N x M), you need to find out which row or column has the largest sum(sum of all the elements in a row/column) amongst all the rows and columns.
+Note :
+If there are more than one rows/columns with maximum sum, consider the row/column that comes first. And if ith row and jth column has the same largest sum, consider the ith row as answer.
+Input Format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+First line of each test case or query contains two integer values, 'N' and 'M', separated by a single space. They represent the 'rows' and 'columns' respectively, for the two-dimensional array/list.
+
+Second line onwards, the next 'N' lines or rows represent the ith row values.
+
+Each of the ith row constitutes 'M' column values separated by a single space.
+Output Format :
+For each test case, If row sum is maximum, then print: "row" <row_index> <row_sum>
+OR
+If column sum is maximum, then print: "column" <col_index> <col_sum>
+It will be printed in a single line separated by a single space between each piece of information.
+
+Output for every test case will be printed in a seperate line.
+ Consider :
+If there doesn't exist a sum at all then print "row 0 -2147483648", where -2147483648 or -2^31 is the smallest value for the range of Integer.
+Constraints :
+1 <= t <= 10^2
+1 <= N <= 10^3
+1 <= M <= 10^3
+Time Limit: 1sec
+#include<bits/stdc++.h>
+using namespace std;
+#include<iostream.h>
+void findLargest(int **a, int m, int n)
+{
+    int sumc = 0, maxc =  -2147483648, sumr = 0, maxr =  -2147483648, maxi = 0, maxj = 0;
+   for(int j = 0 ; j < n ; j++)
+    {//column wise largest 
+       
+       sumc = 0;
+        for(  int i = 0 ; (i < m) ; i++)
+        {
+            sumc = sumc + a[i][j];
+            
+                
+            
+            }
+       if(sumc > maxc){
+                maxc = sumc;
+                maxj = j;
+                
+       }
+        
+        }
+    
+    
+     for(int i = 0 ; i < m ; i++)
+    {//row wise largest 
+         sumr = 0;
+        for(  int j = 0 ; (j < n) ; j++)
+        {
+            sumr = sumr + a[i][j];
+            
+            
+            }
+         if(sumr > maxr){
+                maxr = sumr;
+                 maxi = i;
+                
+         }
+    
+        }
+    
+    if(maxr > maxc)
+     {cout<<"row"<<' '<<maxi<<' '<<maxr;}
+    else if((maxc > maxr) && ( maxc != maxr))
+            {cout<<"column"<<' '<<maxj<<' '<<maxc;}
+    else if((maxc = maxr))
+            {cout<<"row"<<' '<<maxi<<' '<<maxr;}
+        
+            
+    
+}
+
+
+
+Wave Print
+Send Feedback
+For a given two-dimensional integer array/list of size (N x M), print the array/list in a sine wave order, i.e, print the first column top to bottom, next column bottom to top and so on.
+Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+First line of each test case or query contains two integer values, 'N' and 'M', separated by a single space. They represent the 'rows' and 'columns' respectively, for the two-dimensional array/list.
+
+Second line onwards, the next 'N' lines or rows represent the ith row values.
+
+Each of the ith row constitutes 'M' column values separated by a single space.
+Output format :
+For each test case, print the elements of the two-dimensional array/list in the sine wave order in a single line, separated by a single space.
+
+Output for every test case will be printed in a seperate line.
+Constraints :
+1 <= t <= 10^2
+0 <= N <= 10^3
+0 <= M <= 10^3
+Time Limit: 1sec
+Sample Input 1:
+1
+3 4 
+1  2  3  4 
+5  6  7  8 
+9 10 11 12
+Sample Output 1:
+1 5 9 10 6 2 3 7 11 12 8 4
+Sample Input 2:
+2
+5 3 
+1 2 3 
+4 5 6 
+7 8 9 
+10 11 12 
+13 14 15
+3 3
+10 20 30 
+40 50 60
+70 80 90
+Sample Output 2:
+1 4 7 10 13 14 11 8 5 2 3 6 9 12 15 
+10 40 70 80 50 20 30 60 90 
+#include<bits/stdc++.h>
+#include<iostream>
+using namespace std;
+void wavePrint(int **a, int m, int n)
+{
+    int i = 0,j = 0;
+    while((i < m) && (j < n))
+    {
+
+        for(  i = 0 ; (i < m) && ((j%2) == 0) ; i++)
+        {
+            cout<<a[i][j]<<' ';
+        }
+        
+        
+            for( i = (m -1) ; (i >= 0) && ((j%2) != 0) ; i--)
+        {
+            cout<<a[i][j]<<' ';
+            }
+        j++;
+            }
+    }
+
+
+
+
+
+Spiral Print
+Send Feedback
+For a given two-dimensional integer array/list of size (N x M), print it in a spiral form. That is, you need to print in the order followed for every iteration:
+a. First row(left to right)
+b. Last column(top to bottom)
+c. Last row(right to left)
+d. First column(bottom to top)
+ Mind that every element will be printed only once.
+Refer to the Image:
+Spiral path of a matrix
+
+Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+First line of each test case or query contains two integer values, 'N' and 'M', separated by a single space. They represent the 'rows' and 'columns' respectively, for the two-dimensional array/list.
+
+Second line onwards, the next 'N' lines or rows represent the ith row values.
+
+Each of the ith row constitutes 'M' column values separated by a single space.
+Output format :
+For each test case, print the elements of the two-dimensional array/list in the spiral form in a single line, separated by a single space.
+
+Output for every test case will be printed in a seperate line.
+Constraints :
+1 <= t <= 10^2
+0 <= N <= 10^3
+0 <= M <= 10^3
+Time Limit: 1sec
+Sample Input 1:
+1
+4 4 
+1 2 3 4 
+5 6 7 8 
+9 10 11 12 
+13 14 15 16
+Sample Output 1:
+1 2 3 4 8 12 16 15 14 13 9 5 6 7 11 10 
+Sample Input 2:
+2
+3 3 
+1 2 3 
+4 5 6 
+7 8 9
+3 1
+10
+20
+30
+Sample Output 2:
+1 2 3 6 9 8 7 4 5 
+10 20 30 
+#include<bits/stdc++.h>
+void spiralPrint(int **a, int m, int n)
+{
+    int i, k = 0, l = 0; 
+  
+    /*  k - starting row index 
+        m - ending row index 
+        l - starting column index 
+        n - ending column index 
+        i - iterator 
+    */
+  
+    while (k < m && l < n) 
+    { 
+        /* Print the first row from the remaining rows */
+        for (i = l; i < n; ++i) 
+        { 
+            printf("%d ", a[k][i]); 
+        } 
+        k++; 
+  
+        /* Print the last column from the remaining columns */
+        for (i = k; i < m; ++i) 
+        { 
+            printf("%d ", a[i][n-1]); 
+        } 
+        n--; 
+  
+        /* Print the last row from the remaining rows */
+        if ( k < m) 
+        { 
+            for (i = n-1; i >= l; --i) 
+            { 
+                printf("%d ", a[m-1][i]); 
+            } 
+            m--; 
+        } 
+  
+        /* Print the first column from the remaining columns */
+        if (l < n) 
+        { 
+            for (i = m-1; i >= k; --i) 
+            { 
+                printf("%d ", a[i][l]); 
+            } 
+            l++;     
+        }         
+    } 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //     int top = 0, bottom = (m - 1) ,left = 0 , right = (n - 1);
+//     while((top <= bottom) && (left <= right))
+//     {
+//     for(int i = left ; i < right ; i++)
+//        {
+//         cout<<a[top][i]<<' ';
+        
+//        }
+//     for(int j = top ; j < bottom ; j++)
+//        {
+//         cout<<a[j][right]<<' ';
+        
+//        }
+//     for(int k = right ; k >= 1 ; k--)
+//        {
+//         cout<<a[bottom][k]<<' ';
+        
+//        }
+//     for(int l = bottom ; l >= 1 ; l--)
+//        {
+//         cout<<a[l][left]<<' ';
+        
+//        }
+//         top++;
+//         right--;
+//         left++;
+//         bottom--;
+//     }
+    
+   
+}
+
+
+
+
+
+
+
+
+Check Permutation
+Send Feedback
+For a given two strings, 'str1' and 'str2', check whether they are a permutation of each other or not.
+Permutations of each other
+Two strings are said to be a permutation of each other when either of the string's characters can be rearranged so that it becomes identical to the other one.
+
+Example: 
+str1= "sinrtg" 
+str2 = "string"
+
+The character of the first string(str1) can be rearranged to form str2 and hence we can say that the given strings are a permutation of each other.
+Input Format:
+The first line of input contains a string without any leading and trailing spaces, representing the first string 'str1'.
+
+The second line of input contains a string without any leading and trailing spaces, representing the second string 'str2'.
+Note:
+All the characters in the input strings would be in lower case.
+Output Format:
+The only line of output prints either 'true' or 'false', denoting whether the two strings are a permutation of each other or not.
+
+You are not required to print anything. It has already been taken care of. Just implement the function. 
+Constraints:
+0 <= N <= 10^6
+Where N is the length of the input string.
+
+Time Limit: 1 second
+Sample Input 1:
+abcde
+baedc
+Sample Output 1:
+true
+Sample Input 2:
+abc
+cbd
+Sample Output 2:
+false
+bool isPermutation(char a[], char b[]) {
+    int n1 = strlen(a);
+    int n2 = strlen(b);
+    
+    int freq[256] = {0};
+    
+    for(int i=0;i<n1;i++){
+        freq[a[i]]++;
+    }
+    
+    for(int i=0;i<n2;i++){
+        freq[b[i]]--;
+    }
+    
+    for(int i=0;i<256;i++){
+        if(freq[i]) return false;
+    }
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// bool isPermutation(char a[], char b[]) {
+//     int n1 = strlen(a),i = 0,j = 0, check = 0;
+//     int n2 = strlen(b);
+//     if(n1 != n2)
+//         return false;
+//     else{
+//         for( i = 0 ; i < n2 ;)
+//         {
+//             for( j = 0 ; j < n1 ; j++)
+//             {
+//                 if(a[i] == b[j])
+//                 {
+//                     b[j] = 48;
+//                     break;
+//                 }
+                
+//             }
+//             if((i != (n2-1)) && (j == (n2)))
+//             {i--;
+//                     continue;}
+//         }
+// }
+//     for(int i = 0 ; i < n2 ; i++)
+//     {
+//         if(b[i] != 48)
+//             check = 1;
+//             }
+//     if(check = 1)
+//         return false;
+//     else
+//         return true;
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void reverseEachWord(char input[]) {
+    
+//     //same logic as in REVERSE WORD WISE PROBLEM
+//     int i=0,start=0,end,temp;
+//     while(input[i]!='\0')
+//     {
+//         if(input[i]==' ')
+//         {
+//             end=i-1;
+//             while(start<=end)
+//             {
+//                 temp=input[start];
+//                 input[start]=input[end];
+//                 input[end]=temp;
+//                 start++;
+//                 end--;
+//             }
+//             start=i+1;
+//         }
+//         if(input[i+1]=='\0')
+//         {
+//             end=i;
+//             while(start<=end)
+//             {
+//                 temp=input[start];
+//                 input[start]=input[end];
+//                 input[end]=temp;
+//                 start++;
+//                 end--;
+// 			}
+//         }
+//         i++;
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Remove Consecutive Duplicates
+Send Feedback
+For a given string(str), remove all the consecutive duplicate characters.
+Example:
+Input String: "aaaa"
+Expected Output: "a"
+
+Input String: "aabbbcc"
+Expected Output: "abc"
+ Input Format:
+The first and only line of input contains a string without any leading and trailing spaces. All the characters in the string would be in lower case.
+Output Format:
+The only line of output prints the updated string.
+Note:
+You are not required to print anything. It has already been taken care of.
+Constraints:
+0 <= N <= 10^6
+Where N is the length of the input string.
+
+Time Limit: 1 second
+Sample Input 1:
+aabccbaa
+Sample Output 1:
+abcba
+Sample Input 2:
+xxyyzxx
+Sample Output 2:
+xyzx
+void removeConsecutiveDuplicates(char a[]) {
+    int n = strlen(a),j = 0,i = 0;
+    char ans[n];
+    ans[0] = a[0];
+    for(int j = 0; j < n ; j++)
+    {
+        if((a[j] ^ ans[i]) != 0)
+        {
+            i++;
+            ans[i] = a[j];
+            }
+    }
+    
+    strcpy(a,ans);
+    
+    
+}
+
+
+
+
+
+
+
+Reverse Each Word
+Send Feedback
+Aadil has been provided with a sentence in the form of a string as a function parameter. The task is to implement a function so as to print the sentence such that each word in the sentence is reversed.
+Example:
+Input Sentence: "Hello, I am Aadil!"
+The expected output will print, ",olleH I ma !lidaA".
+Input Format:
+The first and only line of input contains a string without any leading and trailing spaces. The input string represents the sentence given to Aadil.
+Output Format:
+The only line of output prints the sentence(string) such that each word in the sentence is reversed. 
+Constraints:
+0 <= N <= 10^6
+Where N is the length of the input string.
+
+Time Limit: 1 second
+Sample Input 1:
+Welcome to Coding Ninjas
+Sample Output 1:
+emocleW ot gnidoC sajniN
+Sample Input 2:
+Always indent your code
+Sample Output 2:
+syawlA tnedni ruoy edoc
+
+// void reverseEachWord(char a[]) {
+//     int n = strlen(a);
+    
+    
+
+// }
+void reverseEachWord(char input[]) {
+    
+    //same logic as in REVERSE WORD WISE PROBLEM
+    int i=0,start=0,end,temp;
+    while(input[i]!='\0')
+    {
+        if(input[i]==' ')
+        {
+            end=i-1;
+            while(start<=end)
+            {
+                temp=input[start];
+                input[start]=input[end];
+                input[end]=temp;
+                start++;
+                end--;
+            }
+            start=i+1;
+        }
+        if(input[i+1]=='\0')
+        {
+            end=i;
+            while(start<=end)
+            {
+                temp=input[start];
+                input[start]=input[end];
+                input[end]=temp;
+                start++;
+                end--;
+			}
+        }
+        i++;
+    }
+}
+
+
+
+
+
+
+Remove character
+Send Feedback
+For a given a string(str) and a character X, write a function to remove all the occurrences of X from the given string.
+The input string will remain unchanged if the given character(X) doesn't exist in the input string.
+Input Format:
+The first line of input contains a string without any leading and trailing spaces.
+
+The second line of input contains a character(X) without any leading and trailing spaces.
+Output Format:
+The only line of output prints the updated string. 
+Note:
+You are not required to print anything explicitly. It has already been taken care of.
+Constraints:
+0 <= N <= 10^6
+Where N is the length of the input string.
+
+Time Limit: 1 second
+Sample Input 1:
+aabccbaa
+a
+Sample Output 1:
+bccb
+Sample Input 2:
+xxyyzxx
+y
+Sample Output 2:
+xxzxx
+#include<bits/stdc++.h>
+// void removeAllOccurrencesOfChar(char a[], char c) {
+//    int n = strlen(a);
+//      string ans ="";
+//     for(int i = 0 ; i < n ; i++ )
+//     {
+//         if (a[i] != c)
+//         ans = ans + a[i];
+//         }
+//     strcpy(a,ans);
+//     }
+
+
+void removeAllOccurrencesOfChar(char a[], char c) {
+    int n = strlen(a), j = 0;
+    char ans[n];
+     for(int i = 0 ; i < n ; i++ )
+     {
+         if (a[i] != c)
+         {
+             ans[j] = a[i];
+             j++;
+             }
+     }
+    ans[j] = '\0';
+    
+    strcpy(a,ans);
+        
+}
+
+
+
+
+
+
+Highest Occuring Character
+Send Feedback
+For a given a string(str), find and return the highest occurring character.
+Example:
+Input String: "abcdeapapqarr"
+Expected Output: 'a'
+Since 'a' has appeared four times in the string which happens to be the highest frequency character, the answer would be 'a'.
+If there are two characters in the input string with the same frequency, return the character which comes first.
+Consider:
+Assume all the characters in the given string to be in lowercase always.
+Input Format:
+The first and only line of input contains a string without any leading and trailing spaces.
+Output Format:
+The only line of output prints the updated string. 
+Note:
+You are not required to print anything explicitly. It has already been taken care of.
+Constraints:
+0 <= N <= 10^6
+Where N is the length of the input string.
+
+Time Limit: 1 second
+Sample Input 1:
+abdefgbabfba
+Sample Output 1:
+b
+Sample Input 2:
+xy
+Sample Output 2:
+x
+#include<bits/stdc++.h>
+char highestOccurringChar(char a[]) {
+    int n = strlen(a), cnt = 0, curr = 0, big = 0, x = 0;
+    char ch;
+    for(int i = 0 ; i <= n ; i++ )
+    {
+        if(a[i] == 48)
+            continue;
+        cnt = 0;
+        for(int j = (i+1) ; j <= n ; j++ )
+        {
+            if((a[i] == a[j]) && (a[j] != 48))
+            {
+                cnt++;
+                a[j] = 48;
+                curr = cnt;
+            }
+            }
+         if(curr > big)
+         {
+             big = curr;
+             x = i;
+         }
+         }
+    return a[x];
+    
+
+    
+    
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+Compress the String
+Send Feedback
+Write a program to do basic string compression. For a character which is consecutively repeated more than once, replace consecutive duplicate occurrences with the count of repetitions.
+Example:
+If a string has 'x' repeated 5 times, replace this "xxxxx" with "x5".
+
+The string is compressed only when the repeated character count is more than 1.
+Note:
+Consecutive count of every character in the input string is less than or equal to 9.
+Input Format:
+The first and only line of input contains a string without any leading and trailing spaces.
+Output Format:
+The output contains the string after compression printed in single line.
+Note:
+You are not required to print anything. It has already been taken care of. Just implement the given function.
+Constraints:
+0 <= N <= 10^6
+
+Where 'N' is the length of the input string.
+
+Time Limit: 1 sec
+Sample Input 1:
+aaabbccdsa
+Sample Output 1:
+a3b2c2dsa
+Explanation for Sample Output 1:
+In the given string 'a' is repeated 3 times, 'b' is repeated 2 times, 'c' is repeated 2 times and 'd', 's' and 'a' and occuring 1 time hence no compression for last 3 characters.
+Sample Input 2:
+aaabbcddeeeee
+Sample Output 2:
+a3b2cd2e5
+Explanation for Sample Output 2:
+In the given string 'a' is repeated 3 times, 'b' is repeated 2 times, 'c' is occuring single time, 'd' is repeating 2 times and 'e' is repeating 5times.
+#include<bits/stdc++.h>
+ string getCompressedString(string &a) {
+//     string ans ="";
+//     int n = a.length();
+//     for(int i=0;i<n;i++) {
+//         ans += a[i];
+//         int count =1;
+//         while(a[i+1] == a[i]) {
+//             count ++;
+//             i++;
+//         }
+//         if(count >1) {
+//             ans += 48 + count;
+//         }
+
+//     }
+//     return ans;
+// }
+
+    int n = a.size() , i = 0 , j = 0 , cnt = 0, k = 0;
+    char temp[n];
+    while(i<n)
+    {
+        if(a[j] == a[i])
+        cnt++;
+        else
+        {
+            temp[k] = a[i];
+            if(cnt > 1)
+            {
+            temp[k+1] = cnt + 48;}
+            if( cnt == 1)
+            {
+            k = k + 1;}
+            else
+            { k = k + 2;}
+            i = i + cnt;
+            cnt = 1;
+            }
+        j++;
+    }
+     temp[k]='\0';
+     return temp;
+ }
