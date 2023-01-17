@@ -1,0 +1,495 @@
+Pointer Declaration
+Send Feedback
+Which of the following is the proper declaration of a pointer?
+Options
+This problem may have one or more correct answers
+int x;
+int &x;
+int *x; - Correct answer
+ptr x;
+
+
+Address of Variable
+Send Feedback
+Which of the following gives the memory address of integer variable a ?
+Options
+This problem may have one or more correct answers
+*a;
+a;
+&a; - correct answer
+address(a);
+Hurray! Correct Answer
+
+
+Address of variable
+Send Feedback
+Which of the following gives the memory address of variable 'b' pointed by pointer 'a' i.e.
+int b = 10;
+int *a = &b;
+Options
+This problem has only one correct answer
+a - correct answer
+*a
+&a
+address(a)
+Hurray! Correct Answer
+
+
+Pointers Output
+Send Feedback
+What will happen in this code?
+int a = 100, b = 200;
+int *p = &a, *q = &b;
+p = q;
+Options
+This problem may have one or more correct answers
+b is assigned to a
+p now points to b - correct answer
+a is assigned to b
+q now points to a
+Hurray! Correct Answer
+
+
+
+What will be the output ?
+Send Feedback
+int a = 7;
+int b = 17;
+int *c = &b;
+*c = 7;
+cout  << a << "  “ << b << endl;
+Options
+This problem may have one or more correct answers
+7 17
+17 7
+7 7 - correct answer
+17 17
+Hurray! Correct Answer
+
+
+
+What will be the output ?
+Send Feedback
+ int a = 50;
+ int *ptr = &a;
+ int *q = ptr;
+ (*q)++;
+ cout << a  << endl;
+ Options
+This problem may have one or more correct answers
+50
+51 - correct answer
+Error
+None of these
+Hurray! Correct Answer
+
+
+
+What will be the output ?
+Send Feedback
+ int a = 50;
+ int *ptr = &a;
+ cout << (*ptr)++ << “ “;
+ cout << a << endl;
+Options
+This problem may have one or more correct answers
+50 51 - correct answer
+51 50
+51 51
+50 50
+Hurray! Correct Answer
+
+
+
+What will be the output ?
+Send Feedback
+int *ptr = 0;
+int a = 10;
+*ptr = a;
+cout << *ptr << endl;
+Options
+This problem may have one or more correct answers
+10
+0
+Error - correct answer
+
+Pointers Output
+Send Feedback
+What will be the output ?
+int a = 7; int b = 17; int *c = &b; *c = 7; cout << a << " “ << b << endl;
+Options
+This problem may have one or more correct answers
+18 18
+7 18
+17 7
+7 7 - answer
+Hurray! Correct Answer
+
+Pointers Output
+Send Feedback
+What will be the output ?
+float f = 10.5;
+float p = 2.5;
+float* ptr = &f;
+(*ptr)++;
+*ptr = p;
+cout << *ptr << “ “ << f << “ “ << p;
+Options
+This problem may have one or more correct answers
+2.5 10.5 2.5
+2.5 11.5 2.5
+2.5 2.5 2.5 - answer
+11.5 11.5 2.5
+Hurray! Correct Answer
+Solution Description
+ptr points to f. f is incremented by 1 through ptr (f = 11.5 now). f = p using ptr (f = 2.5 now).
+
+What is the output
+Send Feedback
+int a = 7;
+int *c = &a;
+c = c + 1;
+cout  << a << "  " << *c << endl;
+Options
+This problem has only one correct answer
+Garbage_value 7
+7 Garbage_value - answer
+8 8
+7 7
+Hurray! Correct Answer
+
+
+Fill the output
+Send Feedback
+Assume the memory address of variable ‘a’ is 400 (and an integer takes 4 bytes), what will be the output -
+int a = 7;
+int *c = &a;
+c = c + 3;
+cout<< c << endl;
+Answer
+412
+Correct Answer
+Solution Description
+c stores address of a (and points to value of a). address that c stores is incremented by 3. since c is of type int, increment in bytes is 3 integer addresses, that is 3*4 = 12 bytes. therefore 400 + 12 = 412
+
+
+Fill the output
+Send Feedback
+Assume memory address of variable ‘a’ is : 200 and a double variable is of size 8 bytes, what will be the output -
+double a = 10.54;
+double *d = &a;
+d = d + 1;
+cout  << d << endl;
+Answer
+208
+Correct Answer
+
+
+What is the output
+Send Feedback
+Assume integer takes 4 bytes and integer pointer 8 bytes.
+int a[5];
+int *c;
+cout << sizeof(a) << “ “ << sizeof(c);
+Options
+This problem has only one correct answer
+8 8
+5 8
+20 8 - answer
+20 4
+Hurray! Correct Answer
+
+
+Fill the output
+Send Feedback
+int a[] = {1, 2, 3, 4};
+cout << *(a) << " " << *(a+1);
+Answer
+1 2
+Correct Answer
+
+
+Fill the output
+Send Feedback
+Assume that address of 0th index of array ‘a’ is : 200.
+What is the output -
+int a[6] = {1, 2, 3};
+cout << a << “ “ << &a;
+Options
+This problem has only one correct answer
+Error
+200 204
+200 200 - answer
+1 200
+200 1
+Hurray! Correct Answer
+
+
+Fill the output
+Send Feedback
+Assume that address of 0th index of array ‘a’ is : 200. What is the output -
+int a[3] = {1, 2, 3};
+cout << *(a + 2);
+Answer
+3
+Correct Answer
+
+
+What is the output
+Send Feedback
+Assume address of 0th index of array 'a' is 200.
+What is the output -
+int a[6] = {1, 2, 3};
+int *b = a;
+cout << b[2];
+Options
+This problem has only one correct answer
+Error
+3 - answer
+1
+200
+212
+Hurray! Correct Answer
+
+
+
+What is the output
+Send Feedback
+Assume address of 0th index of array 'a' is 200.
+What is the output -
+int a[] = {1, 2, 3, 4, 5};
+cout << *(a) << " " << *(a + 4);
+Options
+This problem has only one correct answer
+Error
+200 216
+1 5 - answer
+None of these
+Hurray! Correct Answer
+
+
+
+What is the output
+Send Feedback
+int a[] = {1, 2, 3, 4};
+int *p = a++;
+cout << *p << endl;
+Options
+This problem has only one correct answer
+1
+2
+Garbage value
+Error - answer
+Hurray! Correct Answer
+
+
+Pointers Output
+Send Feedback
+What will be the output ?
+ char ch = 'a';
+ char* ptr = &ch;
+ ch++;
+ cout << *ptr << endl;
+Options
+This problem may have one or more correct answers
+a
+b - answer
+97
+98
+Hurray! Correct Answer
+
+
+
+What is the output
+Send Feedback
+Assume address of 0th index of array ‘b’ is 200. What is the output -
+char b[] = "xyz";
+char *c = &b[0];
+cout << c << endl;
+Options
+This problem has only one correct answer
+200
+x
+xyz - answer
+None of these
+Hurray! Correct Answer
+Solution Description
+c stores the address of start of array b (and not of it’s values). So the entire array is printed when c is printed.
+
+
+
+
+What is the output
+Send Feedback
+Assume address of 0th index of array ‘b’ is 200. What is the output -
+char b[] = "xyz";
+char *c = &b[0];
+c++;
+cout << c << endl;
+Options
+This problem has only one correct answer
+201
+y
+xyz
+yz - answer
+Hurray! Correct Answer
+
+
+
+Fill the output
+Send Feedback
+char s[]= "hello";
+char *p = s;
+cout << s[0] << " " << p[0];
+Answer
+h h
+Correct Answer
+
+
+Pointers Output
+Send Feedback
+Figure out the correct output of the following code.
+void changeSign(int *p){
+  *p = (*p)  *  -1;
+}
+
+int main(){
+  int a = 10;
+  changeSign(&a);
+  cout << a << endl;
+}
+Options
+This problem may have one or more correct answers
+-10 - answer
+10
+Error
+None of the above
+Hurray! Correct Answer
+
+
+
+Fill the output
+Send Feedback
+void fun(int a[]) {
+    cout << a[0] << " ";
+}
+
+int main() {
+    int a[] = {1, 2, 3, 4};
+    fun(a + 1);
+    cout << a[0];
+}
+Answer
+2 1
+Correct Answer
+
+
+
+Pointers Output
+Send Feedback
+What will be the output ?
+void square(int *p){
+ int a = 10;
+ p = &a;
+ *p = (*p) * (*p);
+}
+
+int main(){
+ int a = 10;
+ square(&a);
+ cout << a << endl;
+}
+Options
+This problem may have one or more correct answers
+100
+10 - answer
+Error
+None of these
+Hurray! Correct Answer
+
+
+
+What will be the output ?
+Send Feedback
+int a = 10;
+int *p = &a;
+int **q = &p;
+int b = 20;
+*q = &b;
+(*p)++;
+cout << a << " " << b << endl;
+Options
+This problem may have one or more correct answers
+10 21 - answer
+11 20
+11 21
+10 20
+Hurray! Correct Answer
+Solution Description
+ p points to a. q points to p directly and a through p (double pointer). *q — value stored in p is changed to address of b instead of that of a. (*p)++ — value that p points to, which now is of b, is incremented by 1 (b becomes 21). Value of a remains unchanged.
+ 
+ 
+ 
+ 
+ What will be the output ?
+Send Feedback
+int a = 100;
+int *p = &a;
+int **q = &p;
+int b = (**q)++ + 4;
+cout << a << " " << b << endl;
+Options
+This problem may have one or more correct answers
+100 104
+101 104 - answer
+101 105
+100 105
+Hurray! Correct Answer
+
+
+
+
+Pointers Output
+Send Feedback
+What will be the output ?
+  int a = 100;
+  int *p = &a;
+  int **q = &p;
+  int b = (**q)++;
+  int *r = *q;
+  (*r)++;
+  cout << a << " " << b << endl;
+Options
+This problem may have one or more correct answers
+102 100 - answer 
+101 100
+101 101
+102 101
+Hurray! Correct Answer
+
+
+
+Pointers Output
+Send Feedback
+What will be the output ?
+void increment(int **p){
+  (**p)++;
+}
+
+int main(){
+ int num = 10;
+ int *ptr = &num;
+ increment(&ptr);
+ cout << num << endl;
+}
+Options
+This problem may have one or more correct answers
+10
+11 - answer 
+Error
+None of these
+
+
+
+
+Hurray! Correct Answer
