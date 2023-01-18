@@ -1,0 +1,227 @@
+void pointer
+Send Feedback
+Void pointer can point to which type of objects ?
+Options
+This problem has only one correct answer
+int
+double
+float
+All - answer
+Hurray! Correct Answer
+
+
+What is the output
+Send Feedback
+int main()
+{
+        int d = 65;
+        int i = d;
+        char ch = i;
+        cout << ch << endl;
+}
+Answer
+A
+Correct Answer
+
+
+What is the output
+Send Feedback
+#include <iostream>
+using namespace std;
+void updateValue(int *p){
+    *p = 610 % 255;
+}
+
+int main(){
+    char ch = 'A';
+    char *pt = &ch;
+    updateValue((int*)pt);
+    cout << ch;
+}
+Answer
+d
+Correct Answer
+
+
+
+Reference Variable
+Send Feedback
+What is the correct syntax of declaring and defining a reference?
+Options
+This problem has only one correct answer
+int a = 10; int &b; b = a;
+int a = 10; int &b = a; - answer
+int a = 10; int b = &a;
+int a = 10; int &b = &a;
+Hurray! Correct Answer
+
+
+
+What is the output
+Send Feedback
+#include <iostream>
+using namespace std;
+
+void func(int p){
+    cout << p << " ";
+}
+
+int main(){
+    int i = 10;
+    int &p = i;
+    func(p++);
+    cout << i;
+}
+Answer
+10 11
+Correct Answer
+
+
+What is the output
+Send Feedback
+#include <iostream>
+using namespace std;
+
+void func(int i, int& j, int p){
+    i++;
+    j++;
+    p++;
+}
+
+int main(){
+    int i = 10;
+    int j = 6;
+    int &p = i;
+    func(i, j, p);
+    cout << i << " " << j << " " << p;
+}
+Answer
+10 7 10
+Correct Answer
+
+
+Dynamic memory allocation
+Send Feedback
+In CPP, dynamic memory allocation is done using ______________ operator.
+Options
+This problem has only one correct answer
+calloc()
+malloc()
+allocate
+new - answer
+Hurray! Correct Answer
+
+
+
+Deallocate memory
+Send Feedback
+How will you free the memory allocated by following program -
+#include <iostream>
+using namespace std;    
+
+int main() {
+    int *a = new int;
+}
+Options
+This problem has only one correct answer
+free a;
+delete *a;
+delete a; - answer
+new a;
+Hurray! Correct Answer
+
+
+
+
+Create array
+Send Feedback
+Correct statement for creating an integer array of size 5, dynamically -
+Options
+This problem has only one correct answer
+int *arr[] = new int[5];
+int *arr = new int[5]; - answer
+int arr = new int[5];
+int *arr[5] = new int;
+Hurray! Correct Answer
+
+
+Deallocate array
+Send Feedback
+Correct statement for deallocating the array is -
+Options
+This problem has only one correct answer
+delete [] arr; - answer
+delete arr;
+delete *arr;
+delete [] *arr;
+Hurray! Correct Answer
+
+
+
+Delete memory
+Send Feedback
+On deleting a dynamic memory, if the pointer value is not modified, then the pointer points to?
+Options
+This problem has only one correct answer
+NULL
+Other dynamically allocated memory
+The same deleted memory location - answer
+It points back to location it was initialized with
+Hurray! Correct Answer
+
+
+Dynamic memory allocation
+Send Feedback
+In CPP, dynamic memory allocation is done using ______________ operator.
+Options
+This problem has only one correct answer
+calloc()
+malloc()
+allocate
+new - answer
+Hurray! Correct Answer
+
+
+
+Deallocate memory
+Send Feedback
+How will you free the memory allocated by following program -
+#include <iostream>
+using namespace std;    
+
+int main() {
+    int *a = new int;
+}
+Options
+This problem has only one correct answer
+free a;
+delete *a;
+delete a; - answer
+new a;
+Hurray! Correct Answer
+
+
+Create array
+Send Feedback
+Correct statement for creating an integer array of size 5, dynamically -
+Options
+This problem has only one correct answer
+int *arr[] = new int[5];
+int *arr = new int[5]; - answer
+int arr = new int[5];
+int *arr[5] = new int;
+Hurray! Correct Answer
+
+
+
+Deallocate array
+Send Feedback
+Correct statement for deallocating the array is -
+This problem has only one correct answer
+delete [] arr; - answer
+delete arr;
+delete *arr;
+delete [] *arr;
+Hurray! Correct Answer
+
+
