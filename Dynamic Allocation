@@ -225,3 +225,398 @@ delete [] *arr;
 Hurray! Correct Answer
 
 
+
+
+
+
+Delete memory
+Send Feedback
+On deleting a dynamic memory, if the pointer value is not modified, then the pointer points to?
+Options
+This problem has only one correct answer
+NULL
+Other dynamically allocated memory
+The same deleted memory location - Answer
+It points back to location it was initialized with
+Hurray! Correct Answer
+
+
+Dynamic memory allocation
+Send Feedback
+In CPP, dynamic memory allocation is done using ______________ operator.
+This problem has only one correct answer
+calloc()
+malloc()
+allocate
+new - Answer
+Hurray! Correct Answer
+
+
+
+Deallocate memory
+Send Feedback
+How will you free the memory allocated by following program -
+#include <iostream>
+using namespace std;    
+
+int main() {
+    int *a = new int;
+}
+Options
+This problem has only one correct answer
+free a;
+delete *a;
+delete a; - answer
+new a;
+Hurray! Correct Answer
+
+
+
+Create array
+Send Feedback
+Correct statement for creating an integer array of size 5, dynamically -
+Options
+This problem has only one correct answer
+int *arr[] = new int[5];
+int *arr = new int[5]; - answer
+int arr = new int[5];
+int *arr[5] = new int;
+Hurray! Correct Answer
+
+
+
+Deallocate array
+Send Feedback
+Correct statement for deallocating the array is -
+Options
+This problem has only one correct answer
+delete [] arr; - answer
+delete arr;
+delete *arr;
+delete [] *arr;
+Hurray! Correct Answer
+
+
+Delete memory
+Send Feedback
+On deleting a dynamic memory, if the pointer value is not modified, then the pointer points to?
+Options
+This problem has only one correct answer
+NULL
+Other dynamically allocated memory
+The same deleted memory location - answer
+It points back to location it was initialized with
+Hurray! Correct Answer
+
+
+
+Dynamic memory allocation
+Send Feedback
+In CPP, dynamic memory allocation is done using ______________ operator.
+Options
+This problem has only one correct answer
+calloc()
+malloc()
+allocate
+new - answer
+Hurray! Correct Answer
+
+
+
+2D arrays
+Send Feedback
+How to Dynamically create a Two Dimensional Array in C++?
+Options
+This problem has only one correct answer
+int *twoDArray = new int[10][10];
+int **twoDArray = new int*[10]; - Answer
+int **twoDArray = new int[10][10];
+Hurray! Correct Answer
+
+
+Jagged arrays
+Send Feedback
+Can we create Jagged Arrays in C++ ?
+Options
+This problem has only one correct answer
+Yes - Answer
+No
+
+
+Delete 2D array
+Send Feedback
+Given the following CPP Program. Select the CORRECT Syntax of deleting this 2D array? Check all that apply.
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int **twoDArray = new int*[10];
+    for(int i = 0; i < 10; i++)
+        *(twoDArray + i) = new int[10];
+}
+Options are -
+A. 
+delete twoDArray [][];
+
+B.
+for(int i = 0; i < 10; i++)
+    delete twoDArray[i];
+    delete twoDArray[];
+
+C.
+for(int i = 0; i < 10; i++)
+    delete [] twoDArray[i];
+    delete[] twoDArray;
+
+D.
+for(int i = 0; i < 10; i++)
+    delete twoDArray[i][];
+    delete[] twoDArray;
+Options
+This problem has only one correct answer
+A
+B
+C - Answer
+D
+Hurray! Correct Answer
+
+
+What is the output
+Send Feedback
+What is the output of the following program?
+#include<iostream>
+using namespace std;
+
+int x = 1;
+
+void print(){
+    int x = 2;
+    {
+        int x = 3;
+        cout << x << endl;
+    }
+}
+int main(){
+    print();
+    return 0;
+}
+Options
+This problem has only one correct answer
+1
+2
+3 - Answer
+Error
+Hurray! Correct Answer
+
+
+Fill the output
+Send Feedback
+What is the output of the following program?
+#include <iostream>
+using namespace std;
+
+#define MULTIPLY(a, b) a*b
+
+int main(){
+    cout << MULTIPLY(2+3, 3+5);
+    return 0;
+}
+Answer
+16
+Correct Answer
+Solution Description
+"MULTIPLY(a, b)" will be replaced by "a*b" in code.
+So, MULTIPLY(2+3, 3+5) will be replaced by 2+3*3+5. And according to operator precedence, multiply operator (*) has higher precedence than plus operator (+). 
+So, 3*3 will be evaluated first. Hence expression will become :
+2+9+5 = 16
+
+Fill the output
+Send Feedback
+What is the output of the following program?
+#include <iostream>
+using namespace std;
+
+#define SQUARE(x) x*x
+
+int main(){
+    int x = 36 / SQUARE(6);
+    cout << x;
+
+    return 0;
+}
+Answer
+36
+Correct Answer
+
+
+Inline functions
+Send Feedback
+Inline functions are useful when ______
+Options
+This problem has only one correct answer
+Function is large with many nested loops
+Function has many static variables
+Function is small and we want to avoid function call overhead. - Answer
+None of the above
+Hurray! Correct Answer
+Solution Description
+Inline functions are used to reduce the function call overhead. Inline function is a function that is expanded in line when it is called.
+
+
+
+What is the output
+Send Feedback
+What is the output of the following program ?
+#include<iostream>
+using namespace std;
+
+int getValue(int x = 0, int y = 0, int z){  
+    return (x + y + z); 
+}
+
+int main(){
+   cout << getValue(10);
+   return 0;
+}
+Options
+This problem has only one correct answer
+10
+0
+20
+Compilation Error - answer
+Hurray! Correct Answer
+Solution Description
+Default parameters must be added last in C++ functions
+
+
+Default arguments
+Send Feedback
+Which of the following statement is correct?
+Options
+This problem has only one correct answer
+Only one parameter of a function can be a default parameter.
+Minimum one parameter of a function must be a default parameter.
+All the parameters of a function can be default parameters.- answer
+No parameter of a function can be default.
+Hurray! Correct Answer
+
+
+What is the output
+Send Feedback
+What is the output of the following program ?
+#include <iostream>
+using namespace std;
+
+int main(){
+    int  const  p = 5;
+    cout << ++p;
+    return 0;
+}
+Options
+This problem has only one correct answer
+5
+6
+Error - answer
+Garbage
+Hurray! Correct Answer
+Solution Description
+Values of constant variables cannot be altered
+
+
+What is the output
+Send Feedback
+#include <iostream>
+using namespace std;
+
+int main(){
+    int p = 5;
+    int const *q = &p;
+    p++;
+    cout << p << endl;
+    return 0;
+}
+Options
+This problem has only one correct answer
+Error
+5
+6 - answer
+None
+Hurray! Correct Answer
+Solution Description
+Value of p can be increased or decreased as it is not a const value.
+
+
+Constants
+Send Feedback
+Which statement(s) will give an error for the following code -
+#include <iostream>
+using namespace std;
+
+int main(){
+    int p = 5;
+    int const *q = &p;
+}
+Options
+This problem may have one or more correct answers
+p++;
+q++;
+(*q)++;- answer
+Hurray! Correct Answer
+
+
+
+
+Constants
+Send Feedback
+Which statement(s) will give an error for the following code -
+#include <iostream>
+using namespace std;
+
+int main(){
+    int p = 5;
+    int * const q = &p;
+}
+Options
+This problem may have one or more correct answers
+p++;
+q++; - answer
+(*q)++;
+Hurray! Correct Answer
+
+
+Constants
+Send Feedback
+Which statement(s) will give an error for the following code -
+#include <iostream>
+using namespace std;
+
+int main(){
+    int p = 5;
+    int const * const q = &p;
+}
+Options
+This problem may have one or more correct answers
+p++;
+(*q)++; - answer
+q++; - answer
+Hurray! Correct Answer
+
+
+
+Constants
+Send Feedback
+Which statement(s) will give an error for the following code -
+#include <iostream>
+using namespace std;
+
+int main(){
+    const int p = 5;
+    int const *q = &p;
+}
+Options
+This problem may have one or more correct answers
+p++; - answer
+q++;
+(*q)++; - answer
+Hurray! Correct Answer
