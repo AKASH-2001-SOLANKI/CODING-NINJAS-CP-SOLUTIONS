@@ -1,0 +1,373 @@
+Create object
+Send Feedback
+Which of these statements is used to allocate memory for an object dynamically ?
+Options
+This problem has only one correct answer
+malloc
+alloc
+new - answer
+give
+Hurray! Correct Answer
+
+
+Create object
+Send Feedback
+Which of the following is/are a valid statement(s) to create an object of class Bird in C++ ?
+Options
+This problem may have one or more correct answers
+Bird b = new Bird;
+Bird *b = new Bird;- answer
+Bird b;-answer
+new Bird b;
+Hurray! Correct Answer
+
+
+Correct Statement
+Send Feedback
+Figure out the correct statement
+class Car{
+    public : 
+    int price;
+};
+
+int main() {
+    Car c; 
+    //Figure out the correct statement to set the price of the car object referred to by c to “10000”
+}
+Options
+This problem has only one correct answer
+c->price = 10000
+Car.price = 10000
+c.price = 10000;-answer
+Hurray! Correct Answer
+
+What is the output
+Send Feedback
+What is the output -
+#include <iostream>
+using namespace std;
+
+class Student {
+    int rollNumber;
+};
+
+int main() {
+    Student s;
+    cout << s.rollNumber;
+}
+Options
+This problem has only one correct answer
+GarbageValue
+0
+Compilation Error - answer
+None
+Hurray! Correct Answer
+
+What is the output
+Send Feedback
+What will be the output of the following program ?
+#include <iostream>
+using namespace std;
+
+class Shape{
+    public : 
+    int height;
+    int width;
+};
+
+int main() {
+    Shape *s = new Shape();
+    s -> height = 1;
+    cout << s -> height;
+}
+Options
+This problem has only one correct answer
+Error
+0
+1 - answer
+GarbageValue
+Hurray! Correct Answer
+
+
+
+False statement
+Send Feedback
+Which statement is not true in C++ language ?
+Options
+This problem has only one correct answer
+A public member of a class can be accessed outside the class.
+A private member of a class cannot be accessed by the functions of the same class. - answer
+A private member of a class cannot be accessed outside the same class.
+None of the above
+Hurray! Correct Answer
+
+
+What is the output
+Send Feedback
+What will be the Output ?
+#include <iostream>
+using namespace std;
+
+class Box{
+    public :
+    int width;
+    int height;
+    int length;
+    void volume(){
+        cout << length * width * height;
+    }
+};
+
+int main() {
+    Box b;
+    b.height = 5;
+    b.width = 4;
+    b.volume();
+}
+Options
+This problem has only one correct answer
+Error
+0
+20
+Garbage value - answer
+Hurray! Correct Answer
+Solution Description
+####Height and width are initialised to 5 and 4 respectively but length is not initialised. Default value for an integer data member of a class is garbage value, hence length contains garbage value. Volume will thus be garbage value.
+
+
+What is the output
+Send Feedback
+What will be the output of the following code ?
+#include <iostream>
+using namespace std;
+
+class Student{
+    public :
+    char *name;
+    int rollNo;
+    Student(int num){
+        rollNo = num;
+    }
+
+    void print(){
+        cout << rollNo;
+    }
+};
+
+int main() {
+    Student s(12);
+    s.print();
+}
+Answer
+12
+Correct Answer
+Solution Description
+####Constructor is called when an object is created, here when we create a Student object, corresponding student object is created and rollNo is assigned to 12. So output is 12.
+
+
+
+
+What is the output
+Send Feedback
+What will be the output of the following code ?
+#include <iostream>
+using namespace std;
+
+class Student{
+    public :
+    char name;
+    int rollNo;
+
+    Student(int num){
+        rollNo = num;
+    }
+
+    void print(){
+        cout << name << " "  <<  rollNo;
+    }
+};
+
+int main() {
+    Student *s = new Student();
+    s -> name = 'A';
+    s -> rollNo = 15;
+    s -> print();
+}
+Options
+This problem has only one correct answer
+GarbageValue 0
+GarbageValue 15
+Compilation Error - answer
+Hurray! Correct Answer
+Solution Description
+####There is Compilation error - “constructor Student() is undefined” because the default constructor is available only till the point we don’t create our own constructor. So Student class has only one constructor which require roll number as argument, hence we should pass integer as argument while creating any Student object.
+
+
+
+Find Incorrect Statement
+Send Feedback
+Which of the following statements are not true about destructor?
+1. It is invoked when object goes out of the scope
+2. Like constructor, it can also have parameters 
+3. It can be declared in private section
+4. It bears same name as that of the class and is preceded by tilde sign. 
+Options
+This problem has only one correct answer
+Only 2, 4
+Only 2, 3
+Only 1, 3
+Only 1, 4
+Only 2 - answer
+
+
+Copy Constructor
+Send Feedback
+Assume class DEMO. Which of the following statement(s) responsible to invoke copy constructor?
+1. DEMO D2(D1); //  Here D1 is an already created object of class  DEMO
+2. D2 = D1; // Here D1, D2 are already created objects of class DEMO
+Options
+This problem has only one correct answer
+Only 1 - answer
+Only 2
+Both 1 and 2
+Hurray! Correct Answer
+
+
+
+Copy Assignment Operator
+Send Feedback
+Consider following piece of code:
+class Pair{
+  public :
+  int first;
+  int second;
+};
+
+int main(){
+
+  Pair *p1 = new Pair;
+  Pair p2;
+}
+Which of the following statement is feasible ?
+Options
+This problem has only one correct answer
+1. p2 = p1;
+2. p2 = *p1; - answer
+3. Both 1 and 2 are correct.
+4. None of the above
+Hurray! Correct Answer
+Hurray! Correct Answer
+
+
+
+
+Copy Assignment Operator
+Send Feedback
+Consider following piece of code:
+#include<iostream>
+using namespace std;
+
+class Pair{
+      public :
+      int first;
+      int second;
+};
+
+int main(){
+
+      Pair p1;
+      p1.first = 10;
+      p1.second = 20;
+      Pair p2;
+      p2 = p1;
+      cout << p2.first << " " << p2.second << endl;
+}
+What will be the output ?
+Options
+This problem has only one correct answer
+10 20 - answer
+Error
+Garbage_value Garbage_value
+
+
+
+
+Complex Number Class
+Send Feedback
+A ComplexNumber class contains two data members : one is the real part (R) and the other is imaginary (I) (both integers).
+Implement the Complex numbers class that contains following functions -
+1. constructor
+You need to create the appropriate constructor.
+2. plus -
+This function adds two given complex numbers and updates the first complex number.
+e.g.
+if C1 = 4 + i5 and C2 = 3 +i1
+C1.plus(C2) results in: 
+C1 = 7 + i6 and C2 = 3 + i1
+3. multiply -
+This function multiplies two given complex numbers and updates the first complex number.
+e.g.
+if C1 = 4 + i5 and C2 = 1 + i2
+C1.multiply(C2) results in: 
+C1 = -6 + i13 and C2 = 1 + i2
+4. print -
+This function prints the given complex number in the following format :
+a + ib
+Note : There is space before and after '+' (plus sign) and no space between 'i' (iota symbol) and b.
+Input Format :
+Line 1 : Two integers - real and imaginary part of 1st complex number
+Line 2 : Two integers - real and imaginary part of 2nd complex number
+Line 3 : An integer representing choice (1 or 2) (1 represents plus function will be called and 2 represents multiply function will be called)
+Output format :
+Check details of 'print' function given above.
+Sample Input 1 :
+4 5
+6 7
+1
+Sample Output 1 :
+10 + i12
+Sample Input 2 :
+4 5
+6 7
+2
+Sample Output 2 :
+-11 + i58
+
+#include<bits/stdc++.h>
+
+
+class ComplexNumbers {
+    private:
+    int real, imag;   // bhai yeh pointer type kyu hai, c1 c2 kha declare kru mai---- doubts
+    
+    public:
+    // int i = sqrt(-1);
+    
+    ComplexNumbers(int real, int imag)
+    {
+        this -> real = real;
+        this -> imag = imag;
+    }
+    
+    void plus( ComplexNumbers const &c2)
+    {
+       real = real + c2.real;
+       imag = imag + c2.imag; 
+    
+    }
+     void multiply(ComplexNumbers const &c2)
+    {
+       
+       int x = ((real * c2.real) - (imag * c2.imag));
+       int y = ((real * c2.imag) + (imag * c2.real));
+          real = x; imag = y;
+    
+    }
+    void print()
+    {
+       cout<<real<<' '<<'+'<<' '<<"i"<<imag;
+    
+    }
+    
+};
+Hurray! Correct Answer
