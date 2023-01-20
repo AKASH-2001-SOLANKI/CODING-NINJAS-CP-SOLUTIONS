@@ -1,0 +1,685 @@
+Power
+Send Feedback
+Write a program to find x to the power n (i.e. x^n). Take x and n from the user. You need to return the answer.
+Do this recursively.
+Input format :
+Two integers x and n (separated by space)
+Output Format :
+x^n (i.e. x raise to the power n)
+Constraints :
+0 <= x <= 30
+0 <= n <= 30
+Sample Input 1 :
+ 3 4
+Sample Output 1 :
+81
+Sample Input 2 :
+ 2 5
+Sample Output 2 :
+32
+
+int power(int x, int n) {
+    if((x == 1) || (n == 1))
+        return x;
+   else if(( n == 0) && ( x =! 0))
+        return 1;
+    else if(( n == 0) && ( x == 0))
+        return 1;
+    
+    
+     int res = power(x, (n - 1));
+      
+    return (x * res);
+    
+  
+}
+
+
+Print Numbers
+Send Feedback
+Given the number 'n', write a code to print numbers from 1 to n in increasing order recursively.
+Input Format :
+Integer n
+Output Format :
+Numbers from 1 to n (separated by space)
+Constraints :
+1 <= n <= 10000
+Sample Input 1 :
+ 6
+Sample Output 1 :
+1 2 3 4 5 6
+Sample Input 2 :
+ 4
+Sample Output 2 :
+1 2 3 4
+
+void print(int n){
+    if(n == 1)
+    { cout<<1<<' ';
+     return;}
+    
+
+    print(n-1);
+     
+    cout<<n<<' ';
+    
+    }
+
+
+Number of Digits
+Send Feedback
+Given the number 'n', find out and return the number of digits present in a number .
+Input Format :
+Integer n
+Output Format :
+Count of digits
+Constraints :
+1 <= n <= 10^6
+Sample Input 1 :
+ 156
+Sample Output 1 :
+3
+Sample Input 2 :
+ 7
+Sample Output 2 :
+1
+int count(int n)
+{
+    int cnt= 0;
+    if((n % 10) == n)
+    {
+        cnt++;
+     return cnt;
+    }
+    
+    int res = count(n/10);
+    
+    
+    cnt++;
+    return (cnt + res);
+    
+    
+        
+}
+
+
+Missing Base case
+Send Feedback
+What will be the output of the following code ?
+#include <iostream>
+using namespace std;
+
+int func(int num){
+    return func(num- 1);
+}
+
+int main() {
+    int num = 5;
+    int ans = func(num - 1);
+    cout << ans;
+}
+
+Options
+This problem has only one correct answer
+Compilation Error
+Runtime Error - answer
+5
+None of these
+Hurray! Correct Answer
+Solution Description
+Since the base case is missing in the code, therefore there will be infinite recursion calls and hence runtime error will occur.
+
+
+What is the output
+Send Feedback
+What will be the output ?
+#include <iostream>
+using namespace std;
+
+void print(int n){
+    if(n < 0){
+        return;
+    }
+    cout << n << " ";
+    print(n - 2);
+}
+
+int main() {
+    int num = 5;
+    print(num);
+}
+Options
+This problem has only one correct answer
+Runtime error
+5 4 3 2 1
+5 3 1 - answer
+None of these
+Hurray! Correct Answer
+
+
+What is the output
+Send Feedback
+What will be the output of the following code ?
+#include <iostream>
+using namespace std;
+
+void print(int n){
+    if(n < 0){
+        return;
+    }
+    if(n == 0){
+        cout << n << “ “;
+        return;
+    }
+    print(n --);
+    cout << n << “ “;
+}
+
+int main() {
+    int num = 3;
+    print(num);
+}
+Options
+This problem has only one correct answer
+Runtime Error - answer
+3 2 1
+3 3 3
+0 1 2 3
+Hurray! Correct Answer
+Solution Description
+In function print when recursion call is being made  n-- is being passed as input. Here we are using post decrement operator, so argument passed to next function call is n and not n - 1. Thus there will be infinite recursion calls and runtime error will come.
+
+
+
+Sum of Array
+Send Feedback
+Given an array of length N, you need to find and return the sum of all elements of the array.
+Do this recursively.
+Input Format :
+Line 1 : An Integer N i.e. size of array
+Line 2 : N integers which are elements of the array, separated by spaces
+Output Format :
+Sum
+Constraints :
+1 <= N <= 10^3
+Sample Input 1 :
+3
+9 8 9
+Sample Output 1 :
+26
+Sample Input 2 :
+3
+4 2 1
+Sample Output 2 :
+7    
+#include<bits/stdc++.h>
+int sum(int a[], int n) {
+    int ans = 0;
+    if( n == 0)
+        return 0;
+    
+    int res = sum( a + 1 , n - 1);
+    
+    
+    ans = a[0];
+    
+    
+    return(ans + res);
+    
+    
+}
+#include<bits/stdc++.h>
+int sum(int a[], int n) {
+    int ans = 0;
+    if( n == 0)
+        return 0;
+    
+    int res = sum( a + 1 , n - 1);
+    
+    
+    ans = a[0];
+    
+    
+    return(ans + res);
+    
+    
+}
+
+
+Sum of digits
+Send Feedback
+Write a recursive function that returns the sum of the digits of a given integer.
+Input format :
+Integer N
+Output format :
+Sum of digits of N
+Constraints :
+0 <= N <= 10^9
+Sample Input 1 :
+12345
+Sample Output 1 :
+15
+Sample Input 2 :
+9
+Sample Output 2 :
+9
+
+int sumOfDigits(int n) {
+    int sum = 0;
+    if((n % 10) == n)
+    {
+        sum += n;
+        return sum;
+    }
+    
+    
+    int res = sumOfDigits(n/10);
+    
+    
+    sum += (n%10);
+    
+    
+    return(sum + res);
+
+}
+
+String to Integer
+Send Feedback
+Write a recursive function to convert a given string into the number it represents. That is input will be a numeric string that contains only numbers, you need to convert the string into corresponding integer and return the answer.
+Input format :
+Numeric string S (string, Eg. "1234")
+Output format :
+Corresponding integer N (int, Eg. 1234)
+Constraints :
+0 < |S| <= 9
+where |S| represents length of string S.
+Sample Input 1 :
+00001231
+Sample Output 1 :
+1231
+Sample Input 2 :
+12567
+Sample Output 2 :
+12567
+
+#include<bits/stdc++.h>
+int stringToNumber(char a[]) {
+    int n = strlen(a), sum = 0;
+    
+    if(n == 0)
+        return 0;
+    
+    
+    int res = stringToNumber( a + 1 );
+    
+    
+    sum = (a[0] - 48) * ( pow( 10 , n - 1));
+    
+    return (res + sum);
+
+
+}
+
+
+All Indices of Number
+Send Feedback
+Given an array of length N and an integer x, you need to find all the indexes where x is present in the input array. Save all the indexes in an array (in increasing order).
+Do this recursively. Indexing in the array starts from 0.
+Input Format :
+Line 1 : An Integer N i.e. size of array
+Line 2 : N integers which are elements of the array, separated by spaces
+Line 3 : Integer x
+Output Format :
+indexes where x is present in the array (separated by space)
+Constraints :
+1 <= N <= 10^3
+Sample Input :
+5
+9 8 10 8 8
+8
+Sample Output :
+1 3 4
+/* Don't write main().
+     Don't read input, it is passed as function argument.
+     Save all the indexes in the output array passed and return the size of output array.
+     Taking input and printing output is handled automatically.
+  */
+void find(int a[],int curr,int n,int x,int b[],int &ans){
+    if(n==curr){
+        return;
+    }
+    if(a[curr]==x){
+        b[ans]=curr;
+        ans++;
+    }
+    find(a,curr+1,n,x,b,ans);
+}
+int allIndexes(int a[], int n, int x, int b[]) {
+ 
+    int ans=0;
+    find(a,0,n,x,b,ans);
+    return ans;
+    
+}
+
+
+
+
+
+
+Choose the Correct
+Send Feedback
+Choose the correct answer.
+Options
+This problem has only one correct answer
+Recursion is always better than iteration.
+Recursion uses more space and time compared to iteration. - answer
+Recursion uses less memory compared to iteration.
+None of the above
+Hurray! Correct Answer
+Solution Description
+Recursion involves function call at each step, fresh memory is allocated for each recursive call. Due to function call overheads, the recursive function runs slower than iterative method.
+
+
+
+
+
+Check Palindrome (recursive)
+Send Feedback
+Check whether a given String S is a palindrome using recursion. Return true or false.
+Input Format :
+String S
+Output Format :
+'true' or 'false'
+Constraints :
+0 <= |S| <= 1000
+where |S| represents length of string S.
+Sample Input 1 :
+racecar
+Sample Output 1:
+true
+Sample Input 2 :
+ninja
+Sample Output 2:
+false
+#include<bits/stdc++.h>
+
+
+bool mine( char a[] , int n)
+{
+    if(( n == 0) || ( n == 1))
+        return true;
+    
+    
+    
+    
+    
+    
+    
+    bool x = mine(  a + 1 ,  n - 2);
+    
+    
+    
+    
+    if(a[0] == a[n - 1])
+    {
+        if( x == true)
+            return true;
+        else
+            return false;
+        
+    }
+    else
+        return false;
+        
+}
+
+
+
+
+
+
+bool checkPalindrome(char a[]) {
+    int n = strlen(a);
+    mine(a , n);
+    if(mine(a , n))
+        return true;
+    else
+        return false;
+    }
+
+
+Replace pi (recursive)
+Send Feedback
+Given a string, compute recursively a new string where all appearances of "pi" have been replaced by "3.14".
+Constraints :
+1 <= |S| <= 50
+where |S| represents the length of string S. 
+Sample Input 1 :
+xpix
+Sample Output :
+x3.14x
+Sample Input 2 :
+pipi
+Sample Output :
+3.143.14
+Sample Input 3 :
+pip
+Sample Output :
+3.14p
+Constraints:-
+1<=|S|<=50
+// Change in the given string itself. So no need to return or print anything
+#include<bits/stdc++.h>
+void replacePi(char a[]) {
+    
+    
+    if(strlen(a)<=1)
+        return;
+    
+    
+    replacePi(a+1);
+    
+    if(a[0] == 'p' && a[1] == 'i')
+    {
+        for(int i = strlen(a) - 1; i>1 ; i--)
+        {
+            a[i+2]=a[i];
+        }
+        a[0]='3';
+        a[1]='.';
+        a[2]='1';
+        a[3]='4';
+    }
+	
+
+}
+
+
+Remove Duplicates
+Send Feedback
+Given a string S, remove consecutive duplicates from it recursively.
+Input Format :
+String S
+Output Format :
+Output string
+Constraints :
+1 <= |S| <= 10^3
+where |S| represents the length of string
+Sample Input 1 :
+aabccba
+Sample Output 1 :
+abcba
+Sample Input 2 :
+xxxyyyzwwzzz
+Sample Output 2 :
+xyzwz
+#include<bits/stdc++.h>
+
+void mine( char a[] , int n, char ans[] , int j)
+{
+    
+    int i = 0;
+    
+    if( n == 0)
+        return;
+    
+    
+    
+    
+    ans[0] = a[0];
+    for(int j = 0; j < n ; j++)
+    {
+        if((a[j] ^ ans[i]) != 0)
+        {
+            mine( a + j , n - j , ans + 1 , j );
+            break;
+        }
+    }
+    return;
+    
+}
+
+
+void removeConsecutiveDuplicates( char a[])
+{
+    int n = strlen(a), j = 0;
+    char *ans = new char[n];
+    mine(a,n,ans,j);
+    strcpy(a,ans);
+}
+
+
+
+
+All Indices of Number
+Send Feedback
+Problem Statement:
+Given an array of length N and an integer x, you need to find all the indexes where x is present in the input array. Save all the indexes in an array (in increasing order).
+Do this recursively. Indexing in the array starts from 0.
+Input Format :
+Line 1 : An Integer N i.e. size of array
+Line 2 : N integers which are elements of the array, separated by spaces
+Line 3 : Integer x
+Output Format :
+indexes where x is present in the array (separated by space)
+Constraints :
+1 <= N <= 10^3
+C++ Code with Logical Errors:
+#include<bits/stdc++.h>
+using namespace std;
+void findIndexes(int input[],int currIndex, int size, int x, int output[],int &k) {
+    if(currIndex==size+1)
+        return;
+    if(input[currIndex]==x){
+        output[k]=currIndex;
+        k--;
+    }
+    findIndexes(input,currIndex+1,size,x,output,k);
+}
+
+int allIndexes(int input[], int size, int x, int output[]) {
+    int k=0;
+    findIndexes(input,0,size,x,output,k);
+    return k;
+}
+Please improve upon this code and submit the problem.
+
+Sample Input :
+5
+9 8 10 8 8
+8
+Sample Output :
+1 3 4
+
+#include<bits/stdc++.h>
+using namespace std;
+void findIndexes(int input[],int currIndex, int size, int x, int output[],int &k) {
+    if(currIndex==size)
+        return;
+    
+    
+    
+    if(input[currIndex]==x){
+        output[k]=currIndex;
+        k++;
+    }
+    
+    
+    
+    findIndexes(input,currIndex+1,size,x,output,k);
+}
+
+int allIndexes(int input[], int size, int x, int output[]) {
+    int k=0;
+    findIndexes(input,0,size,x,output,k);
+    return k;
+}
+
+
+
+Tower of Hanoi
+Send Feedback
+You are given three rods (numbered 1 to 3), and ‘N’ disks initially placed on the first rod, one on top of each other in increasing order of size ( the largest disk is at the bottom). You are supposed to move the ‘N’ disks to another rod(either rod 2 or rod 3) using the following rules and in less than 2 ^ (N) moves.
+1. You can only move one disk in one move. 
+2. You can not place a larger disk on top of a smaller disk.
+3. You can only move the disk at the top of any rod.    
+Note :
+You may assume that initially, the size of the ‘i’th disk from the top of the stack is equal to ‘i’, i.e. the disk at the bottom has size ‘N’, the disk above that has size ‘N - 1’, and so on. The disk at the top has size 1.
+Example :
+Example
+
+Input Format :
+The first line contains a single integer ‘T’ denoting the number of test cases. The test cases follow.
+
+The first line of each test case contains a single integer ‘N’ denoting the number disks.
+Output Format :
+For each test case, return a 2-D array/list, where each row of the array should contain exactly two integers. The first integer should be the number of the rod from where the topmost disk is to be removed and the second integer should denote the number of the rod where the removed disk is to be placed. If you have correctly moved all the disks from rod 1 to either rod 2 or rod 3 the output will be ‘1’ otherwise the output will be ‘0’.
+
+The output of every test case will be printed in a separate line.
+Note :
+You don’t need to print anything; It has already been taken care of.
+Constraints :
+1 <= T <= 5
+1 <= N <= 12
+
+Where ‘T’ denotes the number of test cases, ‘N’ denotes the number of disks.
+
+Time Limit: 1 sec
+Sample Input 1 :
+2
+1
+2
+Sample Output 1 :
+1
+1
+Explanation of Sample Input 1 :
+In the first test case, 
+you can move the only disk to either rod 2 or rod 3. The matrix to be returned should be either { { 1, 2 } } or { {1, 3 } }.
+
+In the second test case, 
+you can move the topmost disk from rod 1 to rod 2. Then move the remaining disk from rod1 to rod 3. Now move the disk in rod 2 to rod 3. . One of the correct ways to return the output is { { 1, 2 }, { 1, 3 }, { 2, 3 } }.  
+Sample Input 2 :
+1
+3
+Sample Output 2 :
+1
+Explanation of Sample Input 2 :
+One of the correct matrices is { { 1, 2 }, { 1, 3 }, { 2, 3 }, { 1, 2 }, { 3, 1 }, { 3, 2 }, { 1, 2 } }.
+void helper(int n,int start,int aux,int end, vector<vector<int>> &ans){
+	if(n==0){
+        return;
+    }
+    helper(n-1,start,end,aux,ans);
+    vector<int> temp;
+    temp.push_back(start);
+    temp.push_back(end);
+    ans.push_back(temp);
+    helper(n-1,aux,start,end,ans);
+}
+vector<vector<int>> towerOfHanoi(int n)
+{
+    vector<vector<int>> ans;
+    helper(n,1,2,3, ans);
+    return ans;
+}
