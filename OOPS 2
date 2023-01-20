@@ -388,7 +388,6 @@ Sample Input 3 :
 Sample Output 3 :
 4x1 2x2 5x3 5x4 -22x5 -6x6 12x7 -4x8
 
-
 class Polynomial {
     
     public:
