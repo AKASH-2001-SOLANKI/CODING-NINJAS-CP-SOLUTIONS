@@ -1,0 +1,274 @@
+Linear Search Worst Case
+Send Feedback
+The Worst case(s) occur in linear search algorithm when -
+Options
+This problem may have one or more correct answers
+Item is somewhere in the middle of the array
+Item is the last element in the array - answer
+Item is present at first index of the array.
+Item is not in the array at all - answer
+Hurray! Correct Answer
+
+
+Worst Case Time Complexity of Insertion sort
+Send Feedback
+Worst case time complexity of insertion sort is ?
+This problem may have one or more correct answers
+O(N)
+O(N^2) - answer
+O(NLogN)
+O(LogN)
+
+
+
+Worst Case Time complexity of Selection Sort
+Send Feedback
+Worst case time complexity of Selection sort is ?
+This problem has only one correct answer
+O(N)
+O(N^2) - answer
+O(NLogN)
+O(LogN)
+Hurray! Correct Answer
+
+
+
+Efficiency of an Algorithm
+Send Feedback
+Two main measures for the efficiency of an algorithm are -
+Options
+This problem may have one or more correct answers
+Processor and memory
+Complexity and capacity
+Time and space - answer
+Data and space
+Hurray! Correct Answer
+
+
+Theoretical Analysis
+Send Feedback
+In theoretical analysis the time factor when determining the efficiency of algorithm is measured by -
+Options
+This problem may have one or more correct answers
+Counting microseconds
+Counting the number of statements in code
+Counting the number of unit operations - answer
+Counting the kilobytes of algorithm
+Hurray! Correct Answer
+
+
+Time Complexity
+Send Feedback
+If the number of primary operations of an algorithm that takes an array of size n as input are 3n^2 + 5n. The worst case time complexity of the algorithm will be ?
+Options
+This problem may have one or more correct answers
+O(n^3)
+O((n^2)*logn)
+O(n^2) - answer
+O(n)
+Hurray! Correct Answer
+
+
+
+Time Complexity of Code
+Send Feedback
+What will be the Time Complexity of following code in terms of ‘n’ ?
+Refer the code for C++ -
+for(int i = 0; i < n; i++){
+    for(; i < n; i++){
+        cout << i << endl;
+    }
+}
+Refer the same code in Java -
+for(int i = 0; i < n; i++){
+    for(; i < n; i++){
+        System.out.println(i);
+    }
+}
+Refer the same code in Python -
+    i = 0
+    while i<n :
+          while i<n :
+               print(i)
+               i += 1
+Options
+This problem may have one or more correct answers
+O(n) - answer
+O(n^2)
+O(logn)
+O(nlogn)
+Hurray! Correct Answer
+
+
+
+Time Complexity of Code
+Send Feedback
+What will be the Time Complexity of following code in terms of ‘n’ ?
+Note : Assume k to be a constant value
+Refer the code in C++ -
+  for(int i = 0; i < n; i++){
+     for(int j = 1 ; j < k; j++){
+        cout << (i + j ) << endl;
+      }
+  }
+Refer the same code in Java -
+for(int i = 0; i < n; i++){
+       for(int j = 1 ; j < k; j++){
+         System.out.println(i + j);
+       }
+}
+Refer the same code in Python -
+for i in range(n):
+    for j in range(k):
+        print(i+j)
+Options
+This problem may have one or more correct answers
+O(n^2)
+O(n) - answer 
+O(logn)
+None of these
+Hurray! Correct Answer
+
+
+
+Operations for merging
+Send Feedback
+For merging two sorted arrays of size m and n into a sorted array of size m+n, we require operations -
+Options
+This problem has only one correct answer
+O(m * n)
+O(m + n) - answer
+O(m) if m >= n
+O(n) if n > m
+Hurray! Correct Answer
+
+
+
+Worst Case Time complexity of Binary Search
+Send Feedback
+Worst case time complexity of Binary Search is ?
+Options
+This problem has only one correct answer
+O(N)
+O(N^2)
+O(NLogN)
+O(LogN) - answer
+Hurray! Correct Answer
+
+
+Recurrence for Merge Sort
+Send Feedback
+What is the recurrence relation for merge sort :
+Options
+This problem has only one correct answer
+T(n) = 2T(n/2)
+T(n) = 2T(n/2) + k
+T(n) = 2T(n/2) + O(n) - answer
+T(n) = 2T(n/2) + O(log n)
+Hurray! Correct Answer
+
+
+
+Merge sort
+Send Feedback
+What is the time complexity of merge sort :
+Options
+This problem has only one correct answer
+O(n)
+O(n^2)
+O(nlogn) - answer
+O(log n)
+Hurray! Correct Answer
+Solution Description
+The time complexity of the Merge Sort is θ(nLogn) in all 3 cases (worst, average, and best) as the merge sort always divides the array into two halves and takes linear time to merge two halves.
+
+
+
+
+
+What is time complexity
+Send Feedback
+What is the time complexity of following code ?
+int multiplyRec(int m, int n){
+    if(n == 1)
+        return m;
+    return m + multiplyRec(m,  n - 1);  
+}
+Options
+This problem has only one correct answer
+O(m*n)
+O(n) - answer
+O(n^2)
+O(m)
+Hurray! Correct Answer
+
+
+
+What is time complexity
+Send Feedback
+What is the time complexity of following code ?
+int sumOfDigits(int n){
+        int sum;
+        if(n < 10){
+            return n;
+        }
+        sum = (n % 10) + sumOfDigits(n / 10);
+        return sum;
+}
+Options
+This problem has only one correct answer
+O(logn) - log is to the base 10 - answer
+O(n)
+O(n^2)
+None of these
+
+
+
+Fibonacci
+Send Feedback
+What is the time complexity of following code for calculating nth fibonacci number
+long fib(int n){
+    if(n == 0 || n == 1){
+         return n;
+    }
+    return fib(n - 1) + fib(n - 2);
+}
+Options
+This problem has only one correct answer
+O(n)
+O(n^2)
+O(2^n) - answer
+O(n^3)
+Hurray! Correct Answer
+Hurray! Correct Answer
+
+
+
+
+Merge Sort space
+Send Feedback
+The space complexity for merge sort is :
+Options
+This problem has only one correct answer
+O(n) - answer
+O(n^2)
+O(nlogn)
+O(log n)
+Hurray! Correct Answer
+
+
+
+Fibonacci
+Send Feedback
+The space complexity for finding nth fibonacci number using recursion is :
+Options
+This problem has only one correct answer
+O(n) - answer
+O(2^n)
+O(log n)
+O(n^2)
+O(nlogn)
+Hurray! Correct Answer
+
+
+
