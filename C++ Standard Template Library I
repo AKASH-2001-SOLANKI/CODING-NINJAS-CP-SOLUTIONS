@@ -1,0 +1,409 @@
+Choose the correct
+Send Feedback
+The STL library belongs to _____ programming language? Select the correct option
+Options
+This problem has only one correct answer
+Python
+C
+C++ - answer
+JAVA
+Hurray! Correct Answer
+Solution Description
+STL is a library of C++ language.
+
+
+
+Predict the output
+Send Feedback
+What will be the output of the following code snippet?
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+ vector<int>vect;
+ vect.push_back(1);
+ vect.push_back(3);
+ vect.pop_back();
+ vect.push_back(2);
+ int answer=vect.empty() ? vect.front() : vect.back();
+ cout << answer;
+}
+Options
+This problem has only one correct answer
+1
+2 - answer
+3
+Compilation error
+Hurray! Correct Answer
+Solution Description
+ Representation of vector at each step:
+[1],
+[1,3],
+[1],
+[1,2].
+After that answer would be equal to the last element of the vector (vect.back()) because the vector is not empty hence the value of answer would be 2.
+
+
+
+
+Choose the correct
+Send Feedback
+Which of the following is the correct way to initialize a 2D vector of integers?
+Options
+This problem has only one correct answer
+vector<vector<int>>vect; - answer
+vector<int>vect(2);
+vector<int>vect(vector);
+vector<int>vect{2};
+Hurray! Correct Answer
+Solution Description
+Syntax based.
+
+
+
+Choose the correct
+Send Feedback
+Which of the following STL containers has a feature to expand and contract in both directions(front as well as back)?
+Options
+This problem has only one correct answer
+Stack
+Queue
+Deque - answer
+Vector
+Hurray! Correct Answer
+Solution Description
+In deque, we can push or pop elements from any of the ends.
+
+
+
+Next Geater Element
+Send Feedback
+Given an array, print the Next Greater Element (NGE) for every element. The Next greater Element for an element x, is the first greater element on right side of x in the array. Elements for which no greater element exist, consider next greater element as -1.
+Input format :
+
+Line 1 : Size of input array
+
+Line 2 : Array elements (separated by space)
+
+Constraints:
+Time Limit: 1 second
+Size of input array lies in the range: [1, 1000000]
+Sample Input
+#include <vector>
+#include <stack>
+#include <algorithm>
+
+vector<int> nextGreaterElement(vector<int> a) {
+    stack<int>st; int n = a.size();
+    vector<int>b;
+    for(int i = n - 1; i >= 0 ; i--)
+    {
+        if(st.empty())
+        {
+            b.push_back(-1);
+            st.push(a[i]);
+        }    
+        
+        else{
+            if(a[i] < st.top())
+            {
+                b.push_back(st.top());
+                st.push(a[i]);
+                
+            }
+            else if(a[i] >= st.top())
+            {
+                while((!st.empty()) && (a[i] >= st.top()))
+                {
+                    st.pop();
+                }
+                if(st.empty())
+                {
+                    b.push_back(-1);
+                    st.push(a[i]);
+                }
+                else
+                {
+                b.push_back(st.top());
+                st.push(a[i]);}
+            }
+        }
+    }
+    reverse(b.begin(), b.end());
+    return b;
+    
+}
+
+
+
+Choose the correct
+Send Feedback
+Which of the following STL containers keeps the elements in sorted order?
+Options
+This problem has only one correct answer
+Queue
+Deque
+Vector
+Priority queue - answer
+Hurray! Correct Answer
+Solution Description
+The priority queue keeps the elements in an ordered fashion.
+
+
+
+Choose the correct
+Send Feedback
+Which of the following STL containers is based on max-heap?
+Options
+This problem has only one correct answer
+Stack
+Priority Queue - answer
+Vector
+None of the above
+Hurray! Correct Answer
+Solution Description
+Fact.
+
+
+
+Choose the correct
+Send Feedback
+Which of the following STL containers doesn’t take constant time (O(1)) to insert an element?
+Options
+This problem has only one correct answer
+Stack
+Queue
+Deque
+Priority Queue - answer
+Hurray! Correct Answer
+Solution Description
+Priority queue doesn’t take O(1) time to insert an element because its implementation is based on max- heap therefore it takes O(log(n)) time to insert an element.
+
+
+
+k-largest element
+Send Feedback
+Given an array A of random integers and an integer k, find and return the kth largest element in the array.
+Note: Try to do this question in less than O(N * logN) time.
+Input Format :
+The first line of input contains an integer, that denotes the value of the size of the array. Let us denote it with the symbol N.
+The following line contains N space separated integers, that denote the value of the elements of the array.
+The following contains an integer, that denotes the value of k.
+Output Format :
+The first and only line of output contains the kth largest element
+Constraints :
+1 <= N, Ai, k <= 10^5
+Time Limit: 1 sec
+Sample Input 1 :
+6
+9 4 8 7 11 3
+2
+Sample Output 1 :
+9
+Sample Input 2 :
+8
+2 6 10 11 13 4 1 20
+4
+Sample Output 2 :
+10
+
+#include <queue>
+#include <algorithm>
+int kthLargest(int* a, int n, int k) {
+    priority_queue<int>pq;
+    for(int i = 0 ; i < n ; i++)
+    {
+        pq.push(a[i]);
+    }
+    
+    for(int i = 0 ; i < k - 1 ; i++)
+    {
+        pq.pop();
+    }
+     return pq.top();
+}
+
+
+
+
+Choose the correct
+Send Feedback
+What is the difference between the set and the priority queue?
+Options
+This problem has only one correct answer
+A set stores the elements in sorted order, but a priority queue doesn’t.
+A priority queue stores the elements in sorted order, but a set doesn’t.
+A priority queue can store duplicate elements, but a set can’t . - answer
+A set can store duplicate elements, but a priority queue can’t.
+Hurray! Correct Answer
+Solution Description
+A priority queue can store duplicate elements, but a set can’t .
+
+
+
+
+Valid pairs
+Send Feedback
+Given an array of integers and numbers k and m, write a function that returns true if given array can be divided into pairs such that the sum of every pair gives remainder m when divided by k.
+Input format :
+Line 1 : Integer N 
+Line 2 : N integers separated be a single space
+Line 3 : Integer K
+Line 4 : Integer M
+Output Format :
+ Boolean
+Constraints :
+ 1 <= N <= 10^4
+ 1 <= M < K <= 10^2
+Sample Input :
+4
+2 1 5 7
+9
+3
+Sample Output :
+true
+Explanation :
+Pairs will be (2,1) and (5,7)
+bool CheckSumPairs(int arr[], int n, int k, int m) 
+{
+    if(n%2==1)
+    {
+        return false;
+    }
+    unordered_map<int,int>mpp;
+	 for(int i=0;i<n;i++)
+     {
+         mpp[arr[i]%k]++;
+     }
+    
+    for(auto itr=mpp.begin(); itr != mpp.end(); itr++){
+        int first_term = itr->first;
+        int x = (m - first_term + k) % k;
+        
+        if(mpp[first_term]!=mpp[x])
+            return false;
+    }
+    return true;
+}
+
+
+
+
+
+
+Two sum
+Send Feedback
+You are given an array of integers 'ARR' of length 'N' and an integer Target. Your task is to return all pairs of elements such that they add up to Target.
+Note:
+We cannot use the element at a given index twice.
+Follow Up:
+Try to do this problem in O(N) time complexity. 
+####Input Format:
+
+The first line of input contains an integer ‘T’ denoting the number of test cases to run. Then the test case follows.
+
+The first line of each test case contains two single space-separated integers ‘N’ and ‘Target’ denoting the number of elements in an array and the Target, respectively.
+
+The second line of each test case contains ‘N’ single space-separated integers, denoting the elements of the array.
+Output Format :
+For each test case, print a single line containing space-separated integers denoting all pairs of elements such that they add up to the target. A pair (a, b) and (b, a) is the same, so you can print it in any order.
+
+Each pair must be printed in a new line. If no valid pair exists, print a pair of (-1, -1). Refer to sample input/output for more clarity.
+Note:
+You do not need to print anything; it has already been taken care of. Just implement the given function.
+Constraints:
+1 <= T <= 100
+1 <= N <= 5000
+-10 ^ 9 <= TARGET <=10 ^ 9
+-10 ^ 9 <= ARR[i] <=10 ^ 9
+
+Where 'T' denotes the number of test cases, 'N' represents the size of the array, 'TARGET' represents the sum required, and 'ARR[i]' represents array elements.
+
+Time Limit: 1 sec.
+Sample Input 1 :
+2
+4 9
+2 7 11 13
+5 1
+1 -1 -1 2 2
+Sample Output 1:
+2 7
+-1 2
+-1 2
+Explanation for Sample 1:
+For the first test case, we can see that the sum of  2 and 7 is equal to 9 and it is the only valid pair.
+
+For the second test case, there are two valid pairs (-1,2) and (-1,2), which add up to 1.
+Sample Input 2 :
+1
+4 16
+2 7 11 13
+Sample Output 2 :
+-1 -1
+
+#include <unordered_map>
+#include <utility>
+#include <algorithm>
+vector<pair<int,int>> twoSum(vector<int>& a, int x, int n)
+{
+    unordered_map <int,int> mp;
+    pair <int,int> p1;
+    vector<pair<int,int>> vec;
+    for(int i = 0 ; i < n ; i++)
+    {
+        mp[a[i]]++;                             //doubt---itr->first or itr.first, kissay kab use karangay
+    }
+    
+    for(int i = 0 ; i < n ; i++)
+    {
+        int first_term = a[i];
+        int second_term = (x - a[i]);
+                                             // koi tareeka hai ki hum issay map say bhi iterate krkay kr skay
+        if(first_term == second_term)
+        {
+            if(mp[first_term] > 1)
+            {
+                p1 = make_pair (first_term,second_term);
+                vec.push_back(p1);
+                mp[first_term] = mp[first_term] - 2;
+            }
+            
+        }
+        else if(first_term != second_term)
+        {
+            if((mp[first_term] > 0) && (mp[second_term] > 0))
+            {
+                p1 = make_pair (first_term,second_term);
+                vec.push_back(p1);
+                mp[first_term]--;
+                mp[second_term]--;
+                
+            }
+        }
+        
+            }
+    if(vec.empty())
+    {
+        p1 = make_pair (-1,-1);
+                vec.push_back(p1);
+        
+    }
+    return vec;
+}
+
+
+
+Choose the correct
+Send Feedback
+Which STL container is most suitable for maintaining the frequency of all the elements?
+Options
+This problem has only one correct answer
+Set
+Vector
+Map - answer
+Stack
+Hurray! Correct Answer
+Solution Description
+Map stores key-value pairs. Here the element and its frequency can be mapped with key and value respectively. 
+
+
+
