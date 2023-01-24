@@ -740,8 +740,9 @@ long closestPair(pair<int, int>* coordinates, int n)
     
 }
     
-    
-        
+Solve this:
+https://codeforces.com/problemset/problem/799/B 
+https://codeforces.com/problemset/problem/545/D
     
     
     
