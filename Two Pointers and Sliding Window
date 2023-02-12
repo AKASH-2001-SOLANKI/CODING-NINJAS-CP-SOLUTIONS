@@ -1,0 +1,627 @@
+Max Sum of K Consecutive Elements
+Send Feedback
+You have been given an array/list of ‘N’ integers. Now you are supposed to find the K-th largest sum of the subarray.
+Please note that a subarray is the sequence of consecutive elements of the array.
+Input Format :
+The first line contains an integer ‘T’ denoting the number of test cases. Then each test case follows.
+The first input line of each test case contains two space-separated integers ‘N’ and ‘K’.
+The second input line of each test case contains ‘N’ space-separated integers denoting the elements of the given array.
+Output Format :
+For each test case, print the K-th largest sum subarray.
+
+The output of each test case will be printed in a separate line.
+
+Note: You are not required to print the expected output; it has already been taken care of. Just implement the function.
+Constraints :
+1 <= T <= 50
+1 <= N <= 100
+1 <= K <= (N * (N + 1)) / 2
+-1000 <= ARR[i] <= 1000
+
+Where ‘T’ is the number of test cases, ‘N’ is the length of the given array/list, ‘K’ is the given integer and ARR[i] denotes the i-th element of the given array/list.
+
+Time limit: 1 sec
+Sample Input 1 :
+2
+3 3
+3 -2 5
+2 2
+4 1
+Sample output 1 :
+3
+4
+Explanation of Sample output 1 :
+For the first test case, 
+Sum of [0, 0] = 3
+Sum of [0, 1] = 1
+Sum of [0, 2] = 6
+Sum of [1, 1] = -2
+Sum of [1, 2] = 3
+Sum of [2, 2] = 5
+All sum of subarrays are {6, 5, 3, 3, 1, -2} where the third largest element is 3.
+
+For the second test case, 
+Sum of [0, 0] = 4
+Sum of [0, 1] = 5
+Sum of [1, 1] = 1
+All sum of subarrays are {5, 4, 1} where the second largest element is 4.
+Sample Input 2 :
+2
+4 10
+5 4 -8 6
+3 1
+1 2 3
+Sample output 2 :
+-8
+6
+Explanation of Sample output 2 :
+For the first test case, among the sum of all the subarray, the tenth-largest sum will be -8.
+
+For the second test case, among the sum of all the subarray, the largest sum will be 6.
+
+
+#include <bits/stdc++.h>
+int getKthLargest(vector<int> &arr, int k)
+{
+	int n = arr.size();
+
+	//	To store the subarray sum of every possible subarray.
+	vector<int> bin;
+
+	for (int i = 0; i < n; i++)
+	{
+		//	Stores the subarray sum.
+		int sum = 0;
+		for (int j = i; j < n; j++)
+		{
+			sum = sum + arr[j];
+			bin.push_back(sum);
+		}
+	}
+
+	//	Sort in non-increasing order.
+	sort(bin.begin(), bin.end(), greater<int>());
+
+	return bin[k - 1];
+}
+
+
+Choose the correct
+Send Feedback
+Which of the following is the correct transition equation of the sliding window technique in the maximum sum subarray of length k?
+Options
+This problem has only one correct answer
+current_sum= current_sum + arr[i] - arr[i-k-1];
+current_sum= current_sum + arr[i] - arr[i-k]; - answer
+current_sum= current_sum + arr[i+1] - arr[i-k+1];
+current_sum= current_sum + arr[i+1] -arr[i-1];
+Hurray! Correct Answer
+Solution Description
+As we slide the window towards the right, the ith element comes inside the window and the element which was at the end of the window of size k (index i-k) goes out hence the sum of the current window become current_sum = current_sum + arr[i] - arr[i-k];  
+
+
+
+
+2 Sum
+Send Feedback
+You are given an array of integers 'ARR' of length 'N' and an integer Target. Your task is to return all pairs of elements such that they add up to Target.
+Note:
+We cannot use the element at a given index twice.
+Follow Up:
+Try to do this problem in O(N) time complexity. 
+####Input Format:
+
+The first line of input contains an integer ‘T’ denoting the number of test cases to run. Then the test case follows.
+
+The first line of each test case contains two single space-separated integers ‘N’ and ‘Target’ denoting the number of elements in an array and the Target, respectively.
+
+The second line of each test case contains ‘N’ single space-separated integers, denoting the elements of the array.
+Output Format :
+For each test case, print a single line containing space-separated integers denoting all pairs of elements such that they add up to the target. A pair (a, b) and (b, a) is the same, so you can print it in any order.
+
+Each pair must be printed in a new line. If no valid pair exists, print a pair of (-1, -1). Refer to sample input/output for more clarity.
+Note:
+You do not need to print anything; it has already been taken care of. Just implement the given function.
+Constraints:
+1 <= T <= 100
+1 <= N <= 5000
+-10 ^ 9 <= TARGET <=10 ^ 9
+-10 ^ 9 <= ARR[i] <=10 ^ 9
+
+Where 'T' denotes the number of test cases, 'N' represents the size of the array, 'TARGET' represents the sum required, and 'ARR[i]' represents array elements.
+
+Time Limit: 1 sec.
+Sample Input 1 :
+2
+4 9
+2 7 11 13
+5 1
+1 -1 -1 2 2
+Sample Output 1:
+2 7
+-1 2
+-1 2
+Explanation for Sample 1:
+For the first test case, we can see that the sum of  2 and 7 is equal to 9 and it is the only valid pair.
+
+For the second test case, there are two valid pairs (-1,2) and (-1,2), which add up to 1.
+Sample Input 2 :
+1
+4 16
+2 7 11 13
+Sample Output 2 :
+-1 -1
+#include <unordered_map>
+#include <utility>
+#include <algorithm>
+vector<pair<int,int>> twoSum(vector<int>& a, int x, int n)
+{
+    unordered_map <int,int> mp;
+    pair <int,int> p1;
+    vector<pair<int,int>> vec;
+    for(int i = 0 ; i < n ; i++)
+    {
+        mp[a[i]]++;                             //doubt---itr->first or itr.first, kissay kab use karangay
+    }
+    
+    for(int i = 0 ; i < n ; i++)
+    {
+        int first_term = a[i];
+        int second_term = (x - a[i]);
+                                             // koi tareeka hai ki hum issay map say bhi iterate krkay kr skay
+        if(first_term == second_term)
+        {
+            if(mp[first_term] > 1)
+            {
+                p1 = make_pair (first_term,second_term);
+                vec.push_back(p1);
+                mp[first_term] = mp[first_term] - 2;
+            }
+            
+        }
+        else if(first_term != second_term)
+        {
+            if((mp[first_term] > 0) && (mp[second_term] > 0))
+            {
+                p1 = make_pair (first_term,second_term);
+                vec.push_back(p1);
+                mp[first_term]--;
+                mp[second_term]--;
+                
+            }
+        }
+        
+            }
+    if(vec.empty())
+    {
+        p1 = make_pair (-1,-1);
+                vec.push_back(p1);
+        
+    }
+    return vec;
+}
+
+Range of target sum
+Send Feedback
+What is the range of the valid target sum of the following array?(target sum = sum of pair)
+   Arr = [7,2,5,2,6,1,9,3,1]
+Options
+This problem has only one correct answer
+3<= target sum<= 18
+3< target sum< 18
+2<= target sum<= 16 - answer
+2< target sum< 16
+Hurray! Correct Answer
+Solution Description
+If we sort the array, we will get[1,1,2,2,3,5,6,7,9]. From this, we can easily see that the minimum sum which we can get from two numbers is 2 (first two 1+1) and the maximum sum which we can get is 16 (last two 9+7). 
+
+
+
+Longest Substring with Atmost Two Distinct Characters
+Send Feedback
+You are given a string ‘S’, you need to find the length of the longest substring that contains at most two distinct characters.
+Note:
+A string ‘B’ is a substring of a string ‘A’ if ‘B’ that can be obtained by deletion of, several characters(possibly none) from the start of ‘A’ and several characters(possibly none) from the end of ‘A’. 
+Follow up :
+Can you try to solve this problem in O(N) time and O(1) space.
+Example :
+If ‘S’ = “ninninja”
+
+Then, “ninnin” is the longest substring that contains at most two distinct characters. We will print the length of this substring which is equal to 6.
+Input Format :
+The first line contains a single integer ‘T’ denoting the number of test cases, then each test case follows:
+
+The first line of each test case contains a string ‘S’, denoting the input string.
+Output Format :
+For each test case, print the length of the longest substring containing at most two distinct characters.
+
+Output for each test case will be printed in a separate line.
+Note :
+You are not required to print anything; it has already been taken care of. Just implement the function.
+Constraints :
+1 ≤ T ≤ 10      
+1 ≤ |S| ≤ 1000
+Where 'S' contains lowercase English alphabets
+
+Time limit: 1 sec
+Sample Input 1 :
+2
+ninninja
+aaa
+Sample Output 1 :
+6
+3
+Explanation For Sample Input 1 :
+For test case 1 :
+We will print 6 because:
+“ninnin” is the longest substring containing at most two distinct characters.
+
+For test case 2 : 
+We will print 3 because:
+The given string “aaa” itself contains a single character, therefore the longest substring will itself be “aaa”.
+Sample Input 2 :
+2
+ninjacoder
+abbadca
+Sample Output 2 :
+3
+4
+#include <vector>
+#include <bits/stdc++.h>
+
+int countDistinct(vector<int> &freq)
+{
+
+    int distinct = 0;
+    for (int i = 0; i < 26; i++)
+    {
+        if (freq[i])
+        {
+            distinct++;
+        }
+    }
+
+    return distinct;
+}
+
+int lengthOfLongestSubstring(string s)
+{
+ 
+    int ans = 0, k = 2;
+    int n = s.size();
+    int low = 1, high = n;
+    while (low <= high)
+    {
+        int mid = low + (high - low) / 2;
+        bool possible = false;
+        vector<int> freq(26, 0);
+        for (int i = 0; i < mid; i++)
+        {
+            freq[s[i] - 'a']++;
+        }
+
+        possible |= (countDistinct(freq) <= k);
+        for (int i = mid; i < n; i++)
+        {
+            freq[s[i] - 'a']++;
+            freq[s[i - mid] - 'a']--;
+            possible |= (countDistinct(freq) <= k);
+        }
+        if (possible)
+        {
+            ans = max(ans, mid);
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    return ans;
+}
+
+
+
+Worst case
+Send Feedback
+Which of the following is the worst case scenario for finding the longest substring with at most 2 distinct characters using two pointer technique (in terms of time-complexity)?
+Options
+This problem has only one correct answer
+abcabcabcabc… - answer
+abababababab…
+aabbccaabbcc…
+aaaaaaaaaaa….
+Hurray! Correct Answer
+Solution Description
+We will start moving our second pointer as soon as the number of distinct characters in between the two pointers becomes equal to 3.
+
+
+
+
+Reverse Words In A String
+Send Feedback
+You are given a string of length N. You need to reverse the string word by word. There can be multiple spaces between two words and there can be leading or trailing spaces but in the output reversed string you need to put a single space between two words, and your reversed string should not contain leading or trailing spaces.
+For example :
+If the given input string is "  Welcome to   Coding  Ninjas", then you should return "Ninjas Coding to Welcome" as the reversed string has only a single space between two words and there is no leading or trailing space.
+Input Format :
+The first line of input contains a single integer T, representing the number of test cases or queries to be run. 
+Then the T test cases follow.
+
+The first and only one of each test case contains a string that you need to reverse word by word.
+Output Format :
+For every test case, print the reversed string such that there should be only one space between two strings and there should not be any trailing space.
+Note :
+Do not print anything. It has already been taken care of.
+
+If the string data type is immutable in your language, consider using a mutable data type as an alternative.
+Follow-up:
+If the string data type is mutable in your language, can you solve it in place with O(1) extra space?
+Constraints :
+1 <= T <= 50
+0 <= N <= 10^5
+
+Time Limit: 1 sec
+Sample Input 1 :
+2
+Welcome   to Coding Ninjas
+   I am   a    star
+Sample Output 1:
+Ninjas Coding to Welcome
+star a am I
+Explanation For Sample Input 1:
+In the first test case, you need to reduce multiple spaces between two words to a single space in the reversed string and observe how the multiple spaces, leading and trailing spaces have been removed.
+
+In the second test case, Your reversed string should not contain leading or trailing spaces.
+Sample Input 2 :
+1
+Hello  World!!
+Sample Output 2:
+World!! Hello
+
+#include<bits/stdc++.h>
+string reverseString(string s)
+{
+    // Write your code here.
+  vector<string> str;
+        int len= s.length();
+        int c=0;
+        while(s[c]==' ' && c<len){
+            c++;
+        }
+        //gets to the first letter of the first world
+        
+    string string1="";
+        bool space= false;
+        
+        
+        for(int i=c;i<len ;){
+            if(!space){
+                while( i<len && s[i] != ' ' ){
+                string1+=s[i];
+                i++;}
+                if(i<len && s[i]==' ')
+                    space=true;
+            str.push_back(string1);
+                string1="";
+                
+                
+            }
+            
+            if (space) {
+                while( i<len && s[i]==' ' )
+                    i++;
+
+             space=false;
+                }
+        }
+        
+        string ans="" ;
+        // reversing the order of words 
+        for(int i=str.size()-1;i>0;i--)
+            ans+=str[i]+" ";
+        ans+=str[0];
+        return ans;
+}
+
+
+
+
+Container With Most Water
+Send Feedback
+Given a sequence of ‘N’ space-separated non-negative integers A[1],A[2],A[3],......A[i]…...A[n]. Where each number of the sequence represents the height of the line drawn at point 'i'. Hence on the cartesian plane, each line is drawn from coordinate ('i',0) to coordinate ('i', 'A[i]'), here ‘i’ ranges from 1 to ‘N’. Find two lines, which, together with the x-axis forms a container, such that the container contains the most area of water.
+Note :
+1. You can not slant the container i.e. the height of the water is equal to the minimum height of the two lines which define the container.
+
+2. Do not print anything, you just need to return the area of the container with maximum water.
+Example
+water-diagram
+
+For the above Diagram, the first red marked line is formed between coordinates (2,0) and (2,10), and the second red-marked line is formed between coordinates (5,0) and (5,9). The area of water contained between these two lines is (height* width) = (5-2)* 9 = 27, which is the maximum area contained between any two lines present on the plane. So in this case, we will return 3* 9=27.
+Input format :
+The first line of input contains an integer ‘T’ denoting the number of test cases.
+
+The next ‘2*T’ lines represent the ‘T’ test cases.
+
+The first line of each test case contains the number of elements in the sequence.
+
+The second line of each test case contains ‘n’ space-separated integers which is the given sequence.
+Output format :
+For every test case return the area of the container which can hold the maximum amount of water using any pair of lines from the given sequence.
+Constraints:
+1 <= T <= 50
+0 <= N <= 10^4
+1 <= A[i] <= 10^5
+
+Time Limit: 1 sec
+Sample Input 1 :
+2
+5
+4 3 2 1 4
+3
+1 2 1
+Sample Output 1 :
+16
+2 
+Explanation of The Sample Input 1:
+For the first case: 
+We can create ‘n(n+1)/2’ different containers using ‘N' containers for example with 1st and 3rd line we can create a container of area = (3-1)*min(4,2)=4.
+
+All Possible Containers:  
+
+
+Lines used          Area
+4,3         area=min(4,3)*1=3
+4,2         area=min(4,2)*2=4
+4,1         area=min(4,1)*3=3
+4,4         area=min(4,4)*4=16
+3,2         area=min(3,2)*1=2
+3,1         area=min(3,1)*2=2
+3,4         area=min(3,4)*3=9
+2,1         area=min(2,1)*1=1
+2,4         area=min(2,4)*2=4
+1,4         area=min(1,4)*1=1
+
+
+But among all such containers the one with the maximum area will be formed by using the first and last line, the area of which is : (5-1)*min(4,4)=16.
+
+Hence we return 16.
+
+For the second case: 
+We can take the first and third line to get an area of (3-1)*min(1,1)=2 which is the maximum possible area in this sequence.
+Sample Input 2 :
+2
+5
+12 4 6 8 1
+3
+1 2 3
+Sample Output 2 :
+24
+2
+
+/*
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+
+    Where 'n' is the number of elements in the sequence.
+*/
+int maxArea(vector<int>& height) {
+    // Variable to store overall maximum area. Initially -1.
+    int globalArea = -1;
+
+    int startIndex = 0, endIndex = height.size() - 1;
+    while (startIndex < endIndex) {
+        // Minimum height calcuted to find the area.
+        int minHeight = min(height[startIndex], height[endIndex]);
+
+        globalArea = max(globalArea, (endIndex - startIndex) * minHeight);
+
+        // If the start index has a smaller value than min height try to find a bigger value.
+        if (height[startIndex] <= minHeight) {
+            startIndex++;
+        } else {
+            // Otherwise, try to find a bigger value for end index.
+            endIndex--;
+        }
+    }
+    return globalArea;
+}
+
+
+
+Longest Sub-string with at most K Distinct Characters
+Send Feedback
+You are given string S of length N, and an integer K. Your task is to find the length of the longest substring that contains at most K distinct characters.
+Input Format:
+The first line contains an Integer 'T' which denotes the number of test cases/queries to be run. 
+Then the test cases follow. 
+
+The first line of input for each test case/query contains an integer K.
+
+The second line of input for each test case/query contains a string S.
+Output Format:
+For each test case, print the length of the longest substring that contains at most K distinct characters.
+
+Output for every test case will be printed in a separate line.
+Note:
+You do not need to print anything, it has already been taken care of. Just implement the function.
+Constraints:
+1 <= T <= 10
+1 <= K <= 26
+1 <= N <= 10^4
+
+Time Limit: 1sec
+Sample Input 1:
+2
+2
+abcba
+1
+abccc
+Sample Output 1:
+3
+3
+Explanation of the Sample Input1:
+Test Case 1:
+K = 2 in the first test case so we can choose substring ‘bcb’ having 2 distinct characters which are less than equal to K=2. 
+We cannot get any other substring of length 4 or greater having distinct characters less than equal to 2.
+Test Case 2:
+K = 1 in the second test case so we can choose substring ‘ccc’ having only 1 distinct character which is less than equal to K=1. 
+We cannot get any other substring of length 4 or greater having distinct characters less than equal to 1.
+
+/*
+    Time Complexity : O(N * Log(N))
+    Space Complexity : O(1)
+
+    Where N is the size of the string.
+*/
+
+#include <vector>
+
+int countDistinct(vector<int> &freq)
+{
+
+    int distinct = 0;
+    for (int i = 0; i < 26; i++)
+    {
+        if (freq[i])
+        {
+            distinct++;
+        }
+    }
+
+    return distinct;
+}
+
+int getLengthofLongestSubstring(int k, string s)
+{
+    int ans = 0;
+    int n = s.size();
+    int low = 1, high = n;
+    while (low <= high)
+    {
+        int mid = low + (high - low) / 2;
+        bool possible = false;
+        vector<int> freq(26, 0);
+        for (int i = 0; i < mid; i++)
+        {
+            freq[s[i] - 'a']++;
+        }
+
+        possible |= (countDistinct(freq) <= k);
+        for (int i = mid; i < n; i++)
+        {
+            freq[s[i] - 'a']++;
+            freq[s[i - mid] - 'a']--;
+            possible |= (countDistinct(freq) <= k);
+        }
+        if (possible)
+        {
+            ans = max(ans, mid);
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    return ans;
+}
