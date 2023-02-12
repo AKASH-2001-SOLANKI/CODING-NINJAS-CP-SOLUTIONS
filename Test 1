@@ -1,0 +1,141 @@
+Determine the data structure
+Send Feedback
+Which data structure is used in the implementation of the map?
+Options
+This problem has only one correct answer
+Linked list
+Heap
+Red-black Tree - answer
+Hash table
+Hurray! Correct Answer
+Solution Description
+Implementation of STL map is based on Self-balancing BST and the red-black tree is an example of this.
+
+
+Time complexity
+Send Feedback
+What will be the time complexity of the following code?
+for(int i=0;i<n;i++){
+    i*=k;
+}
+Options
+This problem has only one correct answer
+O(n)
+log(n) base k - answer
+O(k)
+log(k) base n
+Hurray! Correct Answer
+Solution Description
+Every time when the loop runs value of i becomes k times + 1.  And it will keep increasing as long as i is smaller than n. Therefore T(n) = logk(n)
+
+
+
+Time complexity
+Send Feedback
+What will be the time complexity of the following code?
+int fun(int n)
+{
+ int count = 0;
+ for (int i = n; i > 0; i /= 2){
+ for (int j = 0; j < i; j++){
+    count += 1;
+    }
+ }
+return count;
+}
+Options
+This problem has only one correct answer
+O(n^2)
+O(n*log(n))
+O(n) - answer
+O(n*log(log(n)))
+Hurray! Correct Answer
+Solution Description
+For an input integer n, the innermost statement of fun() is executed following times.
+n + n/2 + n/4 + … 1.
+So time complexity T(n) can be written as
+T(n) = O(n + n/2 + n/4 + … 1) = O(n)
+
+
+
+Time complexity
+Send Feedback
+What is the time complexity of the following code?
+
+vector<int>vect;
+
+for(int i=0;i<n;i++){
+vect.insert(vect.begin(),1);
+}
+Options
+This problem has only one correct answer
+O(n)
+O(n*log(n))
+O(n^2) - answer
+O(1)
+Hurray! Correct Answer
+Solution Description
+We are running a for loop from 0 to n – 1 and in the loop, we are using an insert function to insert ‘1’ in the vector the time taken by this inbuilt insert function is O(n) where n is the number of the elements already present in the vector. 
+When the loop is executed for the first time, the insert function will make 1 operation after that there is an element. Therefore, it will take 2 operations and the series will go like 1 2 3 4 …n. When we add this, it will become 1+2+3…n= (n*(n+1))/2. Hence the time complexity is O(n^2).
+
+
+
+
+Predict the output
+Send Feedback
+What does the following function do?
+int fun(int x, int y)
+{
+if (y == 0)   return 0;
+return (x + fun(x, y-1));
+}
+Options
+This problem has only one correct answer
+x+y
+x+x*y
+x*y - answer
+x^y
+Hurray! Correct Answer
+Solution Description
+Every time when the function executes it adds x and calls itself again of a smaller value of y. This process will keep going until y becomes 0, therefore, we can say that it will execute y times and every time it will add x. 
+x+x+x..x(y times) = x*y
+
+
+
+
+Remove Duplicates
+Send Feedback
+Given a string S, remove consecutive duplicates from it recursively.
+Input Format :
+String S
+Output Format :
+Output string
+Constraints :
+1 <= |S| <= 10^3
+where |S| represents the length of string
+Sample Input 1 :
+aabccba
+Sample Output 1 :
+abcba
+Sample Input 2 :
+xxxyyyzwwzzz
+Sample Output 2 :
+xyzwz
+void removeConsecutiveDuplicates(char * S) {
+    if(S[0] == '\0')
+        return;
+    
+    if(S[0] == S[1])
+    {
+        int i = 0;
+        while(S[i] != '\0')
+        {
+            S[i] = S[i + 1];
+                i++;
+        }
+        removeConsecutiveDuplicates(S);
+        
+    }
+     removeConsecutiveDuplicates(S + 1);
+    
+}
