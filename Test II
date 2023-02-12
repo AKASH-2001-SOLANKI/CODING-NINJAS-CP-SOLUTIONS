@@ -1,0 +1,386 @@
+Party Over
+Send Feedback
+Ninja is coming after a long party to his home, but he faces a monster while returning. Monster puts up a condition to Ninja in order to free him. The monster gives him ‘n’ strings and asks him to sort them. However, he adds an extra condition to him.
+Since the monster knows that Ninja could do it easily, the monster wants him to sort them using the last letter of each string. If there are strings with the same last character, sort them based on their second last character and so on.
+Ninja gets totally confused, he asks you to solve the problem. Can you help Ninja figure out the correct order of strings?
+Input Format:
+The first line of input contains an integer ‘T,’ denoting the number of test cases. The test cases follow.
+
+The first line of each test case contains a number ‘n’ denoting the number of strings.
+
+The second line of each test case contains ‘n’ space-separated strings that the monster gave to Ninja.
+Output Format:
+For each test case, print the strings sorted according to the last character.
+
+Print the output of each test case in a separate line.
+Note:
+You are not required to print the expected output; it has already been taken care of. Just implement the function.
+Constraints:
+1 <= T <= 10
+1 <= n <= 10^3
+1 <= size of string <= 10^2
+
+Where 'T’ is the number of test cases, ‘n’ denotes the number of strings
+
+Time Limit: 1 sec
+Sample Input 1:
+2
+5
+abc abd aba xyb cdg
+3
+jog oop nop
+Sample Output 1:
+aba xyb abc abd cdg
+jog nop oop
+Explanation for Sample Input 1:
+In the first test case, the given strings are [“abc”,”abd”,”xyb”,”cdg”], the last character of strings are: ‘c’,’d’,’a’,’b’,’g’. So their sorted order is: ‘a’,’b’,’c’,’d’,’g’. Hence the sorted order of strings are:“aba”,”xyb”,”abc”,”abd”,”cdg”.
+
+In the second test case, the given strings are [“jog”,”nop”,”oop”] the last characters of strings are: ‘g’,’p’,’p’.So their sorted order is : ‘g’,’p’,’p’. As we can see for strings “oop” and “nop”, their last character matches; we need to check from the second previous character till we find a mismatched character and sort them accordingly. Hence the sorted order of strings are: “jog”,” nop”,” oop”.
+Sample Input 2:
+2
+4
+truck bus car auto
+3
+teacher student headmaster
+Sample Output 2:
+truck auto car bus
+teacher headmaster student
+Explanation for Sample Input 2:
+In the first test case, the given strings are [“truck”,”bus”,”car”,”auto”], the last character of strings are: ‘k’,’s’,’r’,’o’.So their sorted order is: ‘k’,’o’,’r’,’s’’. Hence the sorted order of strings are:“truck”,”auto”,”car”,”bus”.
+
+In the second test case, the given strings are [“teacher”,”student”,”headmaster”] the last characters of strings are: ‘r’,’t’,’r’.So their sorted order is : ‘r’,’r’,’t’. As we can see for strings “teacher” and “headmaster”, their last character matches; we need to check from the second previous character till we find a mismatched character and sort them accordingly. Hence the sorted order of strings are: “teacher”,” headmaster”,”student”.
+
+/*
+    Time Complexity: O(N*K*log(N*K)))
+    Space Complexity: O(1)
+
+    Where 'N' denotes the number of strings and 'K' is the maximum length of the strings.
+
+*/
+
+// Comparator function to sort the strings
+bool cmp(string & a, string & b) {
+  int n = a.size();
+  int m = b.size();
+
+  int flag = 0;
+
+  // Traverse till the minimum size of both the strings
+  for (int i = 0; i < min(a.size(), b.size()); i++) {
+
+    // If the last character of both the strings matches, do nothing
+    if (a[n - i - 1] == b[m - i - 1]) {
+      continue;
+    } else
+    // If the last character differs then sort according to the lexicographically smaller character
+    {
+      flag = 1;
+      return a[n - i - 1] < b[m - i - 1];
+    }
+  }
+
+  // Sort according to the lexicographically smaller sized string if the all character matches between two strings
+  if (flag == 0) {
+    return a.size() < b.size();
+  }
+}
+vector < string > ninjaParty(vector < string > & arr) {
+  int n = arr.size();
+
+  // Sort the array of strings using a comparator function "cmp"
+  sort(arr.begin(), arr.end(), cmp);
+
+  // Return the array of strings after sorting operation is performed
+  return arr;
+}
+
+
+3Sum
+Send Feedback
+You are given an array/list ARR consisting of N integers. Your task is to find all the distinct triplets present in the array which adds up to a given number K.
+An array is said to have a triplet {ARR[i], ARR[j], ARR[k]} with sum = 'K' if there exists three indices i, j and k such that i!=j, j!=k and i!=j and ARR[i] + ARR[j] + ARR[k] = 'K'.
+Note:
+1. You can return the list of values in any order. For example, if a valid triplet is {1, 2, -3}, then {2, -3, 1}, {-3, 2, 1} etc is also valid triplet. Also, the ordering of different triplets can be random i.e if there are more than one valid triplets, you can return them in any order.
+2. The elements in the array need not be distinct.
+3. If no such triplet is present in the array, then return an empty list, and the output printed for such a test case will be "-1".
+Input Format:
+The first line of the input contains an integer T, denoting the number of test cases.
+
+The first line of each test case contains the integer N, denoting the size of the array.
+
+The second line of each test case contains N space-separated integers denoting the array elements.
+
+The third line of each test case contains the integer K, denoting the required sum for each triplet.
+Output Format:
+For each test case, every line of output contains three spaced integers denoting a valid triplet as described in the statement. Refer to sample input 2 for more clarification.
+Note :
+You do not need to print anything, it has already been taken care of. Just implement the given function.
+Constraints:
+1 <= T <=  50
+1 <= N <= 10^3  
+-10^6 <= ARR[i] <= 10^6
+-10^9 <= K <= 10^9
+
+Time Limit: 1 sec
+Sample Input 1:
+1
+5
+10 5 5 5 2
+12
+Sample Output 1:
+5 5 2
+Explanation for Sample Input 1:
+5 5 2 is the only triplet that adds up to 15. Note that the order of the output doesn’t matter, so 5 2 5 or 2 5 5 is also acceptable.
+Sample Input 2:
+3
+6
+1 2 3 1 2 3
+6
+4
+1 2 3 4 
+11
+6
+1 1 2 2 1 1
+4
+Sample Output 2:
+1 2 3
+-1
+1 1 2
+Explanation for Sample Input 2:
+In the first input, (1, 2, 3) is the only unique triplet that adds up to six.
+
+In the second input, since there are no such triplets, we print -1.
+
+For the third input, the only distinct triplet is (1, 1, 2), so just print 1 1 2.
+
+/*
+
+    Time Complexity: O(N^2)
+    Space Complexity: O(1)
+
+    Where N is the number of elements in the array.
+
+*/
+
+vector<vector<int>> findTriplets(vector<int>arr, int n, int K) {
+    vector<vector<int>>ans;
+    // Sorting the vector.
+    sort(arr.begin(), arr.end());
+
+    for (int i = 0; i < n; i++) {
+        int target = K - arr[i];
+        int front = i + 1;
+        int back = n - 1;
+
+        while (front < back) {
+            int sum = arr[front] + arr[back];
+
+            // Finding answer which starts from arr[i].
+            if (sum < target) {
+                front++;
+            }
+
+            else if (sum > target) {
+                back--;
+            }
+
+            else {
+                int x = arr[front];
+                int y = arr[back];
+                ans.push_back({arr[i], arr[front], arr[back]});
+
+                // Incrementing front pointer until we reach a different number.
+                while (front < back && arr[front] == x) {
+                    front++;
+                }
+                // Decrementing last pointer until we reach a different number.
+                while (front < back && arr[back] == y) {
+                    back--;
+                }
+            }
+        }
+
+        // Ensuring that we don't encounter duplicate values for arr[i].
+        while (i + 1 < n && arr[i] == arr[i + 1]) {
+            i++;
+        }
+    }
+    return ans;
+}
+
+
+Maximum activities
+Send Feedback
+You are given N activities with their start time Start[] and finish time Finish[]. You need to tell the maximum number of activities a single person can perform.
+Note:
+A person can only work on a single activity at a time. The start time of one activity can coincide with the end time of another.
+Input format:
+The first line contains an integer 'T' denoting the number of test cases or queries to be run. 
+
+The first line of each test case or query contains a single integers 'N' denoting the number of activities. 
+
+The second line of each test case contains N single space-separated integers denoting the starting time of N activities respectively.
+
+The third line of each test case contains N single space-separated integers denoting the finishing time of N activities respectively.
+Output Format:
+For each test case, print the maximum number of activities a single person can perform.
+Constraints:
+1 <= T <= 5
+1 <= N <= (10^5)
+0 <= Start[i] < Finish[i] <= (10^9)
+
+Time Limit: 1 sec
+Sample Input 1:
+2
+4
+1 6 2 4 
+2 7 5 8 
+3
+1 1 1
+4 5 9
+Sample Output 1:
+3
+1
+Explanation For Sample Input 1:
+For test case 1: 
+A person can perform maximum of 3 activities, by performing the activities in the given order 1 - > 3 -> 2.
+
+For test case 2:
+As the starting of all the activities is the same, a person can perform a maximum of 1 activity.
+Sample Input 2:
+2
+4
+1 3 2 5
+2 4 3 6
+2
+1 2 
+6 3 
+Sample Output 2:
+4 
+1
+
+/*
+    Time Complexity: O(N * logN)
+    Space Complexity: O(N)
+
+    Where N is the number of activities.
+*/
+
+#include <algorithm>
+
+int maximumActivities(vector<int> &start, vector<int> &finish) {
+    int n = start.size();
+    vector<pair<int, int>> activity(n);
+
+    for (int i = 0; i < n; i++) {
+        activity[i].first = finish[i];
+        activity[i].second = start[i];
+    }
+
+    // Sort the meetings according to their Finishing Time.
+    sort(activity.begin(), activity.end());
+
+    int maxActivity = 1;
+    int currentTime = activity[0].first;
+
+    for (int i = 1; i < n; i++) {
+
+        // Find the next meeting available.
+        if (activity[i].second >= currentTime) {
+            maxActivity++;
+            currentTime = activity[i].first;
+        }
+    }
+    return maxActivity;
+}
+
+
+
+Two City Scheduling
+Send Feedback
+Ninja is planning to organize an exhibition in which ‘2N’ peoples are coming. The hall’s capacity in which the exhibition is going to take place is only ‘N’. So, ninja thinks of organizing two exhibitions in 2 different cities, ‘CITY_A’ and ‘CITY_B’, each of capacity ‘N’. All ‘2N’ people will come to the exhibition but in the group of ‘N’ in two different cities. Ninja wants your help in organizing this event.
+You are given an array ‘COST’ where “COST[i] = [COST_TO_Ai, COST_TO_Bi]”, in which ‘COST_TO_Ai’ is the cost of the ith person to fly to the city A, and ‘COST_TO_Bi’ is the cost of the ith person to fly to the city B. Your task is to find the minimum cost of organizing the exhibition in which every person flies to a city such that exactly ‘N’ people arrive in each city.
+Note:
+The intersection of the set of the persons who go to ‘CITY_A’ to those going to ‘CITY_B’ is to be disjoint set, whereas the union must be the ‘2N’.
+Input Format:
+The first line contains an integer ‘T’, which denotes the number of test cases to be run. Then, the 'T' test cases follow. 
+
+The first line of each test case contains a positive integer, ‘N’,  such that ‘2N’ is the number of people coming to the exhibition.
+
+The next ‘2N’ lines of each test case contain two integers, ‘COST_TO_Ai’, and ‘COST_TO_Bi’, as described in the problem statement.
+Note:
+The ‘COST’ will be passed to the function as an array of arrays. Each array will contain two integers, ‘COST_TO_Ai’, and ‘COST_TO_Bi’ in that order.
+Output Format:
+For each test case, return the minimum cost of organizing the exhibition, as described in the problem statement.
+Note:
+You do not need to print anything. It has already been taken care of. Just implement the given function.
+Constraints:
+1 <= T <= 10
+1 <= N <= 50
+COST.length == 2*N
+1 <= CostToAi, CostToBi <= 10^4
+
+Time Limit: 1sec
+Sample Input 1:
+1
+2
+5 100
+50 10
+10 200
+100 20
+Sample Output 1:
+45
+Explanation for sample input 1:
+The first person will go to City ‘A’ at the cost of 5.
+
+The second person will go to City ‘B’ at the cost of 10.
+
+The third person will go to City ‘A’ at the cost of 10.
+The last person will go to City ‘B’ at the cost of 20.
+So, the total minimum cost will be = 5 + 10 + 10 + 20 = 45. There is no other way to get the cost less than 45.
+Sample Input 2:
+1
+1
+200 200
+100 200
+Sample Output 2:
+300
+Explanation for sample input 2:
+The first person will go to City ‘B’ at the cost of 200.
+
+The second person will go to City ‘A’ at the cost of 100.
+So, the total minimum cost will be = 200 + 100 = 300. There is no other way to get the cost less than 300.
+
+/*
+    Time Complexity: O(N*logN)
+    Space Complexity: O(N),
+
+    where 'N' is the number of peoples in each city.
+*/
+
+int findMinCost(int n, vector<vector<int>> &cost)
+{
+    // Create a new vector that will contain the difference between the
+    // CostToB and the CostToA for each person.
+    vector<int> sendAtoB;
+    int totalCost = 0;
+    // Fill the sendAtoB vector, and send all persons to A.
+    for (int i = 0; i < 2 * n; i++)
+    {
+        sendAtoB.push_back(cost[i][1] - cost[i][0]);
+        totalCost += cost[i][0];
+    }
+
+    // Sort the vector.
+    sort(sendAtoB.begin(), sendAtoB.end());
+    // Send first N persons to City B from City A.
+    for (int i = 0; i < n; i++)
+    {
+        totalCost += sendAtoB[i];
+    }
+
+    return totalCost;
+}
+
+
+
