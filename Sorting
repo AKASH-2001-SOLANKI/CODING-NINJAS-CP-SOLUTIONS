@@ -1,0 +1,1109 @@
+Merge Sort
+Send Feedback
+Sort an array A using Merge Sort.
+Change in the input array itself. So no need to return or print anything.
+Input format :
+First line of input will contain T number of test cases
+First line of every input will contain a single integer N size of the input array.
+second line of each input will contain N space-separated integers.
+Output format :
+For every test case print, array elements in increasing order (separated by space) in a separate line.
+Constraints :
+1 <= T <= 10
+1 <= n <= 10^5
+Sample Input 1 :
+1
+6 
+2 6 8 5 4 3
+Sample Output 1 :
+2 3 4 5 6 8
+Sample Input 2 :
+1
+5
+2 1 5 2 3
+Sample Output 2 :
+1 2 2 3 5 
+
+//{ Driver Code Starts
+#include <stdio.h>
+#include <bits/stdc++.h>
+using namespace std;
+
+
+
+/* Function to print an array */
+void printArray(int arr[], int size)
+{
+    int i;
+    for (i=0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+
+// } Driver Code Ends
+class Solution
+{
+    public:
+    void merge(int array[], int const left, int const mid,
+           int const right)
+    {
+         auto const subArrayOne = mid - left + 1;
+    auto const subArrayTwo = right - mid;
+ 
+    // Create temp arrays
+    auto *leftArray = new int[subArrayOne],
+         *rightArray = new int[subArrayTwo];
+ 
+    // Copy data to temp arrays leftArray[] and rightArray[]
+    for (auto i = 0; i < subArrayOne; i++)
+        leftArray[i] = array[left + i];
+    for (auto j = 0; j < subArrayTwo; j++)
+        rightArray[j] = array[mid + 1 + j];
+ 
+    auto indexOfSubArrayOne
+        = 0, // Initial index of first sub-array
+        indexOfSubArrayTwo
+        = 0; // Initial index of second sub-array
+    int indexOfMergedArray
+        = left; // Initial index of merged array
+ 
+    // Merge the temp arrays back into array[left..right]
+    while (indexOfSubArrayOne < subArrayOne
+           && indexOfSubArrayTwo < subArrayTwo) {
+        if (leftArray[indexOfSubArrayOne]
+            <= rightArray[indexOfSubArrayTwo]) {
+            array[indexOfMergedArray]
+                = leftArray[indexOfSubArrayOne];
+            indexOfSubArrayOne++;
+        }
+        else {
+            array[indexOfMergedArray]
+                = rightArray[indexOfSubArrayTwo];
+            indexOfSubArrayTwo++;
+        }
+        indexOfMergedArray++;
+    }
+    // Copy the remaining elements of
+    // left[], if there are any
+    while (indexOfSubArrayOne < subArrayOne) {
+        array[indexOfMergedArray]
+            = leftArray[indexOfSubArrayOne];
+        indexOfSubArrayOne++;
+        indexOfMergedArray++;
+    }
+    // Copy the remaining elements of
+    // right[], if there are any
+    while (indexOfSubArrayTwo < subArrayTwo) {
+        array[indexOfMergedArray]
+            = rightArray[indexOfSubArrayTwo];
+        indexOfSubArrayTwo++;
+        indexOfMergedArray++;
+    }
+    delete[] leftArray;
+    delete[] rightArray;
+    }
+    public:
+    void mergeSort(int array[], int const begin, int const end)
+    {
+        if (begin >= end)
+        return; // Returns recursively
+ 
+    auto mid = begin + (end - begin) / 2;
+    mergeSort(array, begin, mid);
+    mergeSort(array, mid + 1, end);
+    merge(array, begin, mid, end);
+    }
+};
+
+//{ Driver Code Starts.
+
+
+int main()
+{
+    int n,T,i;
+
+    scanf("%d",&T);
+
+    while(T--){
+    
+    scanf("%d",&n);
+    int arr[n+1];
+    for(i=0;i<n;i++)
+      scanf("%d",&arr[i]);
+    Solution ob;
+    ob.mergeSort(arr, 0, n-1);
+    printArray(arr, n);
+    }
+    return 0;
+}
+// } Driver Code Ends
+
+
+Count Inversions
+Send Feedback
+For a given integer array/list 'ARR' of size 'N' containing all distinct values, find the total number of 'Inversions' that may exist.
+An inversion is defined for a pair of integers in the array/list when the following two conditions are met.
+A pair ('ARR[i]', 'ARR[j]') is said to be an inversion when:
+
+1. 'ARR[i] > 'ARR[j]' 
+2. 'i' < 'j'
+
+Where 'i' and 'j' denote the indices ranging from [0, 'N').
+Input format :
+The first line of input contains an integer 'N', denoting the size of the array.
+
+The second line of input contains 'N' integers separated by a single space, denoting the elements of the array 'ARR'.
+Output format :
+Print a single line containing a single integer that denotes the total count of inversions in the input array.
+Note:
+You are not required to print anything, it has been already taken care of. Just implement the given function.  
+Constraints :
+1 <= N <= 10^5 
+1 <= ARR[i] <= 10^9
+
+Where 'ARR[i]' denotes the array element at 'ith' index.
+
+Time Limit: 1 sec
+Sample Input 1 :
+3
+3 2 1
+Sample Output 1 :
+3
+Explanation of Sample Output 1:
+We have a total of 3 pairs which satisfy the condition of inversion. (3, 2), (2, 1) and (3, 1).
+Sample Input 2 :
+5
+2 5 1 3 4
+Sample Output 2 :
+4
+Explanation of Sample Output 1:
+We have a total of 4 pairs which satisfy the condition of inversion. (2, 1), (5, 1), (5, 3) and (5, 4).
+
+/*
+    Time Complexity : O(N*log(N))
+    Space Complexity : O(N)
+
+    Where, N is the size of the array.
+*/
+
+#include <vector>
+#include <algorithm>
+void fenwickUpdate(int index, int siz, vector<long long> &fenwick)
+{
+    while (index <= siz)
+    {
+        // Update the current element in the fenwick vector.
+        fenwick[index] += 1;
+
+        // Increase the index to the child index in the fenwick tree.
+        index = index + (index & (-index));
+    }
+}
+long long fenwickSum(int index, vector<long long> &fenwick)
+{
+    long long sum = 0;
+    while (index > 0)
+    {
+
+        // Add the value of current node in sum.
+        sum += fenwick[index];
+
+        // Move to the parent node of the current node.
+        index = index - (index & (-index));
+    }
+    return sum;
+}
+
+long long getInversions(long long *arr, int n) {
+
+    // Take a 2D vector to store the sorted array and their initial index.
+    vector<vector<int>> mapping(n, vector<int>(2));
+
+    vector<long long> fenwick(n + 1, 0), mask(n);
+
+    for (int i = 0; i < n; i++) {
+        mapping[i][0] = arr[i];
+        mapping[i][1] = i;
+    }
+
+    // Sort the mapping array and update all the permutations to mask vector.
+    sort(mapping.begin(), mapping.end());
+    for (int i = 0; i < n; i++) {
+        mask[mapping[i][1]] = i + 1;
+    }
+
+    long long answer = 0;
+    for (int i = n - 1; i >= 0; i--) {
+
+        // Calculate the number of elements greater than the current element.
+        answer += fenwickSum(mask[i] - 1, fenwick);
+
+        // Update the element that has been visited.
+        fenwickUpdate(mask[i], n, fenwick);
+    }
+    return answer;
+}
+
+
+
+Quick Sort
+Send Feedback
+Sort an array A using Quick Sort.
+Change in the input array itself. So no need to return or print anything.
+
+
+Input format :
+First line will contain T number of test case and each tet case will consist of two lines.
+Line 1 : Integer n i.e. Array size
+Line 2 : Array elements (separated by space)
+Output format :
+for every test case print rray elements in increasing order (separated by space) in a new line.
+Constraints :
+1 <= T <= 10
+1 <= n <= 10^5
+0 <= arr[i] <= 10^9
+Sample Input 1 :
+1
+6 
+2 6 8 5 4 3
+Sample Output 1 :
+2 3 4 5 6 8
+Sample Input 2 :
+1
+5
+1 5 2 7 3
+Sample Output 2 :
+1 2 3 5 7 
+
+/* C++ implementation of QuickSort */
+#include <bits/stdc++.h>
+using namespace std;
+
+// A utility function to swap two elements
+void swap(int* a, int* b)
+{
+	int t = *a;
+	*a = *b;
+	*b = t;
+}
+
+/* This function takes last element as pivot, places
+the pivot element at its correct position in sorted
+array, and places all smaller (smaller than pivot)
+to left of pivot and all greater elements to right
+of pivot */
+int partition(int arr[], int low, int high)
+{
+	int pivot = arr[high]; // pivot
+	int i
+		= (low
+		- 1); // Index of smaller element and indicates
+				// the right position of pivot found so far
+
+	for (int j = low; j <= high - 1; j++) {
+		// If current element is smaller than the pivot
+		if (arr[j] < pivot) {
+			i++; // increment index of smaller element
+			swap(&arr[i], &arr[j]);
+		}
+	}
+	swap(&arr[i + 1], &arr[high]);
+	return (i + 1);
+}
+
+/* The main function that implements QuickSort
+arr[] --> Array to be sorted,
+low --> Starting index,
+high --> Ending index */
+void quickSort(int arr[], int low, int high)
+{
+	if (low < high) {
+		/* pi is partitioning index, arr[p] is now
+		at right place */
+		int pi = partition(arr, low, high);
+
+		// Separately sort elements before
+		// partition and after partition
+		quickSort(arr, low, pi - 1);
+		quickSort(arr, pi + 1, high);
+	}
+}
+
+/* Function to print an array */
+void printArray(int arr[], int size)
+{
+	int i;
+	for (i = 0; i < size; i++)
+		cout << arr[i] << " ";
+	cout << endl;
+}
+
+// Driver Code
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+	int n;
+    cin>>n;
+    int *arr = new int[n];
+        for(int i = 0 ; i < n ; i++)
+        {
+            cin>>arr[i];
+        }
+	quickSort(arr, 0, n - 1);
+	printArray(arr, n);
+}
+}
+
+// This code is contributed by rathbhupendra
+
+
+
+Worst case
+Send Feedback
+When does the worst case of quick sort occur?
+Options
+This problem has only one correct answer
+when an array is unsorted and we pick either the first or last element as pivot.
+when an array has alternate greater and smaller elements.
+when an array is reversely sorted and we pick either of the first or last element as pivot. - answer
+when an array is reversely sorted and we pick the middle element as pivot.
+Hurray! Correct Answer
+Solution Description
+Because everytime the picked pivot is always at extremes.
+
+
+
+
+Stable sort
+Send Feedback
+Which of the following is a stable sorting algorithm?
+Options
+This problem has only one correct answer
+Merge sort - answer
+Selection sort
+Heap sort
+Quick sort
+Hurray! Correct Answer
+Solution Description
+fact
+
+
+Kth Smallest and Largest Element of Array
+Send Feedback
+You are given an array ‘Arr’ consisting of ‘N’ distinct integers and a positive integer ‘K’. Find out Kth smallest and Kth largest element of the array. It is guaranteed that K is not greater than the size of the array.
+Example:
+Let ‘N’ = 4,  ‘Arr’ be [1, 2, 5, 4] and ‘K’ = 3.  
+then the elements of this array in ascending order is [1, 2, 4, 5].  Clearly, the 3rd smallest and largest element of this array is 4 and 2 respectively.
+Input format:
+The first line of input contains an integer ‘T’ denoting the number of test cases.
+The next 2*T lines represent the ‘T’ test cases.
+
+The first line of each test case contains two space-separated integers  ‘N’ and ‘K’ respectively.
+
+The second line of the test case contains ‘N’ space-separated integers representing elements of the array ‘Arr’.
+Output format :
+For each test case, print a line consisting of two space-separated integers that represent the Kth smallest and Kth largest elements of the array.
+Note:
+You do not need to print anything, it has already been taken care of. Just implement the given function. In the given function, you need to return an array consisting of 2 integers, where the first integer gives Kth smallest element and the second integer gives the Kth largest element.
+Constraints:
+1 <= T <= 50
+1 <= N <= 10^4
+1 <= K <= N
+-10^9 <= Arr[i] <= 10^9
+
+Where ‘T’ is the total number of test cases, ‘N’ is the size of array ‘Arr’ and Arr[i] is the element of the given array.
+
+Time limit: 1 sec
+Sample Input 1:
+2
+4 4
+5 6 7 2
+4 3
+1 2 5 4
+Sample Output 1:
+7 2 
+4 2
+Explanation of Sample Input 1:
+Test case 1:
+Here, ‘N’ = 4, ‘Arr’ = [5, 6, 7, 2] and ‘K’ = 3.
+Elements of the array in ascending order are [2, 5, 6, 7]
+Thus the 4rd smallest and 4rd largest elements of this array are 7 and 2 respectively.
+
+Test case 2:
+See problem statement for an explanation.
+Sample Input 2:
+ 2
+ 1 1
+ 2
+ 5 1
+ 5 4 3 2 1
+Sample Output 2:
+ 2 2
+ 1 5
+ 
+ /*
+    Time complexity: O(N)
+    Space complexity: O(1)
+
+    Where ‘N’ is the size of the given array.
+*/
+
+int partition(vector<int> &arr, int left, int right, int pivotIndex) 
+{
+    int pivotValue = arr[pivotIndex];
+    
+    // Bring pivot element at the end of range.
+    swap(arr[pivotIndex], arr[right]); 
+
+    int current = left;
+    
+    for(int i = left; i < right; i++) 
+    {
+        if(arr[i] < pivotValue) 
+        {
+            swap(arr[current], arr[i]);
+            current++;
+        }
+    }
+    swap(arr[right], arr[current]);
+    
+    return current;
+}
+
+int quickSelect(vector<int> &arr, int left, int right, int k) 
+{
+    if(left == right)
+    {
+        // Size of array is 1.
+        return arr[left];
+    }
+    
+    // Note we can select Median as pivot to guaranteed O(N) complexity always.
+    int pivotIndex = left + rand() % (right-left+1);
+    
+    int partitionIndex = partition(arr, left, right, pivotIndex);
+
+    if(partitionIndex >= k)
+    {
+        // Recur for right subarray
+        return quickSelect(arr, left, partitionIndex-1, k);
+    }
+    
+    if(partitionIndex < k-1)
+    {
+        // Recur for left subarray.
+        return quickSelect(arr, partitionIndex+1, right, k);
+    }
+
+    return arr[partitionIndex];
+}
+
+vector<int> kthSmallLarge(vector<int> &arr, int n, int k)
+{
+    vector<int> result(2);
+    
+    // Kth smallest element
+    result[0] = quickSelect(arr, 0, n-1, k);
+    
+    // Kth largest element
+    result[1] = quickSelect(arr, 0, n-1, n-k+1);
+
+    return result;
+}
+
+
+
+Do counting sort
+
+
+
+Sort 0 1 2
+Send Feedback
+You are given an integer array/list(ARR) of size N. It contains only 0s, 1s and 2s. Write a solution to sort this array/list in a 'single scan'.
+'Single Scan' refers to iterating over the array/list just once or to put it in other words, you will be visiting each element in the array/list just once.
+Note:
+You need to change in the given array/list itself. Hence, no need to return or print anything. 
+Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+First line of each test case or query contains an integer 'N' representing the size of the array/list.
+
+Second line contains 'N' single space separated integers(all 0s, 1s and 2s) representing the elements in the array/list.
+Output Format :
+For each test case, print the sorted array/list elements in a row separated by a single space.
+
+Output for every test case will be printed in a separate line.
+Constraints :
+1 <= t <= 10^2
+0 <= N <= 10^5
+Time Limit: 1 sec
+Sample Input 1:
+1
+7
+0 1 2 0 2 0 1
+Sample Output 1:
+0 0 0 1 1 2 2 
+Sample Input 2:
+2
+5
+2 2 0 1 1
+7
+0 1 2 0 1 2 0
+Sample Output 2:
+0 1 1 2 2 
+0 0 0 1 1 2 2
+
+/*
+    Time Complexity : O(N)
+    Space Complexity : O(1)
+
+    Where N is the size of the array.
+*/
+
+#include <algorithm>
+
+void sort012(int *arr, int n)
+{
+    int i = 0;
+    int nextZero = 0;
+    int nextTwo = n - 1;
+
+    while (i <= nextTwo)
+    {
+        if (arr[i] == 0)
+        {
+            swap(arr[i], arr[nextZero]);
+            i++;
+            nextZero++;
+        }
+        else if (arr[i] == 2)
+        {
+            swap(arr[i], arr[nextTwo]);
+            nextTwo--;
+        }
+        else
+        {
+            i++;
+        }
+    }
+}
+
+
+Detect the error
+Send Feedback
+According to counting sort, which line is not correct?
+void solve()
+{
+  int n;
+  cin >> n;
+  vector<int> a(n);
+  for (int i = 0; i < n; i++)
+        cin >> a[i];
+  int maxi = *max_element(a.begin(), a.end());
+  int mini = *min_element(a.begin(), a.end());
+  vector<int> f(maxi - mini + 2);//Statement A
+
+  for (int i = 0; i < n; i++)
+  {
+        f[(a[i] - mini)++];//Statement B
+  }
+
+  for (int i = 0; i < f.size(); i++)
+  {
+        for (int j = 0; j < f[i]; j++)
+        {
+              cout << (i + mini) << " ";// Statement C
+        }
+  }
+}
+Options
+This problem has only one correct answer
+Statement A
+Statement B - answer
+Statement C
+None of these
+Hurray! Correct Answer
+Solution Description
+Correct statement should be f[(a[i]-mini)]++
+
+
+
+https://www.codechef.com/problems/CHEFRES
+https://www.codechef.com/ZCOPRAC/problems/ZCO15002
+
+
+Sort an array in wave form
+Send Feedback
+You have been given an unsorted array ‘ARR’.
+Your task is to sort the array in such a way that the array looks like a wave array.
+Example:
+If the given sequence ‘ARR’ has ‘N’ elements then the sorted wave array looks like - 
+‘ARR[0] >= ARR[1]’ and ‘ARR[1] <= ARR[2]’
+‘ARR[2] >= ARR[3]’ and ‘ARR[3] <= ARR[4]’
+‘ARR[4] >= ARR[5]’ and ‘ARR[5] <= ARR[6]’  And so on.
+Note:
+1. ‘ARR[0]’ must be greater than or equal to ‘ARR[1]’.
+
+2. There can be multiple arrays that look like a wave array but you have to return only one.
+
+3. We have an internal function that will check your solution and return 'True' in case your array is one of the solutions otherwise return 'False'.
+Explanation
+The given array ‘ ARR = { 4, 3, 5, 2, 3, 1, 2 } ’
+The below figure is a visual representation of the given ‘ARR’ and you can see we can express ‘ARR’ in a waveform array because 
+4>3 and 3<5 
+5>2 and 2<3
+3>1 and 1<2
+And it follows the condition of wave array.
+subsequence
+
+Follow up:
+Try to solve this problem in linear time complexity.
+Input format:
+The first line of input contains an integer ‘T’ denoting the number of test cases.
+The next ‘2*T’ lines represent the ‘T’ test cases.
+
+The first line of each test case contains the single integer ‘N’ and ‘N’ is denoting the number elements in the given ‘ARR’.
+
+The second line of each test case contains ‘N’ space-separated elements of ‘ARR’. 
+Output Format:
+For each test case, print in a single line space-separated integers that represent the elements of a wave array.
+Note:
+You are not required to print the output explicitly, it has already been taken care of. Just implement the function.
+Constraints:
+1 <= T <= 50
+1 <= N<= 10^4
+-10^9 <= ARR[i] <= 10^9
+
+Time limit: 1 second
+Sample Input 1:
+2
+5 
+2 3 1 4 2
+6
+4 3 2 5 4 1
+Sample Output 1:
+2 1 3 2 4
+4 3 5 2 4 1
+Explanation of sample input 1:
+Test Case 1:
+For given 'ARR' = { 2, 3, 1, 4, 2 } one possible sorted wave form array is { 2, 1, 3, 2, 4 }
+subsequence
+
+2>1 and 1<3 
+3>2 and 2<4
+4>2 
+And it follows the condition of wave array form.
+
+Some other possible sorted array in wave form -
+3 1 2 2 4
+4 1 2 2 3
+4 2 3 1 2
+
+
+Test case 2:
+
+For given 'ARR' = { 4, 3, 2, 5, 4, 1 } one possible sorted wave form array is { 4, 3, 5, 2, 4, 1 }
+subsequence
+
+4>3 and 3<5 
+5>3 and 2<4
+4>2 and 1<4
+And it follows the condition of wave array form.
+
+Some other possible sorted array in wave form -
+4 2 3 1 5 4
+4 2 3 4 5 1
+3 2 4 1 5 4
+Sample Input 2:
+2
+3
+3 2 1
+9
+3 2 1 3 2 1 3 2 1
+Sample Output 2:
+2 1 3
+3 1 2 1 3 2 2 1 3
+
+/*
+    Time complexity: O(N)
+    Space complexity: O(1)
+
+    where 'N' is number elements in 'ARR'.
+*/
+
+vector<int> waveFormArray(vector<int> &arr, int n) {
+    // Iterate only even indices.
+    for (int i = 0; i < n; i += 2) {
+        // Check is previous element is greater or not.
+        if (i > 0 && arr[i] < arr[i - 1]) {
+            // Swap 'arr[i]' and 'arr[i-1]'.
+            swap(arr[i], arr[i - 1]);
+        }
+
+        // Check is next element is greater or not.
+        if (i < n - 1 && arr[i] < arr[i + 1]) {
+            // Swap 'arr[i]' and 'arr[i-1]'.
+            swap(arr[i], arr[i + 1]);
+        }
+    }
+    return arr;
+}
+
+
+Sort By Kth Bit
+Send Feedback
+You are given an array/list ‘ARR’ of ‘N’ positive integers and an integer ‘K’. Your task is to group all the array elements with ‘K-th’ bit (rightmost bit is ‘1st’ bit) equal to 0 followed by all the elements with ‘K-th’ bit equal to 1.
+Note 1: The relative order inside both the groups should remain as it was in the input.
+Note 2: You have to return the modified array/list..
+For Example :
+If ‘ARR’ is {1,2,3,4} and ‘K’ = 1, then after modification, ‘ARR’ should be {2,4,1,3} because ‘K-th’ (‘K’ = 1) of {2,4} is 0 and ‘K-th’ bit of {1,3} is 1.
+Input Format :
+The first line contains a single integer T representing the number of test cases.
+
+The first line of each test case contains two single space-separated integers ‘N’ and ‘K’ representing size of the input ‘ARR’ and the ‘Kth’ bit as discussed above.
+
+The next line of each test case contains ‘N’ single space-separated integers that represents the elements of the ‘ARR’.    
+Output Format :
+For each test case, return the modified array as discussed above.
+Note:
+You don’t need to print anything, it has already been taken care of. Just implement the given function.
+Follow Up:
+Can you do it in linear time?
+Constraints:
+1 <= T <= 10
+1 <= N <= 10^4
+1 <= ARR[i] <= 10^9
+1 <= K <= 31
+
+Time Limit: 1 sec
+Sample Input 1:
+2
+4 1
+4 3 2 1
+5 2
+2 5 1 6 7
+Sample Output 1:
+4 2 3 1
+5 1 2 6 7
+Explanation For Sample Input 1:
+In example 1, the original ‘ARR’ is {4,3,2,1} and ‘K’ = 1. After modification, the ‘ARR’ should be {4,2,3,1} because {4,2} will come first as their 1st bit is 0 and {3,1} will come after that as their 1st bit is 1.
+
+In example 2, the original ‘ARR’ is {2,5,1,6,7} and ‘K’ = 2. After modification the ‘ARR’ should be {5,1,2,6,7} because {5,1} will come first as their 2nd bit is 0 and {2,6,7} will come after that as their 2nd bit is 1.
+Sample Input 2:
+2
+5 1
+3 6 2 1 4
+5 3
+7 6 2 9 3
+Sample Output 2:
+6 2 4 3 1
+2 9 3 7 6
+Explanation For Sample Input 2:
+In example 1, the original ‘ARR’ is {3,6,2,1,4} and ‘K’ = 1. After modification the ‘ARR’ should be {6,2,4,3,1} because {6,2,4} will come first as their 1st bit is 0 and {3,1} will come after that as their 1st bit is 1.
+
+In example 2, the original ‘ARR’ is {7,6,2,9,3} and ‘K’ = 3. After modification the ‘ARR’ should be {2,9,3,7,6} because {2,9,3} will come first as their 3rd bit is 0 and {7,6} will come after that as their 3rd bit is 1.
+/*
+
+    Time Complexity : O(N)
+    Space Complexity : O(N)
+
+    Where N is the number of elements in the array.
+
+    
+*/
+
+vector < int > sortArrayByKBit(int n, int k, vector < int > & arr) {
+    int j = 0;
+    int p = 0;
+
+    vector < int > temparr(n);
+
+    // Loop to through arr.
+    for (int i = 0; i < n; i++) {
+        // If Kth bit of current element is 0.
+        if ((arr[i] >> (k - 1)) % 2 == 0) {
+            arr[p++] = arr[i];
+        }
+        // If Kth bit of current element is 1.
+        else {
+            temparr[j++] = arr[i];
+        }
+    }
+
+    j = 0;
+    // Copy elements from temparr back to arr.
+    for (int i = p; i < n; i++) {
+        arr[i] = temparr[j++];
+    }
+    // Return modified array.
+    return arr;
+}
+
+
+
+Minimum number of swaps required to sort an array
+Send Feedback
+You have been given an array 'ARR' of 'N' distinct elements.
+Your task is to find the minimum no. of swaps required to sort the array.
+For example:
+For the given input array [4, 3, 2, 1], the minimum no. of swaps required to sort the array is 2, i.e. swap index 0 with 3 and 1 with 2 to form the sorted array [1, 2, 3, 4].
+Input Format:
+The first line of input contains an integer ‘T’ representing the number of test cases. Then the test cases follow.
+
+The first line of each test case contains an integer ‘N’ representing the size of the input array.
+
+The second line of each test case contains the 'N' elements of the array separated by a single space.
+Output Format:
+For each test case, print a single line containing a single integer which represents the minimum no. of swaps required to sort the array.
+
+The output for each test case is in a separate line.
+Note:
+You do not need to print anything; it has already been taken care of. Just implement the given function.
+Constraints:
+1 <= T <= 100
+1 <= N <= 1000
+0 <= ARR[i] <= 10 ^ 9
+
+Where 'ARR[i]' is the value of the input array elements.
+
+Time Limit: 1 sec
+Sample Input 1:
+2
+4
+4 3 2 1
+5
+1 5 4 3 2
+Sample Output 1:
+2
+2
+Explanation of Sample Input 1:
+For the first test case, swap index 0 with 3 i.e. 4 -> 1 and 1 with 2 i.e. 3 -> 2 to form the sorted array {1, 2, 3, 4}.
+
+For the second test case, swap index 1 with 4 i.e. 5 -> 2 and 2 with 3 i.e. 4 -> 3 to form the sorted array {1, 2, 3, 4, 5}.
+Sample Input 2:
+2
+4
+1 2 3 4
+6
+3 5 2 4 6 8
+Sample Output 2:
+0
+3
+
+/*
+    Time complexity: O(N * Log(N))
+    Space complexity: O(N)
+
+    where 'N' is the size of the given array.
+
+*/
+
+// Returns the minimum number of swaps required to sort the array.
+int minSwaps(vector<int> &arr)
+{
+    int count = 0;
+    vector<int> temp = arr;
+
+    sort(temp.begin(), temp.end());
+
+    // Hashmap to store the indexes of the input array.
+    unordered_map<int, int> map;
+
+    for (int i = 0; i < arr.size(); i++)
+    {
+        map[arr[i]] = i;
+    }
+
+    for (int i = 0; i < arr.size(); i++)
+    {
+        /*
+            Checking whether the current element
+            is at the right place or not.
+        */
+        if (arr[i] != temp[i])
+        {
+            count++;
+            int init = arr[i];
+            /*
+                If not, swap this element with the index
+                of the element which should come here.
+            */
+            swap(arr[i], arr[map[temp[i]]]);
+
+            // Update the indexes in the hashmap accordingly.
+            map[init] = map[temp[i]];
+            map[temp[i]] = i;
+        }
+    }
+
+    return count;
+}
+
+
+
+Relative Sorting
+Send Feedback
+Given two arrays ‘ARR’ and ‘BRR’ of size ‘N’ and ‘M’ respectively. Your task is to sort the elements of ‘ARR’ in such a way that the relative order among the elements will be the same as those are in ‘BRR’. For the elements not present in ‘BRR’, append them in the last in sorted order.
+For example
+Consider the arrays as ARR = { 9, 5, 8, 4, 6, 5 } and BRR = { 8, 4, 5 }
+The output for the above example  is { 8, 4, 5, 5, 6, 9 }.
+Note:
+Elements of ‘BRR’ are non repeating.
+Input Format:
+The first line contains an integer 'T' which denotes the number of test cases or queries to be run. Then, the ‘T’ test cases follow.
+
+The first line of each test case or query contains two single-space separated integers 'N' and ‘M’ representing the size of the ‘ARR’ and ‘BRR’ respectively.
+
+The second line contains 'N' single space-separated integers, representing the elements of array ‘ARR’.
+
+The third line contains 'M' single space-separated integers, representing the elements of array ‘BRR’.
+Output format:
+For each test case, print ‘N’ single space-separated integers, representing the elements of ‘ARR’ after the required sorting order in a single line.
+
+Print the output of each test case in a separate line.
+Note:
+You do not need to print anything, it has already been taken care of. Just implement the given function.
+Constraints:
+1 <= T <= 5
+1 <= N <= 10 ^ 5
+1 <= M <= 10 ^ 5
+(-10 ^ 9) <= ARR[i] , BRR[i]  <= (10 ^ 9) 
+
+Time limit: 1 sec
+Sample Input 1:
+2
+6 3
+9 5 8 4 6 5 
+8 4 5
+4 4
+1 8 1 6 
+1 9 6 7 
+Sample Output 1:
+8 4 5 5 6 9
+1 1 6 8
+Explanation:
+For test case 1:
+As 8 comes first in BRR, so we first add all occurrences of 8 in ARR, in our resultant array RES. Now, RES={8} and ARR={9,5,4,6,5}.
+After 8, 4 comes in BRR, so we add all occurrences of 4 that are in ARR, in the RES array. Now, RES={8,4} and ARR={9,5,6,5}.
+After 4, 5 comes in BRR, so we add all occurrences of 5 that are in ARR, in the RES array. Now, RES={8,4,5,5} and ARR={9,6}.
+Now, after processing all the elements of BRR, we will add the remaining elements of ARR in sorted order, in our RES array.
+So the final RES is {8,4,5,5,6,9}.
+
+For test case 2: 
+As 1 comes first in BRR, so we first add all occurrences of 1 in ARR, in our resultant array RES. Now, RES={1,1} and ARR={8,6}.
+After 1, 9 comes in BRR, so we add all occurrences of 9 that are in ARR, in the RES array, but 9 is not present in ARR, so RES remains the same. Now, RES={1,1} and ARR={8,6}.
+After 9, 6 comes in BRR, so we add all occurrences of 6 that are in ARR, in the RES array. Now, RES={1,1,6} and ARR={8}.
+After 9, 7 comes in BRR, so we add all occurrences of 7 in ARR, in our RES, but 7 is not present in ARR, so RES remains the same. Now, RES={1,1,6} and ARR={8}.
+Now, after processing all the elements of BRR, we will add the remaining elements of ARR in sorted order, in our RES array.
+So the final RES is {1,1,6,8}.
+Sample Input 2:
+2
+3 5
+7 5 8  
+8 4 5 6 3
+4 2
+9 2 2 4 
+5 2 
+Sample Output 2:
+8 5 7
+2 2 4 9
+
+#include<bits/stdc++.h>
+vector<int> relativeSorting(vector<int> &a, vector<int> &b, int m, int n)
+{
+    vector<int> ans;
+    map<int,int> mp;
+    for(int i = 0 ; i < m ; i++)
+    {
+        mp[a[i]]++;
+    }
+    int i = 0;
+    while(i < n)
+    {
+      if (mp.find(b[i]) != mp.end()) {
+          for (int j = 0; j < mp[b[i]] ; j++)ans.push_back(b[i]);
+          mp[b[i]] = 0;
+      }
+i++;
+}
+for(auto it : mp)if(it.second > 0)
+{
+    for (int j = 0; j < it.second ; j++)ans.push_back(it.first);
+}
+return ans;
+}
+
+
+Sorting the Skills
+Send Feedback
+There is a company named James Peterson & Co. The company has ‘n’ employees. The employees have skills, which is denoted with help of an integer. The manager of James Peterson & Co. wants to sort the employees on the basis of their skills in ascending order. He is only allowed to swap two employees which are adjacent to each other. He is given the skills of employees in an array of size ‘n’. He can swap the skills as long as the absolute difference between their skills is 1. You need to help the manager out and tell whether it is possible to sort the skills of employees or not.
+Input Format:
+First Line will have an integer ‘t’ denoting the no. of test cases.
+First line of each test case contains an integer ‘n’ denoting the no. of employees in the company.
+Second line of each test case contains ‘n’ integers.
+Output Format:
+For each test case, print “Yes” if it is possible to sort the skills otherwise “No”.
+Constraints:
+1 <= t <= 10^4
+1 <= n <= 10^5
+Sum of n over all test cases doesn't exceed 10^6
+Sample Input:
+2
+4
+1 0 3 2
+3
+2 1 0
+Sample Output:
+Yes
+No
+Explanation:
+In first T.C., [1, 0, 3, 2] -> [0, 1, 3, 2] -> [0, 1, 2, 3]
+In second T.C., [2, 1, 0] -> [1, 2, 0]  OR  [2, 1, 0] -> [2, 0, 1] So, it is impossible to sort.
+
+#include<bits/stdc++.h>
+using namespace std;
+
+bool checksort(int *arr, int n)
+{
+    //i<n-1
+  for(int i =0; i<n-1; i++)
+  {
+    if(arr[i]>arr[i+1])
+    {
+      if(arr[i+1] == arr[i]-1)
+        {
+          //your were swapping arr[i] and arr[i-1]
+        swap(arr[i],arr[i+1]);
+        }
+      else
+       	 return false;
+    }
+   }
+   
+   return true;
+ }
+ 
+ int main(){
+int t;
+cin>>t;
+while(t--)
+{
+  int n;
+  cin>>n;
+  int *arr = new int[n];
+  for(int i =0; i<n; i++)
+  {
+  cin>>arr[i];
+  }
+    //here when checksort return true then yes
+  if(checksort(arr,n))
+  cout<<"Yes"<<endl;
+  else
+  cout<<"No"<<endl;
+  
+  }
+}
