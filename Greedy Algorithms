@@ -1,0 +1,1097 @@
+Min. Absolute Difference In Array
+Send Feedback
+Given an integer array A of size N, find and return the minimum absolute difference between any two elements in the array.
+We define the absolute difference between two elements ai and aj (where i != j ) as |ai - aj|.
+Input format :
+The first line of input contains an integer that denotes the number of test cases. Let us denote it by the symbol T. 
+Each of the test cases contain two lines. The first line of each test case contains an integer, that denotes the value of N. The following line contains N space separated integers, that denote the array elements.
+Constraints :
+1 <= T <= 10
+2 <= N <= 10^5
+0 <= arr[i] <= 10^8
+Output Format :
+You have to print minimum difference for each test case in new line.
+Sample Input 1:
+1
+5
+2 9 0 4 5
+Sample Output 1:
+1
+
+#include<bits/stdc++.h>
+using namespace std;
+#include <iostream>
+#include <cmath>
+
+
+int help(int n , int *a)
+{
+    int mini = INT_MAX;
+    sort(a , a + n);
+    for(int i = 0 ; i < n ; i++)
+    {
+        int ans = abs(a[i] - a[i+1]);
+        if(mini > ans)
+        {
+            mini = ans;
+        }
+    }
+    return mini;
+    
+}
+
+
+int main(){
+    
+    int t ;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        int *a = new int[n];
+        for(int i = 0 ; i < n ; i++)
+        {
+            cin>>a[i];
+        }
+       int res =  help(n,a);
+        cout<<res<<endl;
+        
+    delete []a; 
+        }
+    return 0;
+}
+
+
+
+Nikunj and Donuts
+Send Feedback
+Nikunj loves donuts, but he also likes to stay fit. He eats n donuts in one sitting, and each donut has a calorie count, ci. After eating a donut with k calories, he must walk at least 2^j * k(where j is the number donuts he has already eaten) miles to maintain his weight.
+Given the individual calorie counts for each of the n donuts, find and print a long integer denoting the minimum number of miles Nikunj must walk to maintain his weight. Note that he can eat the donuts in any order.
+Input Format:
+First line of input will contain T(number of test cases), each test case follows as.
+The first line contains an integer, n, denoting the number of donuts. 
+The second line contains n space-separated integers describing the respective calorie counts of each donut, i.e ci.
+Constraints
+ 1 <= T <= 10^5
+ 1 ≤ n ≤ 40
+ 1 ≤ ci ≤ 1000
+Output Format:
+Print a long integer denoting the minimum number of miles Nikunj must walk to maintain his weight for each test case in new line
+Sample Input 1
+1
+3
+1 3 2
+Sample Output 1
+11
+Explanation:
+The minimum miles that Nikunj has to walk are 11 miles. He will first eat donut with calorie count 3, then the one with calorie count 2 and then the donut with calorie count as 1. The miles travelled are calculated as: 2^0*3 + 2^1*2 + 2^2*1.
+
+#include<bits/stdc++.h>
+using namespace std;
+#include <iostream>
+
+long long help(  int n , int *a)
+{
+    long long  sum = 0;
+    sort(a, a + n);
+    reverse(a , a + n);
+    for(int  i = 0 ; i < n ; i++ )
+    {
+        sum += (pow(2,i) * a[i]);
+    }
+    return sum;
+}
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        int *a = new int[n];
+        for(int i = 0 ; i < n ; i++)
+        {
+            cin>>a[i];
+        }
+        long long  res = help(n,a);
+        cout<<res<<endl;
+        
+        delete []a;
+    }
+    
+    
+    return 0;
+}
+
+
+Maximum Activity Subset
+Send Feedback
+You are given n activities with their start and finish times. Select the maximum number of activities that can be performed by a single person, assuming that a person can only work on a single activity at a time.
+Input Format
+The first line of input contains one integer denoting N.
+Next N lines contains two space separated integers denoting the start time and finish time for the ith activity. 
+Constraints
+1 ≤ N ≤ 10^6
+1 ≤ ai, di ≤ 10^9
+Output Format
+Output one integer, the maximum number of activities that can be performed
+Sample Input 1
+6
+1 2
+3 4
+0 6
+5 7
+8 9
+5 9
+Sample Output 1
+4
+Explanation:
+The four activities will be done at following time intervals:
+1. 1 2
+2. 3 4
+3. 5 7
+4. 8 9
+
+/*
+    Time Complexity: O(N * logN)
+    Space Complexity: O(N)
+
+    Where N is the number of activities.
+*/
+#include <bits/stdc++.h>
+#include <algorithm>
+using namespace std;
+#include <iostream>
+
+int maximumActivities(vector<int> &start, vector<int> &finish) {
+    int n = start.size();
+    vector<pair<int, int>> activity(n);
+
+    for (int i = 0; i < n; i++) {
+        activity[i].first = finish[i];
+        activity[i].second = start[i];
+    }
+
+    // Sort the meetings according to their Finishing Time.
+    sort(activity.begin(), activity.end());
+
+    int maxActivity = 1;
+    int currentTime = activity[0].first;
+
+    for (int i = 1; i < n; i++) {
+
+        // Find the next meeting available.
+        if (activity[i].second >= currentTime) {
+            maxActivity++;
+            currentTime = activity[i].first;
+        }
+    }
+    return maxActivity;
+}
+
+
+
+
+int main()
+{
+    int t = 1;
+    
+    //testcases
+    while(t--)
+    {
+        //size of array
+        int n;
+        cin >> n;
+        vector<int> start(n), end(n);
+        
+        //adding elements to arrays start and end
+        for(int i=0;i<n;i++)
+        { cin>>start[i];
+            cin>>end[i];
+        }
+        //function call
+        cout <<maximumActivities(start,end)<< endl;
+    }
+    return 0;
+}
+
+// } Driver Code Ends
+
+
+
+Fractional Knapsack
+Send Feedback
+You are given weights and values of N items. You have to select and put these selected items in a knapsack of capacity W. Select the items in such a way that selected items give the maximum total value possible with given capacity of the knapsack.
+Note: You are allowed to break the items in parts.
+Input Format:
+The first line of input contains two space separated integers, that denote the value of N and W.
+Each of the following N lines contains two space separated integers, that denote value and weight, respectively, of the N items.    
+Constraints:
+1 <= N = 2*10^5
+1 <= W <= 10^9
+1 <= value, weight <= 10^5
+Time Limit: 1 sec
+Output Format:
+Print the maximum total value upto six decimal places.
+Sample Input 1:
+4 22
+6 4
+6 4
+4 4
+4 4
+Sample Output 1:
+20.000000
+Explanation:
+The total weight of all the items is 16 units, which is less than the total capacity of knapsack, i.e 22 units. Hence, we will add all the items in the knapsack and total value will be 20 units.
+#include<bits/stdc++.h>
+using namespace std;
+#define fast_io ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+
+struct ans
+{
+    double value, weight;
+};
+
+struct ans2
+{
+    double value, weight, div;
+        
+};
+
+ bool sorta(ans2 a , ans2 b)
+{
+     (a.div) > (b.div);
+     }
+
+
+double help( ans *a , int n , double w)
+{
+    double sum = 0 ,res  = 0;
+    for(int i = 0 ; i < n ; i++)
+    {
+        sum = (sum + a[i].weight);
+        res = (res + a[i].value);
+    }
+    if(sum < w )return res;
+    else
+    {
+        // ans2 *b =   new ans2[n];
+        ans2 b[n];
+        for(int i = 0 ; i < n ; i++)
+        {
+            b[i].div = ((a[i].value)/(a[i].weight));
+            b[i].value = a[i].value;
+            b[i].weight = a[i].weight;         
+            }
+        
+        sort( b , b + n , sorta);
+        sum = 0, res = 0;
+        for(int i = 0 ; i < n ; i++)
+        {
+            sum += b[i].weight;
+            if(sum > w)
+            {
+                sum = sum - b[i].weight;
+                sum = sum + (w - sum); 
+                res += ((w - sum) * b[i].div);
+                
+                }
+            res += b[i].value;
+            
+            }
+    }
+    return res;
+
+}
+
+int main(){
+    cout<<fixed;
+    fast_io;
+    cout<<setprecision(6);
+    int n;
+    double w;
+    cin>>n>>w;
+    // struct ans *a = new  struct ans[n];
+    ans a[n];
+    for(int i = 0 ; i < n ; i++)
+    {
+        cin>>a[i].value>>a[i].weight;
+    }
+    
+    double res = help(a , n , w);
+    cout<<res;
+    return 0;
+}
+
+
+
+
+
+Weighted Job Scheduling
+Send Feedback
+You are given N jobs where every job is represented as:
+1. Start Time
+2. Finish Time
+3. Profit Associated
+Find the maximum profit subset of jobs such that no two jobs in the subset overlap.
+Input Format:
+The first line of input contains an integer denoting N.
+Next N lines contains three space separated integers denoting the start time, finish time and the profit associated with the ith job. 
+Constraints:
+1 ≤ N ≤ 10^6
+1 ≤ ai, di, p ≤ 10^6
+Output Format:
+Output one integer, the maximum profit that can be achieved.
+Sample Input 1
+4
+3 10 20
+1 2 50
+6 19 100
+2 100 200
+Sample Output 1
+250
+
+#include<bits/stdc++.h>
+using namespace std;
+
+bool compare(int j1[],int j2[]){
+    return j1[1]<j2[1];
+}
+
+// binary search to find index
+int find_prev(int n,int **in,int s,int e,int limit){
+    // base cases
+    if(s>e){
+        return -1;
+    }
+    if(s==e){
+        if(in[s][1]<=limit){
+            return s;
+        }else{
+            return -1;
+        }
+    }
+    int mid=(s+e)/2;
+    // found or less
+    if(in[mid][1]<=limit){
+        int index=find_prev(n,in,mid+1,e,limit);
+        if(index==-1){
+            return mid;
+        }
+        return index;
+    }
+    // big
+    return find_prev(n,in,s,mid-1,limit);
+}
+
+int max_profit(int n,int **in){
+    // first sort on basis of finishing time
+    sort(in,in+n,compare);
+    // for(int i=0;i<n;i++){
+    //     cout<<in[i][0]<<" "<<in[i][1]<<" "<<in[i][2]<<endl;
+    // }
+
+    // create array for storing the max profit at each index
+    int dp[n];
+
+    // for every index find max value at that index
+    // use previously found values to calc current val
+    
+    // for 0th index max profit will be value at 0th itself
+    dp[0]=in[0][2];
+    for(int i=1;i<n;i++){
+        // currrent items value may be the max
+        int possibleans1=dp[i-1];
+        // find max possible before current
+        // int possibleans2=0;
+        int possibleans2=in[i][2];
+
+        // finding latest previous posn of greater profit
+        // using simple method - O(n)
+        // for(int j=i-1;j>=0;j--){
+        //     // if the times for jobs are not clashing, then find possible ans
+        //     if(in[j][1]<=in[i][0]){
+        //         // if its profit is greater than current max
+        //         if(dp[j]>possibleans2){
+        //             possibleans2=dp[j];
+        //             break;
+        //         }
+        //     }
+        // }
+        
+        // 0 = start, end = i-1, starting = in[i][0]
+        int poss_index=0;
+        poss_index=find_prev(n,in,0,i-1,in[i][0]);
+        // using binary search
+
+        // prev possible element not found
+        if(poss_index!=-1){
+            possibleans2+=dp[poss_index];
+        }
+
+        dp[i]=max(possibleans1,possibleans2);
+
+        // dp[i]=max(possibleans1,possibleans2+in[i][2]);
+    }
+    return dp[n-1];
+}
+
+int main()
+{
+	int n;
+    cin>>n;
+    int **in=new int*[n];
+    for(int i=0;i<n;i++){
+        in[i]=new int[3];
+    }
+    for(int i=0;i<n;i++){
+        cin>>in[i][0]>>in[i][1]>>in[i][2];
+    }
+    cout<<max_profit(n,in)<<endl;
+    return 0;
+}
+
+
+
+Min no of Swaps
+Send Feedback
+You are given a string ‘S’ of length ‘N’, an array A of length ‘M’ ( consisting of lowercase letters). and a positive integer ‘K’. You can take a character from 'A' and change any character in 'S' with this character. The task is to minimize the number of swaps required ( between ‘S’ and ‘A’ ) to make the string ‘S’ ‘k’-periodic.
+Note:
+1. A string ‘S’ is said to be ‘K’ periodic, if for each position  ‘i’ in the string S[i] = S[i+K].
+
+   Consider string ‘S’,
+   if S = ”abcabc”, it is 3 periodic string.
+   if S= ”aaaaa”,  it is 1 periodic string.
+
+2. In one move, only one character of ‘S’ can be swapped with a character of ‘A’.
+
+3. The characters in ‘A’ can be used more than once.
+
+4. All characters of K-periodic string ‘S’ are elements of array ‘A’.
+Input Format:
+ First-line will contain an integer ‘T’, the number of test cases. Then the test cases follow-
+
+ Each test case contains three lines of input. 
+
+ The first line contains three integers ‘N’, ‘M’, ‘K’. The second line contains a string of length ‘N’. 
+
+ The third line contains ‘M’ space-separated smaller case letters.
+Output Format:
+For each test case output an integer i.e minimum number of swaps required to make string K-periodic.
+Constraints:
+1 <= T <= 5
+1 <= N, M <= 2 * 10 ^ 4
+1 <=  K < = N
+
+Time limit: 1 sec.
+Sample Input 1:
+2
+7 3 3
+abcbbde
+a b c
+5 2 2
+ninja
+n i
+Sample Output 1:
+3
+2
+Explanation:
+In first test case, We need at least 3 swaps to make the string “abcbbde” 3 periodic. One swap between characters at index 3 in string and letter ‘a’ from the array. Second swap between character at index 6 in string and letter ‘a’ from array Third swap between character at index 5 in string and letter ‘c’ from the array.
+Sample Input 2:
+1
+3 1 1
+aaa
+a
+Sample Output 2:
+0
+Explanation:
+In total 0 swaps are required to make string ‘1’-periodic.
+
+/*
+    Time Complexity : O(max(N, M ))
+    Space Complexity: O(N)
+
+    where 'N' is the length of string, and 'M' is the length of given character array.
+*/
+
+int minSwap (int N, int M, int K, string &S, vector<char> &arr)
+{
+    /*
+     Declare a array of type bool , where index 0 represent letter 'a', 1 represent letter 'b'.
+     if flag[i] is true means the letter corresponding to 'i' is present in 'arr'. 
+    */
+    bool flag[26];
+
+    // Initialize the flag array with false(initially no letter is present)
+    for(int i = 0 ; i < 26; i++)
+    {
+        flag[i] = false;
+    }
+    
+    // Iterate through 'arr' and mark index corresponding to that letter
+    for( int i = 0; i < M ; i++){
+        char c = arr[i];
+
+        // Mark index corresponding to c as true( present )
+        flag[c - 'a'] = true;
+    }
+
+    // Declare 2D array, which keep count of a letter in the sequence of k-th index,
+    int frequency[K][26];
+
+    // Initially to 0 there is no letter
+    for(int i = 0; i < K; i++)
+    {
+
+        for(int j = 0; j < 26; j++)
+        {
+            frequency[i][j]=0;
+        }
+    }
+
+    // Now loop through string 'S' from 0 to N-1
+    for(int i = 0; i < N ; i++){
+
+        // Increment the frequency of letter 's[i]' in the sequence of kth index by 1
+        frequency[i % K][S[i] - 'a'] ++;
+    }
+
+    // Declare variable to store the answer (minimum number of swaps required)
+    int ans=0;
+
+    // Now loop for k from 0 to K - 1
+    for(int i = 0; i < K ; i++){
+
+        // Stores the maximum count of a letter in current ith series   
+        int mx = 0;
+
+        // Variable to store the toatal number of letters in the ith series
+        int totalCount = 0;
+
+        // Loop for j from 0 to 25
+        for(int j = 0; j < 26 ; j++){
+
+            // Update totalCount
+            totalCount+=frequency[i][j];
+
+            // If frequency[i][j] is greater than current maximum i.e mx and flag[j] is equal to 1(letter is present in given arr)
+            if(frequency[i][j] > mx && flag[j] == 1){
+                mx = frequency[i][j];
+            }
+        }
+        
+        // Update the answer by number of swaps required for current ith series
+        ans+=(totalCount-mx);
+    }
+
+    // Return answer.
+    return ans;
+}
+
+
+
+Greedy vs Dynamic Programming
+Send Feedback
+Which of the following is the main disadvantage of greedy algorithms over dynamic programming?
+Options
+This problem has only one correct answer
+Sometimes greedy algorithms fail to find the global optimal solution but Dynamic programming always work. - answer
+Sometimes greedy algorithms fail to find the local optimal solution but Dynamic programming doesn’t.
+Greedy algorithms are harder to think and build in comparison to dynamic programming
+Greedy doesn't have any disadvantages.
+
+
+
+https://www.codechef.com/problems/SVENGY
+https://www.spoj.com/problems/LOPOV/
+
+
+
+Winning Lottery
+Send Feedback
+Harshit knows through his resources that this time the winning lottery number is the smallest number whose sum of the digits is S and the number of digits is D. You have to help Harshit and print the winning lottery number.
+Input Format:
+First line of input contians an integer T, representing the number of test cases.
+Next T lines contains two space-separated integers: S,D
+Constraints:
+1 <= T <= 1000
+1 <= D <= 1000
+1 <= S <= 9*D
+Time Limit: 1 second
+Output Format
+The output contains a single integer denoting the winning lottery number
+Sample Input 1:
+1
+9 2
+Sample Output 1:
+18
+Explanation
+There are many other possible numbers like 45, 54, 90, etc with the sum of digits as 9 and number of digits as 2. The smallest of them is 18.
+
+
+using namespace std;
+#include <iostream>
+#include <bits/stdc++.h>
+
+
+vector<int> findSmallest(int m, int s)
+{
+	vector <int> em;
+	if (s == 0)
+	{
+		if(m == 1)
+            cout << 0;
+				
+		return em;
+	}
+
+	
+	if (s > 9*m)
+	{
+		
+		return em;
+	}
+
+	
+	int res[m];
+
+	
+	s -= 1;
+
+	
+	for (int i=m-1; i>0; i--)
+	{
+		
+		if (s > 9)
+		{
+			res[i] = 9;
+			s -= 9;
+		}
+		else
+		{
+			res[i] = s;
+			s = 0;
+		}
+	}
+
+	
+	res[0] = s + 1; 
+
+	
+	vector <int> ans(m);
+    for(int i = 0 ; i < m ; i++)
+    {
+        ans[i] = res[i];
+    }
+    return ans;
+}
+
+
+int main()
+ {
+    int t;
+    cin>>t;
+    while(t--) {
+        int s,d;
+        cin>>s>>d;
+        vector <int> vec(d);
+        
+       vec =  findSmallest( d,  s);
+        if(!vec.empty()){
+        for(int i = 0 ; i < d ; i++)
+    {
+            cout << vec[i];
+        
+    }
+        }
+        cout<<endl;
+        
+       
+    }
+	return 0;
+}
+
+
+
+
+
+King Arthur and Excalibur
+Send Feedback
+King Arthur’s land is in danger. He wants to fend off the Saxon invaders. In order to do so, he needs to find the fabled sword, Excalibur. He has a vague idea about its location, and has dispatched his best Knights and their Squires to acquire it. The Knights go to the location to find The Dark Forest. They set up tents and decided to split into groups to find Excalibur faster. The famous knight, Sir Lancelot was trying to form search parties, but ran into some trouble.
+Most of the knights were untrained for quests, and sending them alone into the dangers of the quest would be a grave mistake. Each of the knights have been given a positive integer parameter by King Arthur, ti - their training score. Sir Lancelot decided that a knight with training t can join the group of t or more knights.
+Some of the knights are very egotistical and can’t work well with others. Hence Sir Lancelot decided it is not necessary to include all the knights, some can stay back and defend the tents from danger. Now Sir Lancelot needs to figure out how many search parties he can organize. Sir Lancelot is one of the most responsible knights and doesn't want to go back to King Arthur empty handed. He would rather die than fail. You need to help him in his quest.
+Input Format:
+First line of input will contain T(number of test cases), each test case follows as.
+Line1 : will contain an integer N denoting the total number of explorer
+Line2: Will contain N space-separated integers denoting the inexperience level 
+Ouput Format:
+For each test case output the answer in a new line.
+Constraints:
+1 <= T <= 100
+1 <= N <= 10^4
+1 <= levels <= N
+Sample Input:
+2
+3
+1 1 1
+5
+2 3 1 2 2
+Sample Output:
+3
+2
+
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define double long double
+
+int32_t main()
+{
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	
+	int t; cin >> t;
+	while(t--)
+	{
+		int n; cin >> n;
+		vector<int> a(n+1);
+		for(int i = 1 ; i <= n ; ++i) {
+			cin >> a[i];
+		}
+		sort(a.begin()+1, a.end());
+
+		vector<int> dp(n+1, 0);
+
+		int ans = 0;
+		for(int i = 1 ; i <= n ; ++i) {
+			if(i - a[i] >= 0) {
+				dp[i] = max(dp[i-1], dp[i-a[i]] + 1);
+			}
+			else {
+				dp[i] = dp[i-1];
+			}
+		}
+
+		cout << dp[n] << '\n';
+	}
+	return 0;
+}
+
+
+
+Call of War
+Send Feedback
+DecenTile Games have launched a new First Person Shooter soldier game, called the Call of War, that young gamers can play on their website.
+Our protagonist, Ninja (played by you) is a soldier whose mission is to kill all the enemies plotting against you. Your enemies are standing in a circle, numbered clockwise from 1 to n. Initially, the i-th enemy has ai health.
+You have only one pistol, and infinite bullet magazines. You have to shoot the enemies in order to kill them. Each bullet fired at the enemy decreases their health by 1 (deals 1 damage to it). When the health of some enemy i becomes 0 or less than 0, he dies and his grenade drops down and explodes, dealing bi damage to the next enemy (enemy i+1, if i<n, or enemy 1, if i=n). If the next enemy is already dead, then nothing happens. If the frag from the grenade kills the next enemy, even he drops a grenade, damaging the enemy after him and possibly triggering another explosion, and so on.
+You have to calculate the minimum number of bullets you need in order to kill all the enemies and win the game.
+Input Format:
+First line of input will contain T(number of test cases), each test case follows as.
+Line 1: contain an integer N
+Next N line contains two space separated integers a and b
+Output Format:
+For each test case print the output in a new line.
+Constraints:
+1 <= T <= 100
+1 <= N <= 10^4
+1 <= a, b <= 10^12
+Sample Input:
+1
+3
+7 15
+2 14
+5 3
+Sample Output:
+6
+
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define double long double
+
+int32_t main()
+{
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	
+	int t; cin >> t;
+	while(t--)
+	{
+		int n; cin >> n;
+		vector<pair<int, int>> a(n);
+		for(int i = 0 ; i < n ; ++i) {
+			cin >> a[i].first >> a[i].second;
+		}
+
+		vector<pair<int, int>> v;
+		for(int i = 1 ; i < n ; ++i) {
+			int pts = min(a[i].first, a[i-1].second) - min(a[0].first, a[n-1].second);
+			v.push_back({pts, i});
+		}
+		sort(v.begin(), v.end());
+
+		int index = 0;
+		if(v.size() > 0 && v[0].first < 0) {
+			index = v[0].second;
+		}
+
+		int ans = 0;
+
+		for(int i = 0 ; i < n ; ++i) {
+			ans += a[index].first;
+			int damage = a[index].second;
+
+			index = (n + index + 1) % n;
+
+			a[index].first = max(0LL, a[index].first - damage);
+		}
+		cout << ans << '\n';
+	}
+	return 0;
+}
+
+
+
+
+
+
+Minimum Number of Platforms
+Send Feedback
+You have been given two arrays, 'AT' and 'DT', representing the arrival and departure times of all trains that reach a railway station.
+Your task is to find the minimum number of platforms required for the railway station so that no train needs to wait.
+Note :
+1. Every train will depart on the same day and the departure time will always be greater than the arrival time. For example, A train with arrival time 2240 and departure time 1930 is not possible.
+
+2. Time will be given in 24H format and colons will be omitted for convenience. For example, 9:05AM will be given as "905", or 9:10PM will be given as "2110".
+
+3. Also, there will be no leading zeroes in the given times. For example, 12:10AM will be given as “10” and not as “0010”.
+Input Format
+The first line of input contains an integer 'T' representing the number of test cases.
+
+The first line of each test case contains an integer 'N', representing the total number of trains.
+
+The second line of each test case contains 'N' single-spaced separated elements of the array 'AT',  representing the arrival times of all the trains.
+
+The third line of each test case contains 'N' single-spaced separated elements of the array 'DT', representing the departure times of all the trains.
+Output Format:
+For each test case, return the minimum number of platforms required for the railway station so that no train needs to wait.
+Note :
+You don't need to print the output, it has already been taken care of. You just need to implement the given function.
+Follow up :
+Try to solve the problem in O(N) time and O(1) space.
+Constraints:
+1 <= T <= 10
+1 <= N <= 50000
+0 <= AT[i] <= DT[i] <= 2359
+
+Where 'AT[i]' and 'DT[i]' are the elements of the arrival and the departure arrays respectively.
+
+Time limit: 1 sec
+Sample Input 1:
+2
+6
+900 940 950 1100 1500 1800
+910 1200 1120 1130 1900 2000
+4
+100 200 300 400
+200 300 400 500
+Sample Output 1:
+3
+2
+Explanation of the Sample Output 1:
+In test case 1, For the given input, the following will be the schedule of the trains:
+
+Train 1 arrived at 900 on platform 1. 
+Train 1 departed at 910 from platform 1. 
+Train 2 arrived at 940 on platform 1.
+Train 3 arrived at 950 on platform 2 (since platform 1 was already occupied by train 1).
+Train 4 arrived at 1100 on platform 3 (since both platforms 1 and 2 were occupied by trains 2 and 3 respectively).
+Train 3 departed at 1120 from platform 2 (platform 2 becomes vacant).
+Train 4 departed at 1130 from platform 3 (platform 3 also becomes vacant).
+Train 2 departed at 1200 from platform 1 (platform 1 also becomes vacant).
+Train 5 arrived at 1500 on platform 1.
+Train 6 arrived at 1800 on platform 2.
+Train 5 departed at 1900 from platform 1.
+Train 6 departed at 2000 from platform 2.
+
+Thus, minimum 3 platforms are needed for the given input.
+
+In test case 2, For the given input, the following will be the schedule of the trains:
+
+Train 1 arrived at 100 on platform 1. 
+Train 2 arrived at 200 from platform 2 (as platform 1 is occupied by train 1).
+Train 1 departed at 200 from platform 1. 
+Train 3 arrived at 300 on platform 1.
+Train 2 departed at 300 from platform 2.
+Train 4 arrived at 400 on platform 2.
+Train 3 departed at 400 from platform 1.
+Train 4 departed at 500 from platform 2. 
+
+Thus, 2 platforms are needed for the given input.
+Sample Input 2:
+2
+2
+900 1000
+999 1100
+3
+1200 1300 1450
+1310 1440 1600    
+Sample Output 2:
+1
+2
+Explanation of the Sample Output 2:
+In test case 1, For the given input, the following will be the schedule of the trains:
+
+Train 1 arrived at 900 on platform 1. 
+Train 1 departed at 999 from platform 1. 
+Train 2 arrived at 1000 on platform 1.
+Train 2 arrived at 1100 on platform 1.
+
+Thus, only 1 platform is needed for the given input.
+
+In test case 2, For the given input, the following will be the schedule of the trains:
+
+Train 1 arrived at 1200 on platform 1. 
+Train 2 arrived at 1300 on platform 2. (since platform 1 was already occupied by train 1). 
+Train 1 departed at 1310 from platform 1.
+Train 2 departed at 1440 from platform 2.
+Train 3 arrived at 1450 on platform 1.
+Train 3 departed at 1600 on platform 1.
+
+Thus, minimum 2 platforms are needed for the given input.
+/*
+    Time Complexity : O(N)
+    Space Complexity :  O(1)
+
+    Where 'N' is the number of trains.
+*/
+
+int calculateMinPatforms(int at[], int dt[], int n)
+{
+    // Array to store the number of platforms required at different points of time.
+    int platforms[2361] = {0};
+
+    // Variable to store the final answer i.e. minimum number of platforms required.
+    int minNumOfPlatforms = 1;
+
+    for (int i = 0; i < n; i++)
+    {
+
+        // Increment the count of platforms at the time of arrival.
+        ++platforms[at[i]];
+
+        // Decrease the platform count just after the departure.
+        --platforms[dt[i] + 1];
+    }
+
+    // We are running loop till 2361 because maximum time value in a day can be 23:60.
+    for (int i = 1; i < 2361; i++)
+    {
+
+        // Taking cumulative sum of platforms.
+        platforms[i] = platforms[i] + platforms[i - 1];
+
+        // Update minNumOfPlatforms.
+        minNumOfPlatforms = max(minNumOfPlatforms, platforms[i]);
+    }
+
+    // Return the minimum number of platforms.
+    return minNumOfPlatforms;
+}
+
+
+
+Gas Tank
+Send Feedback
+You have a car with a gas tank of infinite capacity. There are ‘N’ gas stations along a circular route. Gas stations are numbered from 0 to N - 1. You begin the journey with an empty tank at one of the gas stations. You want to travel around the circular route once in the clockwise direction. I.e if you start to travel from station ‘i’, then you will go to i + 1, i + 2, …, n - 1, 0, 1, 2, i - 1 and then return back to ‘i’.
+You are given two integer arrays ‘gas’ and ‘cost’. ‘gas[i]’ gives the amount of gas available at station ‘i’ and cost[i] gives the amount of gas required to travel from station ‘i’ to next station i.e station ‘i’+1 (or 0 if the station is N - 1).
+Return the starting gas station's index if it is possible to complete cycle of given circular route once in the clockwise direction. If there are multiple possible starting gas station’s indexes, then return the minimum of those gas station indexes. If there is no such gas station then return -1.
+Input Format :
+The first line of input contains a single integer T, representing the number of test cases or queries to be run, then the T test cases follow.
+
+The first line of each test case contains a positive integer 'N' which represents the number of gas stations.
+
+The second line of each test case contains 'N' space-separated integers representing the integer array 'gas'.
+
+The third line of each test case contains 'N' space-separated integers representing the integer array 'cost'.
+Output Format :
+For each test case, print a single integer denoting the minimum index of the starting gas station if you are able to travel around the cycle once, otherwise print -1.
+Note:
+You do not need to print anything, it has already been taken care of. Just implement the given function.
+Constraint :
+1 <= T <=50
+1 <= N <= 10 ^ 4
+0 <= GAS[i] <= 10 ^ 5
+0 <= COST[i] <= 10 ^ 5
+
+Where GAS[i] represents the ith element of 'GAS' array,
+COST[i] represents the ith element of 'COST' array.
+
+Time Limit: 1 sec
+Sample Input 1 :
+1
+2
+1 2
+2 1
+Sample Output 1:
+1
+Explanation of Sample Input 1 :
+Test Case 1:
+If you start from index 0, you can fill in 1 unit of gas. Now your tank has 1 unit of gas. But you need 2 units of gas to travel to station 1. Thus you can not start at station 0.
+If you start from index 1, you can fill in 2 units of gas. Now your tank has 2 units of gas. You need 1 unit of gas to get to station 0. So, you travel to station 0 and still have 1 unit of gas left. You fill in 1 unit of additional gas, making your current gas = 2 unit. It costs you 2 amounts of gas to get to station 1, which you do and complete the cycle. Thus you can start at index 1.
+Sample Input 2 :
+1
+5
+1 2 3 4 5
+3 4 5 1 2
+Sample Output 2:
+3
+Explanation of Sample Input 2 :
+Test Case 1:
+If you start from index 3 and fill all available gas at each station, then you can reach station 4 with 3 units of gas, station 0 with 6 units of gas, station 1 with 4 units of gas, station 2 with 2 units of gas, and back to station 3 after consuming all the gas. 
+We can show that index 3 is the minimum index of the gas station from where the complete circular trip is possible 
+
+/*
+   Time Complexity : O(N)
+   Space Complexity : O(1)
+   
+   Where 'N' is the number of gas stations.
+*/
+
+int minimumStartingIndex(vector<int> &gas, vector<int> &cost, int n) {
+    
+    for(int i = 0; i < n; i++)  {
+
+        // Skip these stations immediately.
+        if(gas[i] < cost[i]) {
+            continue;
+        }
+
+        int gasLeft = 0;
+        int j = 0;
+
+        for(j = i; j < i + n; j++) {
+            gasLeft += gas[j % n] - cost[j % n];
+
+            // Not enough gas so quit.
+            if (gasLeft < 0) {
+
+                // Jump to the next possible station.
+                i = j % n;
+                break;
+            }
+        }
+
+        // You can go through all station with non-negative gas left if start from 'i'.
+        if (gasLeft >= 0) {
+            return i;
+        }
+
+        // You cannot go through all stations.
+        else if (j == i + n) {
+            return -1;
+        }
+    }
+
+    return -1;
+}
