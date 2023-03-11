@@ -1,0 +1,813 @@
+Predict The Output
+Send Feedback
+#include <iostream>
+using namespace std;
+
+int main(){
+    int x = 2;
+    x = x << 1;
+    cout << x;
+}
+Answer
+4
+Correct Answer
+
+Predict The Output
+Send Feedback
+#include <iostream>
+using namespace std;
+
+int main(){
+    int x = -2;
+    x = x >> 1;
+    cout << x;
+}
+Answer
+-1
+Correct Answer
+
+
+Predict The Output
+Send Feedback
+#include <iostream>
+using namespace std;
+
+int main(){
+    if(~0 == 1) {
+        cout << "yes";
+    }
+    else {
+        cout << "no";
+    }
+}
+Options
+This problem has only one correct answer
+yes
+no - answer
+Compile time error
+Undefined
+Hurray! Correct Answer
+
+
+Predict The Output
+Send Feedback
+#include <iostream>
+using namespace std;
+
+int main(){
+    int y = 0;
+    if(1 | (y = 1)) {
+        cout << "y is " << y;
+    }
+    else {
+        cout << y;
+    }
+}
+Options
+This problem has only one correct answer
+y is 0
+y is 1 - answer
+1
+0
+Hurray! Correct Answer
+
+
+Predict The Output
+Send Feedback
+#include <iostream>
+using namespace std;
+
+int main(){
+    int y = 1;
+    if(y & (y = 2)) {
+        cout << "true";
+    }
+    else {
+        cout << "false";
+    }
+}
+Answer
+true
+Correct Answer
+
+
+
+Turn Off The Bit
+Send Feedback
+Which bitwise operator is suitable for turning off a particular bit in a number?
+Options
+This problem has only one correct answer
+&& operator
+& operator - answer
+|| operator
+| operator
+Hurray! Correct Answer
+
+
+
+Turn On The Bit
+Send Feedback
+Which bitwise operator is suitable for turning on a particular bit in a number?
+Options
+This problem has only one correct answer
+&& operator
+& operator
+|| operator
+| operator - answer
+Hurray! Correct Answer
+
+
+
+Check ith bit
+Send Feedback
+Which bitwise operator is suitable for checking whether a particular bit is on or off?
+Note: Multiple options can be correct
+Options
+This problem may have one or more correct answers
+&& operator
+& operator - answer
+|| operator
+| operator - answer
+! operator
+^ operator - answer
+Hurray! Correct Answer
+
+
+
+Odd Frequency
+Send Feedback
+You are given an array of size N with all elements with even frequency except one and you are supposed to find this element.
+Input Format:
+The first line of input will contain T(number of test cases), each test case follows as.
+Line 1: contain an integer N (number of elements in the array)
+Line 2: contain N space-separated integers (elements of the array).
+Output Format:
+For each test case print the element with the odd frequency in a new line.
+Constraints:
+1 <= T <= 50
+1 <= N <= 10^5
+1 <= arr[i] <= 10^9
+Sample Input:
+1 
+5
+2 2 2 3 3 
+Sample Output:
+2 
+
+/*
+You are given an array of size N with all elements with even frequency except one and you are supposed to find this element.
+Input Format:
+The first line of input will contain T(number of test cases), each test case follows as.
+Line 1: contain an integer N (number of elements in the array)
+Line 2: contain N space-separated integers (elements of the array).
+Output Format:
+For each test case print the element with the odd frequency in a new line.
+Constraints:
+1 <= T <= 50
+1 <= N <= 10^5
+1 <= arr[i] <= 10^9
+Sample Input:
+1 
+5
+2 2 2 3 3 
+Sample Output:
+2 
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        int arr[n];
+        for(int i=0;i<n;i++)
+        {
+            cin>>arr[i];
+        }
+        int ans = 0;
+        for(int i=0;i<n;i++)
+        {
+            ans ^= arr[i];
+        }
+        cout<<ans<<endl;
+    }
+    return 0;
+}
+
+
+
+Element that Appears Once
+Send Feedback
+You are given an arbitrary array ‘arr’ consisting of N non-negative integers, where every element appears thrice except one. You need to find the element that appears only once.
+Input Format:
+The first line of the input contains a single integer T, representing the number of test cases. 
+
+The first line of each test case consists of a single integer N, representing the number of elements in the given array.
+
+The second line of each test case contains N space-separated integers, denoting the elements of the array.
+Output Format:
+For each test case, print a single integer representing the element that appears only once in the array.
+Note:
+You do not need to print anything. It has already been taken care of. Just implement the given function. 
+Constraints:
+1 <= T <= 100
+4 <= N <= 10^4
+0 <= arr[i] < 10^9
+Time Limit: 1sec
+Follow Up:
+Try to solve this problem in O(N) time and O(1) space complexity.
+Sample Input 1:
+1
+4
+1 2 1 1
+Sample Output 1:
+2
+Explanation For Sample Input 1:
+Clearly, the 2 appears once while 1 appears thrice. Hence, 2 is the output.
+Sample Input 2:
+1
+7 
+1 3 3 3 1 1 4
+Sample Output 2:
+4
+
+/*
+	Time Complexity: O(N)
+	Space Complexity: O(1)
+
+	where N is the number of elements in the array
+*/
+
+
+int elementThatAppearsOnce(vector<int> arr) {
+	int n = arr.size();
+    int count[32] = {0};
+    int result = 0;
+    for (int i = 0; i < 32; i++) {
+        for (int j = 0; j < n; j++) {
+            if ((arr[j] >> i) & 1) {
+				count[i]++;
+            }
+        }
+        result |= ((count[i] % 3) << i);
+    }
+    return result;
+}
+
+
+
+
+
+Find The Repeating And Missing Number
+Send Feedback
+You are given an array 'nums' consisting of first N positive integers. But from the N integers, one of the integers occurs twice in the array, and one of the integers is missing. You need to determine the repeating and the missing integer.
+Example:
+Let the array be [1, 2, 3, 4, 4, 5]. In the given array ‘4’ occurs twice and the number ‘6’ is missing.
+Input format:
+The very first line of input contains an integer ‘T’ denoting the number of test cases. 
+
+The first line of every test case contains an integer ‘N’ denoting the number of elements present in the array.
+
+The second line of every test case contains ‘N’ space-separated integers denoting the elements present in the array.
+Output format:
+For each test case, print the two space-separated integers denoting the repeating and the missing numbers, in the same order.
+Note:
+You do not need to print anything, it has already been taken care of. Just implement the given function. 
+Follow Up:
+Can you solve this in O(N) time and O(1) space complexities?
+Constraints:
+1 <= T <= 100 
+2 <= N <= 10^4
+1 <= nums[i] <= N
+
+Time Limit: 1 sec
+Sample Input 1:
+2
+5
+1 4 2 5 2
+2
+2 2    
+Sample Output 1:
+2 3
+2 1
+Explanation For Sample Input 1:
+For the first test case we have, array: [1, 4, 2, 5, 2] and N = 5.
+
+In the given array ‘2’ occurs twice and the number ‘3’ is missing. Hence, we output 2 and 3 for the repeating and the missing number, respectively.
+
+For the second test case we have, array: [2, 2] and N = 2.
+
+In the given array ‘2’ occurs twice and the number ‘1’ is missing. Hence, we output 2 and 1 for the repeating and the missing number, respectively.
+Sample Input 2:
+3
+4
+1 2 2 3
+10
+1 3 4 5 5 6 7 8 9 10
+3
+1 2 2
+Sample Output 2:
+2 4 
+2 5 
+2 3
+
+/*
+    Time complexity: O(N)
+    Space Complexity: O(1)
+    
+    Where N is the number of elements in the array.
+*/
+
+vector<int> findRepeatingAndMissingNumbers(vector<int> nums)
+{
+    int n = nums.size();
+    int repeatNum = -1, missingNum = -1;
+
+    for (int i = 0; i < n; i++) 
+    {
+        int val = nums[i];
+
+        if(nums[i]<0) 
+        {
+            val = -val;
+        }
+            
+        int idx =  val - 1;
+            
+        //Make the indices of the intergers found negative. 
+        if (nums[idx] > 0) 
+        {
+            nums[idx] = -nums[idx];
+        }
+        else 
+        {
+            repeatNum = val;
+        }
+    }
+
+    for (int i = 0; i < n; i++) 
+    {
+            
+        //The index with positive number is missing.
+        if (nums[i] > 0) 
+        {
+            missingNum = i + 1;
+            break;
+        }
+    }
+
+    return vector<int>({repeatNum, missingNum});
+}
+
+
+https://codeforces.com/problemset/problem/485/C
+
+
+
+Unset ith Bit
+Send Feedback
+You are given two integers N and i. You need to make ith bit of binary representation of N to 0 and return the updated N.
+Counting of bits start from 0 from right to left.
+Input Format:
+First line of input contains T(number of test cases), each test case follows as. 
+Two integers N and i (separated by space)
+Output Format :
+Updated N for each test case in new line.
+Constraints:
+1 <= T <= 10^5
+1 <= N <= 10^9
+1 <= i < 30
+Sample Input 1 :
+1
+7 2
+Sample Output 1 :
+3
+Sample Input 2 :
+1
+12 1
+Sample Output 2 :
+12
+
+/*
+You are given two integers N and i. You need to make ith bit of binary representation of N to 0 and return the updated N.
+Counting of bits start from 0 from right to left.
+Input Format:
+First line of input contains T(number of test cases), each test case follows as. 
+Two integers N and i (separated by space)
+Output Format :
+Updated N for each test case in new line.
+Constraints:
+1 <= T <= 10^5
+1 <= N <= 10^9
+1 <= i < 30
+Sample Input 1 :
+1
+7 2
+Sample Output 1 :
+3
+Sample Input 2 :
+1
+12 1
+Sample Output 2 :
+12
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    
+    // write your code here
+    int t;
+    cin>>t;
+    while(t--){
+        int n , p;
+        cin>>n>>p;
+        int a = 1;
+        for(int i=0;i<p;i++){
+            a <<= 1;
+        }
+        a = ~a;
+        int ans = (n & a);
+        cout<<ans<<endl;
+    }
+    return 0;
+}
+
+
+Find First Set Bit
+Send Feedback
+You are given an integer N. You need to return an integer M, in which only one bit is set which at the position of a lowest set bit of N (from right to left).
+Input Format :
+The first line of input will contain T(number of the test case), each test case follows as.
+The only line of each test case contains an integer N.
+Output Format:
+Integer M for each test case in a new line.
+Constraints:
+1 <= T <= 10^5
+1 <= N <= 10^9
+Sample Input 1 :
+1
+7
+Sample Output 1 :
+1
+Sample Input 2 :
+1
+12
+Sample Output 2 :
+4
+
+/*
+You are given an integer N. You need to return an integer M, in which only one bit is set which at the position of a lowest set bit of N (from right to left).
+Input Format :
+The first line of input will contain T(number of the test case), each test case follows as.
+The only line of each test case contains an integer N.
+Output Format:
+Integer M for each test case in a new line.
+Constraints:
+1 <= T <= 10^5
+1 <= N <= 10^9
+Sample Input 1 :
+1
+7
+Sample Output 1 :
+1
+Sample Input 2 :
+1
+12
+Sample Output 2 :
+4
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    
+    // write your code here
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        int count = 0;
+        int ans = 1;
+        while(n != 0){
+			if(n&1){
+                break;
+            }
+            else{
+                ans += pow(2 , count);
+                count++;
+            }
+            n >>= 1;
+        }
+        cout<<ans<<endl;
+    }
+    return 0;
+}
+
+
+
+Clear All Bits From MSB
+Send Feedback
+You are given two integers N and i. You need to clear all bits from MSB to ith bit (start i from right to left) and return the updated N.
+Counting of bits starts from 0 from right to left.
+Input Format :
+First line of input will contain T(number of test cases), each test case follows as.
+Line1: contain two space-separated integers N and i.
+Output Format :
+Updated N for each test case in a newline.
+Constraints:
+1 <= T <= 10^5
+1 <= N <= 10^9
+1 <= i <= 30
+Sample Input 1 :
+1
+15 2
+Sample Output 1 :
+3
+
+/*
+You are given two integers N and i. You need to clear all bits from MSB to ith bit (start i from right to left) and return the updated N.
+Counting of bits starts from 0 from right to left.
+Input Format :
+First line of input will contain T(number of test cases), each test case follows as.
+Line1: contain two space-separated integers N and i.
+Output Format :
+Updated N for each test case in a newline.
+Constraints:
+1 <= T <= 10^5
+1 <= N <= 10^9
+1 <= i <= 30
+Sample Input 1 :
+1
+15 2
+Sample Output 1 :
+3
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--){
+        int n,i;
+        cin>>n>>i;
+        int mask = (1<<i) - 1;
+        cout<<(n&mask)<<endl;
+    }
+    return 0;
+}
+
+
+XOR of Natural Numbers
+Send Feedback
+You are given an integer N and asked to find the Xor of first N natural numbers.
+Input Format:
+The first line of input will contain T(number of test cases), each test case follows as.
+The only line of input contains an integer N.
+Output Format:
+For each test case print the Xor of first N natural number in a new line.
+Constraints:
+1 <= T <= 10^5
+1 <= N <= 10^9
+Sample Input:
+1 
+8
+Sample Output:
+8
+
+/*
+You are given an integer N and asked to find the Xor of first N natural numbers.
+Input Format:
+The first line of input will contain T(number of test cases), each test case follows as.
+The only line of input contains an integer N.
+Output Format:
+For each test case print the Xor of first N natural number in a new line.
+Constraints:
+1 <= T <= 10^5
+1 <= N <= 10^9
+Sample Input:
+1 
+8
+Sample Output:
+8
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        int rem = n % 4;
+        if(rem==0)
+        {
+            cout<<n<<endl;
+        }
+        else if(rem == 1)
+        {
+            cout<<1<<endl;
+        }
+        else if( rem == 2)
+        {
+            cout<< (n+1)<<endl;
+        }
+        else
+        {
+            cout<<0<<endl;
+        }
+        }
+    return 0;
+}
+
+
+
+
+Pairwise Sum of Hamming Distance
+Send Feedback
+You are given an array ARR having N integers. Your task is to find the sum of Hamming Distance for each pair of the array elements.
+Hamming Distance for two given integers 'A' and 'B' is defined as the minimum number of bits that needs to be toggled to make both the integers equal.
+For example:
+Consider A=4 and B=7
+Binary representation of 4 = 100
+Binary representation of 7 = 111
+For the given example, if we flip the values of the last two least significant bits of A to 1 then A will become 7. As we can change the value of A to B by 2 flips. Therefore the Hamming Distance, in this case, is 2.
+Input format:
+The first line of input contains an integer ‘T’ denoting the number of test cases.
+
+The first line of each test case contains an integer ‘N’ denoting the number of elements in the array.
+
+The second line of each test contains 'N' space-separated integers denoting the array elements.
+Output Format:
+For each test case, return the sum of Hamming Distance for all the pairs.
+Note:
+You are not required to print anything just implement the given function.
+Constraints:
+1 <= T <= 10
+1 <= N <= 10^4
+0 <= ARR[i] <=10^9
+
+Time limit: 1 second
+Sample Input 1:
+2
+3
+4 1 3
+2
+2 2
+Sample Output 1:
+12
+0
+Explanation of sample input 1:
+For the first test case:
+All the 9 possible pairs of array elements are (4,4), (4,1), (4,3), (1,4), (1,1), (1,3), (3,4), (3,1), (3,3)
+1) (4,4) => Hamming Distance = 0
+2) (4,1) => Hamming Distance = 2
+3) (4,3) => Hamming Distance = 3 
+4) (1,4) => Hamming Distance = 2
+5) (1,1) => Hamming Distance = 0
+6) (1,3) => Hamming Distance = 1
+7) (3,4) => Hamming Distance = 3
+8) (3,1) => Hamming Distance = 1
+9) (3,3) => Hamming Distance = 0
+The sum of all the above values is 12. Therefore, the answer is 12 in this case.
+
+For the second test case:
+As all the elements of the array are equal, the hamming distance is 0 for every pair of array elements. Therefore the overall sum of Hamming distance is 0 in this case.
+Sample Input 2:
+2
+4
+1 1 5 7
+1
+4
+Sample Output 2:
+14
+0
+
+/*
+     Time Complexity : O(N*log(MAX))
+     Space Complexity : O(log(MAX))
+     
+     Where 'N' is the number of elements o the array and 'MAX' is the maximum value among array elements.
+*/
+
+long long int sumOfHammingDistance(int * arr, int n) {
+    // Initializing the two arrays.
+    int countOne[32] = { 0 };
+    int countZero[32] = { 0 };
+
+    // Iterating through all the array elements.
+    for (int i = 0; i < n; i++) {
+        int j = 0;
+        // Iterating through all the bits.
+        while (j < 32) {
+            // Checking if the jth bit is zero.
+            if (arr[i] % 2 == 0) {
+                countZero[j] += 1;
+            } else {
+                countOne[j] += 1;
+            }
+            // Moving to the next bit.
+            arr[i] /= 2;
+            j++;
+        }
+    }
+
+    // Initializing the answer.
+    long long int ans = 0;
+
+    // Iterating through all the bits.
+    for (int i = 0; i < 32; i++) {
+        // Finding contribution of each bit.
+        long long int contribution = 2 * countZero[i] * countOne[i];
+
+        // Adding the contribution to answer.
+        ans += contribution;
+    }
+
+    // Returning the overall sum.
+    return ans;
+}
+
+
+
+Xor Sum
+Send Feedback
+You are given two arrays, ‘arr1’ of size 'N' and ‘arr2’ of size 'M'. You need to create an array of bitwise AND of all the possible pairs between the elements of both arrays, and your task is to find the XOR sum of the array. The XOR sum of an array is equal to the XOR of all elements of the array.
+Note:
+The XOR sum of [A, B, C] is equal to A XOR B XOR C.
+For example:
+You are given an ‘arr1’ = [3, 2, 8] and ‘arr2’ = [1, 4, 3], therefore the AND of all possible pairs is [(3 & 1), (3 & 4), (3 & 3), (2 & 1), (2 & 4), (2 & 3), (8 & 1), (8 & 4), (8 & 3)]. So the resulting Array will be [1, 0, 3, 0, 0, 2, 0, 0, 0] therefore XOR sum of the result array is 0 . Hence the answer is 0.
+Input Format:
+The first line of input contains the single integer ‘T’ representing the number of test cases.
+
+The first line of each test case contains two space-separated integers, ‘N’ and ‘M’, representing the size of ‘arr1’ and ‘arr2’, respectively.
+
+The second line of  each test case contains ‘N’ space-separated integers representing the elements of the array ‘arr1’
+
+The third line of each test case contains ‘M’ space-separated integers representing the elements of the array ‘arr2’.
+Output Format:
+For each test case, print the single integer representing the XOR sum of bitwise AND of all pairs of the arrays ‘arr1’ and ‘arr2’.
+
+Print a separate line for each test case.
+Constraints:
+1 <= T <= 10
+1 <= N, M <= 10^6
+0 <= arr1[i], arr2[i] <= 10^9
+
+Time Limit: 1 sec
+Note:
+You do not need to print anything. It has already been taken care of. Just implement the function.
+Sample Input 1:
+2
+3 3
+3 2 8
+1 4 3
+2 1
+4 12
+8
+Sample Output 1:
+0
+8
+Explanation :
+For the first test case, ‘arr1’ = [3, 2, 8] and ‘arr2’ = [1, 4, 3], therefore the AND of all possible pairs is [(3 & 1), (3 & 4), (3 & 3), (2 & 1), (2 & 4), (2 & 3), (8 & 1), (8 & 4), (8 & 3)]. So the resulting array will be [1, 0, 3, 0, 0, 2, 0, 0, 0] therefore XOR sum of the result array is 0. Hence the answer is 0.
+
+For the second test case ‘arr1’ = [4, 12] and ‘arr2’ = [8], therefore the AND of all possible pairs is [(4 & 8), (12 & 8)]. So the resulting array will be [0, 8] therefore XOR sum of the result array is 8. Hence the answer is 8.
+Sample Input 2:
+2
+5 10
+28 92 14 19 51
+100 5 20 15 31 99 51 49 63 23
+8 4
+59 34 95 83 83 89 71 9
+12 62 72 0
+Sample Output 2:
+44
+80
+
+int xorSum(vector<int> &arr1, vector<int> &arr2)
+{
+    // Write your code here
+     int first=0,second=0;
+    
+    for(auto it:arr1)
+        first^=it;
+    
+    for(auto it:arr2)
+        second^=it;
+    return first&second;
+
+}
+
+
+
