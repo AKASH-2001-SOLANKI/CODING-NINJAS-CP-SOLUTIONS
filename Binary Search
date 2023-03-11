@@ -857,5 +857,279 @@ vector<int> smartInterval(vector<vector<int>> &intervals, int n)
 }
 
 
+Shopping Options
+Send Feedback
+You are given the list of costs of pants in an array “pants”, shirts in an array “shirts”, shoes in an array “shoes”, and skirts in an array “skirts”. You are also given a budget amount ‘X’ to spend. You want to buy exactly 1 item from each list. Your task is to determine the total number of possible combinations that you can buy, given that the total amount of your purchase does not exceed your budget amount.
+Input Format:
+The first line of input contains an integer ‘T’ denoting the number of test cases to run. Then the test case follows.
+
+The first line of each test case contains five integers ‘P’, ‘Q’, ‘R’, ‘S’ and, ‘X’. Denotes the number of pants, shirts, shoes, skirts, and budget amount respectively.
+
+The second line of each test case contains exactly ‘P’ integers. Denotes the cost of each pant.
+
+The third line of each test case contains exactly ‘Q’ integers. Denotes the cost of each shirt.
+
+The fourth line of each test case contains exactly ‘R’ integers. Denotes the cost of each shoe.
+
+The fifth line of each test case contains exactly ‘S’ integers. Denotes the cost of each skirt.
+Output Format :
+For each test case, return an integer that represents the total number of combinations to buy that are valid according to the above conditions.
+
+Output for each test case will be printed in a new line. 
+Note:
+You do not need to print anything; it has already been taken care of. Just implement the given functions.
+Constraints:
+1 <= T <= 100
+1 <= ‘P’, ‘Q’, ‘R’, ‘S’  <= 10
+1 <= ‘X’ <= 10^9
+1 <= pants[i], shirts[i], shoes[i], skirts[i] <= 10^9
+
+Time Limit: 1 sec
+Sample Input 1:
+2
+2 2 1 1 10
+3 4
+2 4
+2
+1
+3 2 2 1 15
+3 4 6
+1 4
+2 3
+8
+Sample Output 1:
+3
+3
+Explanation For Sample Output 1:
+In the first case, 
+There are a total of four ways to buy. Only valid purchases are [3, 2, 2, 1], [3, 4, 2, 1], [4, 2, 2, 1] because the sum of the cost of each item of each valid purchase is less than the budget amount.
+
+In the second case, 
+There are a total of four ways to buy. Only valid purchases are [3, 1, 2, 8], [3, 1, 3, 8], [4, 1, 2, 8] because the sum of the cost of each item of each valid purchase is less than the budget amount.
+Sample Input 2 :
+2
+3 3 3 3 14
+3 4 7
+1 3 5 
+6 8 10
+1 2 3
+4 3 2 2 20
+2 8 7 10
+5 5 5
+6 3
+4 5
+Sample Output 2:
+12
+21
+
+/*
+    Time Complexity: O((R * S + P * Q) * log(P * Q))
+    Space Complexity: O(P * Q)
+
+    Where ‘P’, ‘Q’, ‘R’, and ‘S’ denote the number of pants, shirts, shoes, skirts respectively.
+
+*/
+
+#include<algorithm>
+
+// To find number of smaller values in an array than the given value.
+int getSmallerNumbers(vector<int> vec, int val)
+{
+	int left = 0, right = vec.size();
+
+	while (left < right)
+	{
+		int mid = (left + right) / 2;
+
+		if (vec[mid] <= val)
+		{
+			left = mid + 1;
+		}
+		else
+		{
+			right = mid;
+		}
+	}
+
+	return left;
+}
+
+int shoppingOptions(vector<int>& pants, vector<int>& shirts, vector<int>& shoes, vector<int>& skirts, int budget)
+{
+
+	//To store number of ways to buy
+	int answer = 0;
+
+	vector<int> sumOfPantsAndShirts((int)(pants.size() * shirts.size()));
+
+	int counter = 0;
+
+	// To generate every possible combinations of pants and shirts.
+	for (int i = 0; i < pants.size(); i++)
+	{
+		for (int j = 0; j < shirts.size(); j++)
+		{
+			// Store the sum in the array
+			sumOfPantsAndShirts[counter] = pants[i] + shirts[j];
+
+			counter = counter + 1;
+		}
+	}
+
+	// Sort all the combinations in ascending order.
+	sort(sumOfPantsAndShirts.begin(), sumOfPantsAndShirts.end());
+
+
+	for (int i = 0; i < shoes.size(); i++)
+	{
+		for (int j = 0; j < skirts.size(); j++)
+		{
+			// To store remaining amount
+			int remainingAmount = budget - shoes[i] - skirts[j];
+
+			// Adding all smaller or equal numbers than remainingAmount.
+			answer = answer + getSmallerNumbers(sumOfPantsAndShirts, remainingAmount);
+		}
+	}
+
+	return answer;
+}
+
+
+
+Russian Doll Envelopes
+Send Feedback
+You are given a set of ‘N’ rectangular envelopes. The height and width of each envelope are given by arrays, ‘height’ and ‘width’ respectively, each consisting of ‘N’ positive integers. The height, width of the ith envelope is given by ‘height[i]’ and ‘width[i]’ respectively.
+You can put one envelope inside another envelope if and only if both the height and width of one envelope is strictly greater than the height and width of the other envelope.
+What is the maximum number of envelopes you can Russian doll? (put one inside other)
+Note
+Rotation of envelope is not allowed, that is, height and width can’t be exchanged
+Input Format:
+The first line of input contains an integer ‘T’ denoting the number of test cases.
+
+The next 3*T lines represent the ‘T’ test cases.
+
+The first line of each test case contains an integer ‘N’, representing the number of envelopes.
+
+The second line of the test case contains ‘N’ space-separated integers representing elements of the array ‘height’.
+
+The third line of the test case contains ‘N’ space-separated integers representing elements of the array ‘width’.
+Output Format :
+For each test case, print, in a separate line, the maximum number of envelopes you can Russian doll.
+Note:
+You do not need to print anything, it has already been taken care of. Just implement the given function.
+Constraints:
+1 <= T <= 50
+1 <= n <= 10^4
+1 <= height[i] <= 10^9
+1 <= width[i] <= 10^9
+
+Time Limit: 2 sec
+Sample Input 1:
+2
+4
+5 6 6 2
+4 4 7 3
+2
+2 1 
+2 1
+Sample Output 1:
+3 
+2
+Explanation For Sample Output 1:
+Test Case 1:
+The number envelopes, ‘N’ = 4 
+‘height’ = {5, 6, 6, 2}
+‘width’= {4, 4, 7, 3}
+Let denote dimensions of the envelope in (Height, Width) manner then, one way of Russian Doll envelopes in outermost to the innermost manner is as follow:
+
+Select the third envelope, i.e., envelope with dimensions (6, 7) as the outermost envelope.
+
+Place the first envelope i.e envelope with dimensions (5, 4) inside the outermost envelope. You can do this because both the height and width of this envelope is strictly less than the outermost envelope.
+
+Place the fourth envelope i.e envelope with dimensions (2, 3) inside the previous envelope.
+
+In this way, we can Russian Doll 3 envelopes. 
+
+No other way can Russian Doll more than 3 envelopes.
+
+Test Case 2:
+You can put the second envelope inside the first envelope because both the height and width of the second envelope are strictly less than the first envelope.
+Sample Input 2:
+ 2
+ 1
+ 2
+ 3
+ 3
+ 1 1 1
+ 1 1 1
+Sample Output 2:
+ 1
+ 1
+ 
+ /*
+    Time Complexity     :   O(N * log(N))
+    Space Complexity    :   O(N)
+
+    Where 'N' is the number of envelopes.
+*/
+
+#include <algorithm>
+#include <climits>
+
+int longestIncreasingSubsequence(vector<int> &arr, int n) {
+
+    // Here tail[i] will be last element of incresing sequence of length 'i'.
+    vector<int> tail(n);
+    
+    tail[0] = arr[0];
+    int length = 1;
+    
+    for(int i = 1; i < n; i++) {
+    
+        // Binary search to find position in 'tail' array.
+        int j = lower_bound(tail.begin(), tail.begin() + length, arr[i]) - tail.begin();
+        
+        if(j == length) {
+            tail[length++] = arr[i];
+        }
+        else {
+            tail[j] = arr[i];
+        }
+    }
+
+    return length;
+}
+
+int findMaxEnvelopes(vector<int> &height, vector<int> &width, int n) {
+    
+    // Store height and width of each envelop in matrix 'envelopes'.
+    vector<vector<int>> envelopes(n, vector<int>(2));
+    for(int i = 0; i < n; i++) {
+        envelopes[i][0] = height[i];
+        envelopes[i][1] = width[i];
+    }
+
+    // Sort matrix 'envelopes' in increasing order of their height and if height are equal then arrange in decreasing order of width.
+    sort(envelopes.begin(), envelopes.end(), [](vector<int> &v1, vector<int> &v2)->bool{
+        if(v1[0] < v2[0] or (v1[0] == v2[0] and v1[1] > v2[1])) {
+            return true;
+        }
+        return false;
+    });
+
+    // Copy second column of matrix 'envelopes' after sorting.
+    vector<int> arr(n);
+    for(int i = 0; i < n; i++) {
+        arr[i] = envelopes[i][1];
+    }
+
+    return longestIncreasingSubsequence(arr, n);
+}
+
+
+
+
+
 
 
