@@ -1,0 +1,920 @@
+All Subsets Generation
+Send Feedback
+You are given an array ‘arr’ of ‘N’ distinct integers. Your task is to find all the non-empty subsets of the array.
+Note: You can return the subsets in any order, you don’t have to specifically sort them.
+ 
+
+Input Format :
+The first line contains a single integer ‘T’ denoting the number of test cases, then each test case follows
+
+The first line of each test case contains a single integers ‘N’ denoting the length of the array.
+
+The second line of each test case contains ‘N’ integers denoting the array elements.
+Output Format :
+For each test case print each subset in a separate line.
+
+Output for each test case will be printed in a separate line.
+Note :
+You are not required to print anything; it has already been taken care of. Just implement the function.
+Constraints :
+1 <= T <= 10      
+1 <= N <= 10
+10^-9 <= arr[i] <= 10^9
+
+Time limit: 1 sec
+Sample Input 1 :
+2
+3
+1 2 3
+1
+10
+Sample Output 1 :
+1
+1 2
+1 2 3
+1 3
+2
+2 3
+3
+10
+Explanation Of Sample Output 1 :
+For test case 1 :
+Total 7 possible subsets can be formed: {1}, {1,2}, {1,2,3}, {1,3}, {2}, {2,3}, {3}
+
+For test case 2 :
+Only a single subset {10} is possible for the given input array.
+Sample Input 2 :
+2
+2
+1 2
+3
+1 2 3
+Sample Output 2 :
+1 
+1 2 
+2 
+1 
+1 2 
+1 2 3 
+1 3 
+2 
+2 3 
+3 
+
+/*
+    Time Complexity: O(2^N)
+    Space Complexity: O(N*2^N)
+
+    where N is the size of given input array.
+*/
+
+void help(int i, vector<int> &temp, vector<vector<int>> &ans, vector<int> &arr){
+    if(i==arr.size()){
+        if(temp.size()>0){
+            ans.push_back(temp); }
+        return;
+        }
+    temp.push_back(arr[i]);
+    help(i+1,temp,ans,arr);
+    temp.pop_back();
+    help(i+1,temp,ans,arr);
+}
+
+
+vector<vector<int>> FindAllSubsets(int n, vector<int> &arr){
+    vector<vector<int>> ans;
+    vector<int> temp;
+    help(0,temp,ans,arr);  
+    return ans;
+}
+
+
+
+Choose the correct
+Send Feedback
+What would be the total number of recursive calls if you are generating all the subsets of an array containing N elements.
+Options
+This problem has only one correct answer
+N
+2*N
+N^2
+2^N - Answer
+Hurray! Correct Answer
+Solution Description
+We have 2 choices for every element either it will be a part of a subset or not therefore total cases would be 2*2*2…*2 (N times) which is equal to 2^N. In order to print and generate them we have to call recursion for every subset therefore the total number of calls would be 2^N. 
+
+
+Permutations of a String
+Send Feedback
+You are given a string 'STR' consisting of lowercase English letters. Your task is to return all permutations of the given string in lexicographically increasing order.
+String A is lexicographically less than string B, if either A is a prefix of B (and A ≠ B), or there exists such i (1 <= i <= min(|A|, |B|)), that A[i] < B[i], and for any j (1 <= j < i) A[i] = B[i]. Here |A| denotes the length of the string A.
+For example :
+If the string is “bca”, then its permutations in lexicographically increasing order are { “abc”, “acb”, “bac”, “bca”, “cab”, “cba” }.
+Note:
+Given string contains unique characters.
+Input Format :
+The first line of input contains a single integer 'T', representing the number of test cases or queries to be run. Then the T test cases follow.
+
+The first line and only line of each test case contains a string 'STR' consisting of lowercase English letters.
+Output Format :
+For every test case, the permutations of the given string are printed in lexicographically increasing order separated by space.
+
+The output of each test case is printed in a separate line.
+Note :
+You do not need to print anything, it has already been taken care of. Just implement the given function.
+Constraints :
+1 <= T <= 5
+1 <= |STR| <= 9
+
+Where |STR| is the length of the string.
+
+Time Limit: 1 sec
+Sample Input 1:
+3
+abc
+bc
+c
+Sample Output 1:
+abc acb bac bca cab cba
+bc cb
+c
+Explanation for Sample Input 1:
+In the 1st test case, there are 6 permutations of the given string.
+In the 2nd test case, there are 2 permutations of the given string.
+In the 3rd test case, there is only 1 permutation of the given string.
+Sample Input 2:
+1
+xyz
+Sample Output 2:
+xyz xzy yxz yzx zxy zyx 
+
+/*
+
+    Time complexity: O(N! * N)
+    Space complexity: O(N) 
+
+    Where N is the length of the given string STR.
+
+*/
+
+
+#include <bits/stdc++.h>
+void helper(string &str, vector<char> &premList, vector<bool> &used, vector<string> &res) 
+{
+
+    // If permutation found add the permutation.
+    if (premList.size() == str.length()) 
+    {
+        string sa = "";
+
+        for (int i = 0; i < premList.size(); i++) 
+        {
+            sa = sa + premList[i];
+        }
+        res.push_back(sa);
+        return;
+    }
+
+    for (int i = 0; i < str.length(); i++) 
+    {
+        if (used[i])
+        {
+            continue;
+        }
+            
+        if (i > 0 && str[i - 1] == str[i] && used[i - 1])
+        {
+            continue;
+        }
+
+        // Backtrack to find all the permutations of the string.
+        premList.push_back(str[i]);
+        used[i] = true;
+        helper(str, premList, used, res);
+        used[i] = false;
+        premList.pop_back();
+
+    }
+
+}
+
+vector<string> generatePermutations(string& str) 
+{
+
+    vector<string> res;
+
+    sort(str.begin(), str.end());
+    vector<bool> used(str.length()) ;
+    vector<char> premList;
+
+    helper(str, premList, used, res);
+    return res;
+}
+
+
+Choose the correct
+Send Feedback
+Which of the the statement is wrong in the following code of permutation string?
+void permutation(string s, int ind , int n, vector<string>&ans){
+if(ind>=n){
+    ans.push_back(s);//Statement 1 
+    return;
+}
+
+for(int i=ind;i<n;i++){
+    swap(s[ind],s[i]);// Statement 2
+    permutation(s,ind-1,n,ans);//Statement 3
+    swap(s[i],s[ind]);//Statement 4
+}
+
+return;
+}
+Options
+This problem has only one correct answer
+Statement 1
+Statement 2
+Statment 3 - correct
+Statement 4
+Hurray! Correct Answer
+Solution Description
+ Correct statement is :
+permutation(s,ind+1,n,ans).
+
+
+
+
+
+Print Keypad - String
+Send Feedback
+Given an integer n, using phone keypad find out and print all the possible strings that can be made using digits of input n.
+Note : The order of strings are not important. Just print different strings in new lines.
+Input Format :
+Integer n
+Output Format :
+All possible strings in different lines
+Constraints :
+1 <= n <= 10^6
+Sample Input:
+23
+Sample Output:
+ad
+ae
+af
+bd
+be
+bf
+cd
+ce
+cf
+
+#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+string dial(int key){
+    unordered_map<int,string>m;
+    m[0]="";
+    m[1]="";
+    m[2]="abc";
+    m[3]="def";
+    m[4]="ghi";
+    m[5]="jkl";
+    m[6]="mno";
+    m[7]="pqrs";
+    m[8]="tuv";
+    m[9]="wxyz";
+    return m[key];
+}
+void pK(int num,string out){
+    
+    if(num==0){
+        cout<<out<<endl;
+        return;
+    }
+    string pd=dial(num%10);
+    for(int i=0;i<pd.size();i++){
+        pK(num/10,pd[i]+out);
+    }
+}
+
+void printKeypad(int num){
+    /*
+    Given an integer number print all the possible combinations of the keypad. You do not need to return anything just print them.
+    */
+    pK(num,"");
+    
+}
+
+
+
+
+
+
+
+Combination Sum
+Send Feedback
+You are given an array/list ARR of N distinct positive integers. You are also given a non-negative integer B.
+Your task is to find all unique combinations in the array whose sum is equal to B. A number can be chosen any number of times from array/list ARR.
+Elements in each combination must be in non-decreasing order.
+For example:
+Let the array ARR be [1, 2, 3] and B = 5. Then all possible valid combinations are-
+
+(1, 1, 1, 1, 1)
+(1, 1, 1, 2)
+(1, 1, 3)
+(1, 2, 2)
+(2, 3)
+Input Format
+The first line of input contains an integer ‘T’ denoting the number of test cases to run. Then the test case follows.
+
+Then the first line of each test case contains two space separated integers  ‘N’ and ‘B’ denoting the number of elements in the array/list and the target sum respectively.
+
+The second line of each test case contains N space separated integers the elements of array/list ARR.
+Output Format :
+For each test case, print all possible valid combinations in separate lines. You can print combinations in any order. Elements in each combination must be in non-decreasing order.
+
+Output for each test case will be printed in a new line. 
+Note:
+You do not need to print anything; it has already been taken care of. Just implement the given function.
+Constraints:
+1 <= T <= 5
+1 <= N <= 15
+1 <= B <= 20
+1 <= ARR[i] <= 20
+
+Time Limit: 1sec
+Sample Input 1 :
+2
+3 8
+2 3 5
+1 2
+1
+Sample Output 1:
+2 2 2 2
+2 3 3 
+3 5
+1 1
+Sample Input 2 :
+1
+3 5
+1 2 3 
+Sample Output 2:
+1 1 1 1 1
+1 1 1 2 
+1 1 3
+1 2 2
+2 3
+
+/*
+    Time Complexity: O(2^N)
+    Space Complexity: O(N*2^N)
+
+    where N is the total number of elements in the aray.
+*/
+
+
+#include <algorithm>
+
+
+void solve(vector<vector<int>> &result, int currIndex, int currSum, 
+			vector<int> &currList, int B, vector<int> &ARR)
+{
+	if (currSum == B)
+	{
+		result.push_back(currList);
+		return ;
+	}
+	if (currIndex == ARR.size())
+	{
+		return ;
+	}
+
+	solve(result, currIndex + 1, currSum, currList, B, ARR);
+
+
+	int count = 0;
+
+	while (currSum <= B)
+	{
+		count++;
+
+		currSum += ARR[currIndex];
+
+		currList.push_back(ARR[currIndex]);
+
+		solve(result, currIndex + 1, currSum, currList, B, ARR);
+	}
+
+	/* We remove ARR[currIndex] from currList, 'count'
+	   number of times for backtracking */
+	while (count--)
+	{
+		currList.pop_back();
+	}
+}
+
+
+vector<vector<int>> combSum(vector<int> &ARR, int B)
+{
+	sort(ARR.begin(), ARR.end());
+	
+	vector<vector<int>> result;
+
+	vector<int> currList;
+
+	solve(result, 0, 0, currList, B, ARR);
+
+	return result;
+}
+
+
+
+
+Choose the correct
+Send Feedback
+What is the height of the recursive tree in Combination Sum problem if the size of the array is N ?
+Options
+This problem has only one correct answer
+2^N
+N - answer
+N-1
+N^2
+Hurray! Correct Answer
+Solution Description
+For every element we have 2 choice either we will select it or not and if we form a tree based on the above statement it heigh would be equal to N.
+
+
+https://codeforces.com/group/MWSDmqGsZm/contest/223339/problem/V
+
+
+Flood Fill Algorithm
+Send Feedback
+Ninja has found his new passion for photography. He has clicked some really good photos but in one of his images, he doesn’t like the color of a particular region. So, he decides to change the color of that region. Can you help him with this task?
+The image is represented in the form of a 2D array of size M * N. Each pixel in the image is a positive integer. Ninja has given you the coordinates (row and column) of a certain pixel and the new color value. You need to replace the color of the given pixel and all adjacent same-colored pixels with the new color.
+Note:
+Two pixels are adjacent if they are connected to each other in any of the four directions: up, down, left, or right.
+
+Diagonal pixels are not considered adjacent.
+Example:
+Consider the image of size 4*4, shown below (left). Let the coordinates of the starting pixel are (1, 2) and the new color is 8. The starting pixel, highlighted with red color, has a pixel value of 3. 
+
+On replacing the given pixel and all adjacent same-colored pixels with the new color we get the new image, shown below (right). The modified pixels are highlighted with green color.
+example
+
+Input Format:
+The first line of input contains an integer ‘T’ representing the number of test cases.
+
+The first line of every test case contains two space-separated integers ‘M’ and ‘N’ representing the number of rows and columns in the image.
+
+Each of the next ‘M’ lines contains ‘N’ space-separated integers denoting the pixel values of the image.
+
+    The next line contains three space-separated integers ‘X’, ‘Y’, and ‘C’ denoting the row and column of the starting pixel and the new color, respectively.
+Output Format:
+For each test case, the newly colored image is printed in the form of an M * N Matrix.
+Note:
+You do not need to print anything, it has already been taken care of. Just implement the given function.
+Constraints:
+1 <= T <= 100 
+1 <= M, N <= 50
+0 <= X < M
+0 <= Y < N
+1 <= Image[i][j], C <= 10^5    
+
+Time Limit: 1 sec
+Sample Input 1:
+2
+4 4
+1 1 7 5
+1 3 3 3
+6 5 5 3
+2 2 3 3
+1 2 8
+5 6
+1 2 1 2 3 5
+1 2 2 4 3 4
+1 2 4 4 5 4
+6 2 2 2 3 4
+7 6 1 3 3 3
+3 2 4
+Sample Output 1:
+1 1 7 5
+1 8 8 8
+6 5 5 8
+2 2 8 8
+1 4 1 2 3 5
+1 4 4 4 3 4
+1 4 4 4 5 4
+6 4 4 4 3 4
+7 6 1 3 3 3
+Explanation For Sample Input 1:
+For the first test case, refer to the example explained before.
+
+For the second test case, we are given an image of size 5*6, shown below (left). The coordinates of the starting pixel are (3, 2) and the new color is 4. The starting pixel, highlighted with red color, has a pixel value of 2. 
+
+On replacing the given pixel and all adjacent same colored pixels with the new color we get the new image, shown below (right). The modified pixels are highlighted with green color.
+Sample 1 - TestCase 2
+
+Sample Input 2:
+2
+1 1
+5
+0 0 6
+2 2
+1 3
+3 3
+1 1 5
+Sample Output 2:
+6
+1 5
+5 5
+
+/*
+	Time complexity: O(M * N)
+	Space Complexity: O(M * N)
+	
+	Where M and N are the number of rows and columns in the image, respectively.
+*/
+
+#include <queue>
+
+vector<vector<int>> floodFill(vector<vector<int>> &image, int x, int y, int newColor)
+{
+    int oldColor = image[x][y];
+
+    // Number of rows.
+    int m = image.size();
+
+    // Number of columns.
+    int n = image[0].size();
+
+    // Queue to hold the coordinates of the pixels.
+    queue<pair<int, int>> q;
+
+    q.push({x, y});
+
+    while (!q.empty())
+    {
+        pair<int, int> currentPixel = q.front();
+        q.pop();
+
+        // i and j represent the row and column of the current pixel.
+        int i = currentPixel.first;
+        int j = currentPixel.second;
+
+
+        // Check if the current coordinates are valid.
+        if (i >= 0 && i < m && j >= 0 && j < n)
+        {
+            // Now, check if the current pixel has been colored or not.
+            if (image[i][j] == oldColor && image[i][j] != newColor)
+            {
+                // So, replace the old colour.
+                image[i][j] = newColor;
+
+                // Push the adjacent pixels into the queue.
+                q.push({i, j + 1});
+                q.push({i, j - 1});
+                q.push({i + 1, j});
+                q.push({i - 1, j});
+            }
+        }
+    }
+
+    return image;
+}
+
+
+
+
+N-th Term Of GP
+Send Feedback
+You are given the first term (A), the common ratio (R) and an integer N. Your task is to find the Nth term of the GP series.
+The general form of a GP(Geometric Progression) series is A, A(R), A(R^2), A*(R^3) and so on where A is the first term of GP series
+Note :
+As the answer can be large enough, return the answer modulo 10^9 + 7.
+Input format :
+The first line of input contains an integer T denoting the number of queries or test cases. 
+
+The first line of every test case contains three single space-separated integers N, A, and R denoting the term of GP series required, the first term, and the common ratio respectively. 
+Output format :
+For each test case, print an integer denoting the Nth term of GP in a separate line. 
+Note :
+You do not need to print anything, it has already been taken care of. Just implement the given function.
+Constraints :
+1 <= T <= 10
+1 <= N <= 10^8
+0 <= A <= 50 
+0 <= R <= 100
+
+Time limit: 1 second
+Sample input 1 :
+1
+5 3 2 
+Sample output 1 :
+48
+Explanation :
+For N=5, A=3, and R=2. The GP series will be 3, 6, 12, 24, 48, and so on. Thus, the 5th term will be 48.  
+Sample input 2 :
+2
+4 1 2
+6 2 1 
+Sample output 2 :
+8
+2
+
+/*
+    Time complexity: O(logN) 
+    Space complexity: O(logN) 
+    
+    Where N is the term of GP required.     
+*/
+
+long long power(int R, int N, int mod) {
+    
+    if(N == 0){
+        return 1;
+    }
+    
+    long long temp = power(R, N / 2, mod) % mod;
+    
+    if(N % 2 == 0) {
+        return (temp * temp) % mod;
+    }
+    else {
+        return (((temp * temp) % mod) * R) % mod;
+    }
+
+}
+
+int nthTermOfGP(int N, int A, int R) {
+    
+    int mod = 1000000007;
+    
+    long long ans = (A * power(R, N - 1, mod)) % mod;
+    
+    return (int) ans;
+
+}
+
+
+
+Print Series
+Send Feedback
+You have given two positive integers N and K. Your task is to print a series of numbers i.e subtract K from N until it becomes 0 or negative then add K until it becomes N. You need to do this task without using any loop.
+For Example:
+For  N = 5 , K = 2 
+Series = [ 5, 3, 1, -1, 1, 3, 5]
+Input format :
+The first line of input contains a single integer T, representing the number of test cases or queries to be run 
+
+The first line of each test contains two space-separated integers N and K. 
+Output format :
+For each test case, print a single line containing the required series.
+Note:
+You do not need to print anything, it has already been taken care of. Just implement the given function.
+Constraints :
+1 <= T <= 100   
+1 <= N <= 3000 
+1 <= K <= N 
+
+Time Limit: 1sec
+Sample Input 1 :
+2 
+3 2
+5 4
+Sample Output 1 :
+3 1 -1 1 3
+5 1 -3 1 5
+Explanation For Sample 1:
+For the 1st test case:
+The numbers in the sequence are 3, 3 - 2, 3 - 2 - 2, 3 - 2 - 2 + 2, 3 - 2 - 2 + 2 + 2, which is the same as 3, 1, -1, 1, 3. 
+
+For the 2nd test case:
+The numbers in the sequence are 5, 5 - 4, 5 - 4 - 4, 5 - 4 - 4 + 4, 5 - 4 - 4 + 4 + 4, which is the same as 5, 1, -3, 1, 5. 
+Sample Input 2 :
+1
+4 2
+Sample Output 2 :
+4 2 0 2 4
+
+/*
+    Time Complexity  : O(N)
+    Space Complexity : O(N)
+
+    Where N is the given number.
+*/
+#include<bits/stdc++.h>
+void series(int n, int k, vector<int> &answer)
+{
+    
+    // Add n to answer
+    answer.push_back(n);
+
+    // If n<=0 then break the recursion
+    if (n <= 0)
+    {
+        return;
+    }
+
+    // Recur for series(answer, n, n-k).
+    series(n - k, k, answer);
+
+    // Add n to answer.
+    answer.push_back(n);
+}
+
+vector<int> printSeries(int n, int k)
+{
+    
+    // Declare an empty array to store our series
+    vector<int> answer;
+
+    // Call the series function
+    series(n, k, answer);
+
+    // Return the answer
+    return answer;
+}
+
+
+
+
+Family Structure
+Send Feedback
+Aakash is a member of Ninja club. He has a weird family structure. Every male member (M) gives birth to a male child first and then a female child, whereas every female (F) member gives birth to a female child first and then to a male child. Aakash analyses this pattern and wants to know what will be the Kth child in his Nth generation. Can you help him?
+A sample generation tree is shown, where ‘M’ denotes the male member and ‘F’ denotes the female member. 
+
+
+Note
+The generation tree starts with a male member i.e. Aakash. 
+Every member has exactly two children. 
+The given N and K will always be valid. 
+Input Format:
+The first line contains an integer 'T' which denotes the number of test cases. Then the test cases follow.
+The first and the only line of each test case contains two space-separated integers ‘N’ and ‘K’ denoting the generation number and position of the child in Nth generation, respectively. 
+Output Format
+For each test case, print the gender of the Kth child in the Nth generation. If the gender is male, print “Male” else print “Female” (without quotes). 
+The output of each test case is printed in a separate line. 
+Note
+You don’t have to print anything, it has already been taken care of. Just implement the given function. 
+Constraints :
+1 <= T <= 5
+1 <= N <= 50
+1 <= K <= 2^(N - 1)
+where ‘T’ is the number of test cases, ‘N’ is generation number and ‘K’ is the position of the child in the Nth generation. 
+Sample Input 1:
+2
+2 2 
+3 4  
+Sample Output 1:
+Female
+Male
+Explanation for Sample Input 1:
+Test Case 1:  2nd child of the 2nd generation is shown in green colour. 
+
+
+Test Case 2:  4th child of the 3rd generation is shown in green colour. 
+
+
+Sample Input 2:
+3
+5 1 
+3 1
+4 4  
+Sample Output 2:
+Male
+Male
+Male 
+
+/*
+    Time Complexity: O(min(N, log(K)))
+    Space Complexity: O(N)
+    
+    Where N is the generation number and K is the position of the child in the Nth generation. 
+*/
+
+string kthChildNthGeneration(int n, long long int k)
+{
+	// Base Condition
+	if(n == 1 or k == 1)
+	{
+		return "Male";
+	}
+	// Parent of the Kth child of Nth generation
+	long long int par = (k + 1)/2;
+
+	// Recursively find the gender of the parent
+	string parGender = kthChildNthGeneration(n - 1, par);
+
+	// If Kth child of Nth generation is the first child of its parent
+	if(k == 2 * par - 1)
+	{
+		return parGender;
+	}
+	// If Kth child of Nth generation is the second child of its parent
+	else
+	{
+		if(parGender == "Male")
+		{
+			return "Female";
+		}
+		else
+		{
+			return "Male";
+		}
+	}
+}
+
+
+
+Return Subsets Sum to K
+Send Feedback
+Given an integer array 'ARR' of size 'N' and an integer 'K', return all the subsets of 'ARR' which sum to 'K'.
+Subset of an array 'ARR' is a tuple that can be obtained from 'ARR' by removing some (possibly all) elements of 'ARR'.
+Note :
+The order of subsets is not important. 
+
+The order of elements in a particular subset should be in increasing order of the index.
+Input Format
+The first line of input contains an integer 'N', which denotes the size of the array.
+
+The second line contains 'N' single-space separated integers representing the elements of the array.
+
+The third line contains a single integer 'K', which denotes the integer to which the subsets should sum to.
+Output Format:
+For each test case, print single-space separated integers of a subset of 'ARR' having sum = 'K'. 
+
+The output of each test case will be printed in a separate line.
+Note:
+You do not need to print anything, it has already been taken care of. Just implement the given function.
+Constraints:
+1 <= 'N' <= 16
+- (10 ^ 6) <= ARR[i] <= (10 ^ 6)
+- 16 * (10 ^ 6) <= 'K' <= 16 * (10 ^ 6)
+
+Where ‘ARR[i]’ denotes the value for ‘ith’ element of the array ‘ARR’ and 'K' is the given sum.
+
+Time Limit: 1 sec.
+Sample Input 1:
+3
+2 4 6
+6
+Sample Output 1:
+2 4
+6
+Explanation of the Sample Input 1:
+For the array'ARR' = {2, 4, 6}, we can have subsets {}, {2}, {4}, {6}, {2, 4}, {2, 6}, {4, 6}, {2, 4, 6}. Out of these 8 subsets, {2, 4} and {6} sum to the given 'K' i.e. 6. 
+Sample Input 2:
+6 
+5 -1 8 2 7 0
+7
+Sample Output 2:
+-1 8 
+-1 8 0 
+5 2 
+5 2 0 
+7 
+7 0 
+
+/*
+    Time Complexity:  O((2^N) * N).
+    Space Complexity:O( 1 ).
+
+    Where 'N' is the size of the array.
+*/
+
+vector<vector<int>> findSubsetsThatSumToK(vector<int> &arr, int n, int k)
+{
+    // Ans vector contains all the subset which sum upto 'K'.
+    vector<vector<int>> ans;
+
+    for (int i = 0; i < (1 << n); i++)
+    {
+        int sum = 0;
+        vector<int> vec;
+        for (int j = 0; j < n; j++)
+        {
+            // Checking wheather the element is present the subset or not.
+            if ((1 << j) & i)
+            {
+                sum += arr[j];
+                vec.push_back(arr[j]);
+            }
+        }
+
+        // If sum is 'K'.
+        if (sum == k)
+        {
+            ans.push_back(vec);
+        }
+    }
+
+    // Return ans.
+    return ans;
+}
+
+
+
+
+
