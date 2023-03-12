@@ -1,0 +1,1065 @@
+Code : BFS Traversal
+Send Feedback
+Given an undirected graph G(V, E), print its BFS traversal.
+Here you need to consider that you need to print BFS path starting from vertex 0 only.
+V is the number of vertices present in graph G and vertices are numbered from 0 to V-1.
+E is the number of edges present in graph G.
+Note :
+1. Take graph input in the adjacency matrix.
+2. Handle for Disconnected Graphs as well
+Input Format :
+Line 1: Two Integers V and E (separated by space)
+Next 'E' lines, each have two space-separated integers, 'a' and 'b', denoting that there exists an edge between Vertex 'a' and Vertex 'b'.
+Output Format :
+BFS Traversal (separated by space)
+Constraints :
+2 <= V <= 1000
+1 <= E <= 1000
+Sample Input 1:
+4 4
+0 1
+0 3
+1 2
+2 3
+Sample Output 1:
+0 1 3 2
+
+#include<iostream>
+#include<queue>
+using namespace std;
+void print(int** arr, int n, int starting_vertex, bool* visited)
+{
+	queue<int> q;
+	q.push(starting_vertex);
+	visited[starting_vertex] = true;
+	while (!q.empty())
+	{
+		cout << q.front()<<" ";
+		int current_element = q.front();
+		for (int i = 1; i < n; i++)
+		{
+			if (i == current_element)
+			{
+				continue;
+			}
+			if (visited[i])
+			{
+				continue;
+			}
+			if (arr[current_element][i] == 1)
+			{
+				q.push(i);
+				visited[i] = true;
+			}
+		}
+		q.pop();
+	}
+}
+int main()
+{
+	int v, e;
+	cin >> v >> e;
+	int** arr = new int* [v];
+	for (int i = 0; i < v; i++)
+	{
+		arr[i] = new int[v];
+		for (int j = 0; j < v; j++)
+		{
+			arr[i][j] = 0;
+		}
+	}
+	while (e--)
+	{
+		int a, b;
+		cin >> a >> b;
+		arr[a][b] = 1;
+		arr[b][a] = 1;
+	}
+	bool* visited = new bool[v];
+	for (int i = 0; i < v; i++)
+	{
+		visited[i] = false;
+	}
+    for(int i=0; i<v; i++)
+    {
+        if(!visited[i])
+        {
+            print(arr, v, i, visited);
+        }
+    }
+	
+}
+
+
+
+
+Code : Has Path
+Send Feedback
+Given an undirected graph G(V, E) and two vertices v1 and v2(as integers), check if there exists any path between them or not. Print true or false.
+V is the number of vertices present in graph G and vertices are numbered from 0 to V-1.
+E is the number of edges present in graph G.
+Input Format :
+First line will contain T(number of test cases), each test case as follow.
+Line 1: Two Integers V and E (separated by space)
+Next E lines : Two integers a and b, denoting that there exists an edge between vertex a and vertex b (separated by space)
+Line (E+2) : Two integers v1 and v2 (separated by space)
+Output Format :
+true or false for each test case in a newline.
+Constraints :
+1 <= T <= 10
+2 <= V <= 1000
+1 <= E <= 1000
+0 <= v1, v2 <= V-1
+Sample Input 1 :
+1
+4 4
+0 1
+0 3
+1 2
+2 3
+1 3
+Sample Output 1 :
+true
+Sample Input 2 :
+1
+6 3
+5 3
+0 1
+3 4
+0 3
+Sample Output 2 :
+false
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+string search_dfs(int **aj, int v, int *visited, int start, int val) {
+  visited[start] = 1;
+  // check if value found
+  if (start == val) {
+    return "true";
+  }
+  // iterate to all the connected vertices of the current vertice
+  for (int i = 0; i < v; i++) {
+    if (i == start) {
+      continue;
+    }
+    if (aj[start][i] == 1) {
+      if (visited[i] == 1) {
+        continue;
+      }
+      string ans = search_dfs(aj, v, visited, i, val);
+      if (ans == "true") {
+        return ans;
+      }
+    }
+  }
+  return "false";
+}
+
+int main() {
+  int t;
+  cin>>t;
+  while(t--)
+  {
+  int v, e;
+  cin >> v >> e;
+  int **aj = new int *[v];
+  for (int i = 0; i < v; i++) {
+    aj[i] = new int[v]{};
+  }
+  for (int i = 0; i < e; i++) {
+    int a, b;
+    cin >> a >> b;
+    aj[a][b] = 1;
+    aj[b][a] = 1;
+  }
+  int v1, v2;
+  cin >> v1 >> v2;
+  int *visited = new int[v + 1]{};
+  string ans = search_dfs(aj, v, visited, v1, v2);
+  cout << ans << endl;
+  }
+  return 0;
+}
+
+
+
+
+Code : Get Path - DFS
+Send Feedback
+Given an undirected graph G(V, E) and two vertices v1 and v2(as integers), find and print the path from v1 to v2 (if exists). Print nothing if there is no path between v1 and v2.
+Find the path using DFS and print the first path that you encountered.
+V is the number of vertices present in graph G and vertices are numbered from 0 to V-1.
+E is the number of edges present in graph G.
+Print the path in reverse order. That is, print v2 first, then intermediate vertices and v1 at last.
+Note : Save the input graph in Adjacency Matrix.
+Input Format :
+First line will contain T(number of test case), each test follow as.
+Line 1: Two Integers V and E (separated by space)
+Next E lines : Two integers a and b, denoting that there exists an edge between vertex a and vertex b (separated by space)
+Line (E+2) : Two integers v1 and v2 (separated by space)
+Output Format :
+Path from v1 to v2 in reverse order (separated by space) for each test case in newline.
+Constraints :
+1 <= T <= 10
+2 <= V <= 1000
+1 <= E <= 1000
+0 <= v1, v2 <= V-1
+Sample Input 1 :
+1
+4 4
+0 1
+0 3
+1 2
+2 3
+1 3
+Sample Output 1 :
+3 0 1
+Sample Input 2 :
+1
+6 3
+5 3
+0 1
+3 4
+0 3
+Sample Output 2 :
+
+#include <iostream>
+#include <vector>
+using namespace std;
+vector<int> get_path(int **arr, int v, bool *visited, int current_vertex,
+                     int v2) {
+  if (current_vertex == v2) {
+    vector<int> ans;
+    ans.push_back(current_vertex);
+    return ans;
+  }
+  for (int i = 0; i < v; i++) {
+    if (!visited[i] && i != current_vertex && arr[current_vertex][i] == 1) {
+      vector<int> ans;
+      visited[i] = true;
+      ans = get_path(arr, v, visited, i, v2);
+      if (ans.size() != 0) {
+        ans.push_back(current_vertex);
+        return ans;
+      }
+    }
+  }
+  vector<int> ans;
+  return ans;
+}
+int main() {
+  int t;
+  cin >> t;
+  while(t-- ){
+  int v, e;
+  cin >> v >> e;
+  int **arr = new int *[v];
+  for (int i = 0; i < v; i++) {
+    arr[i] = new int[v];
+    for (int j = 0; j < v; j++) {
+      arr[i][j] = 0;
+    }
+  }
+  bool *visited = new bool[v];
+  for (int i = 0; i < v; i++) {
+    visited[i] = false;
+  }
+  while (e--) {
+    int a, b;
+    cin >> a >> b;
+    arr[a][b] = 1;
+    arr[b][a] = 1;
+  }
+  int v1, v2;
+  cin >> v1 >> v2;
+
+  visited[v1] = true;
+  vector<int> ans = get_path(arr, v, visited, v1, v2);
+  if (ans.size() != 0) {
+    for (int i = 0; i < ans.size(); i++) {
+      cout << ans[i] << " ";
+    }
+  }cout << endl;
+  }
+}
+
+
+
+
+Code : Get Path - BFS
+Send Feedback
+Given an undirected graph G(V, E) and two vertices v1 and v2(as integers), find and print the path from v1 to v2 (if exists). Print nothing if there is no path between v1 and v2.
+Find the path using BFS and print the shortest path available.
+V is the number of vertices present in graph G and vertices are numbered from 0 to V-1.
+E is the number of edges present in graph G.
+Print the path in reverse order. That is, print v2 first, then intermediate vertices and v1 at last.
+Note : Save the input graph in Adjacency Matrix.
+Input Format :
+First line of input will contain T(number of test case), each test case follows as.
+Line 1: Two Integers V and E (separated by space)
+Next E lines : Two integers a and b, denoting that there exists an edge between vertex a and vertex b (separated by space)
+Line (E+2) : Two integers v1 and v2 (separated by space)
+Output Format :
+Path from v1 to v2 in reverse order (separated by space) for each test case in new line.
+Constraints :
+1 <= T <= 10
+2 <= V <= 1000
+1 <= E <= 1000
+0 <= v1, v2 <= V-1
+Sample Input 1 :
+1
+4 4
+0 1
+0 3
+1 2
+2 3
+1 3
+Sample Output 1 :
+3 0 1
+Sample Input 2 :
+1
+6 3
+5 3
+0 1
+3 4
+0 3
+Sample Output 2 :
+
+#include <iostream>
+#include <map>
+#include <queue>
+using namespace std;
+void printbfs(int **arr, int v, int current_element, int v2, bool *visited) {
+  queue<int> q;
+  visited[current_element] = true;
+  q.push(current_element);
+  map<int, int> m;
+  while (!q.empty()) {
+    int current = q.front();
+    if (current == v2) {
+      break;
+    }
+    for (int i = 0; i < v; i++) {
+      if (!visited[i] && arr[current][i] == 1 && i != current) {
+        q.push(i);
+        visited[i] = true;
+        m[i] = current;
+      }
+    }
+    q.pop();
+    if (q.empty()) {
+      return;
+    }
+  }
+  int i = v2;
+  cout << v2 << " ";
+  while (i != current_element) {
+    cout << m[i] << " ";
+    i = m[i];
+  }cout << endl;
+}
+int main() {
+  int t;
+  cin >> t; 
+  while(t-- > 0){
+  int v, e;
+  cin >> v >> e;
+  int **arr = new int *[v];
+  for (int i = 0; i < v; i++) {
+    arr[i] = new int[v];
+    for (int j = 0; j < v; j++) {
+      arr[i][j] = 0;
+    }
+  }
+  while (e--) {
+    int a, b;
+    cin >> a >> b;
+    arr[a][b] = 1;
+    arr[b][a] = 1;
+  }
+  int v1, v2;
+  cin >> v1 >> v2;
+  bool *visited = new bool[v];
+  for (int i = 0; i < v; i++) {
+    visited[i] = false;
+  }
+  printbfs(arr, v, v1, v2, visited);
+  }
+}
+
+
+
+
+Code : Is Connected ?
+Send Feedback
+Given an undirected graph G(V,E), check if the graph G is connected graph or not.
+V is the number of vertices present in graph G and vertices are numbered from 0 to V-1.
+E is the number of edges present in graph G.
+Input Format :
+First line will contain T(number of test case), each test case follows as.
+Line 1: Two Integers V and E (separated by space)
+Next 'E' lines, each have two space-separated integers, 'a' and 'b', denoting that there exists an edge between Vertex 'a' and Vertex 'b'.
+Output Format :
+Print "true" or "false" for each test case in new line
+Constraints :
+1 <= T <= 10
+2 <= V <= 1000
+1 <= E <= 1000
+Sample Input 1:
+1
+4 4
+0 1
+0 3
+1 2
+2 3
+Sample Output 1:
+true
+Sample Input 2:
+1
+4 3
+0 1
+1 3 
+0 3
+Sample Output 2:
+false 
+Sample Output 2 Explanation
+The graph is not connected, even though vertices 0,1 and 3 are connected to each other but there isn’t any path from vertices 0,1,3 to vertex 2. 
+
+#include <iostream>
+using namespace std;
+#include <queue>
+
+bool checkIsConnected(int **edges, int n, int start) {
+  queue<int> vertices;
+  bool *visited = new bool[n];
+  for (int i = 0; i < n; i++) {
+    visited[i] = false;
+  }
+
+  vertices.push(start);
+  visited[start] = true;
+
+  while (!vertices.empty()) {
+    int current = vertices.front();
+    vertices.pop();
+    for (int i = 0; i < n; i++) {
+      if (!visited[i] && edges[current][i] == 1 && i != current) {
+        vertices.push(i);
+        visited[i] = true;
+      }
+    }
+  }
+  for (int i = 0; i < n; i++) {
+    if (!visited[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+int main() {
+  int t;
+  cin >> t; 
+
+  while(t-- > 0){
+  int n, e;
+  cin >> n >> e;
+  int **edges = new int *[n];
+  for (int i = 0; i < n; i++) {
+    edges[i] = new int[n];
+    for (int j = 0; j < n; j++) {
+      edges[i][j] = 0;
+    }
+  }
+
+  for (int i = 0; i < e; i++) {
+    int start, end;
+    cin >> start >> end;
+    edges[start][end] = 1;
+    edges[end][start] = 1;
+  }
+
+  if (checkIsConnected(edges, n,
+                       0)) { // its enough if you check with single vertex
+    cout << "true" << endl;
+  } else {
+    cout << "false" << endl;
+  }
+  }
+  return 0;
+}
+
+
+
+Code : All connected components
+Send Feedback
+Given an undirected graph G(V,E), find and print all the connected components of the given graph G.
+V is the number of vertices present in graph G and vertices are numbered from 1 to V.
+E is the number of edges present in graph G.
+You need to take input in main and create a function which should return all the connected components. And then print them in the main, not inside function.
+Print different components in new line. And each component should be printed in increasing order (separated by space). Order of different components doesn't matter.
+Input Format :
+First line of input will contain T(number of test case), each test case follows as.
+Line 1: Two Integers V and E (separated by space)
+Next 'E' lines, each have two space-separated integers, 'a' and 'b', denoting that there exists an edge between Vertex 'a' and Vertex 'b'.
+Output Format :
+For each test case and each connected components print the connected components in sorted order in new line.
+Order of connected components doesn't matter (print as you wish).
+Constraints :
+2 <= V <= 10000
+1 <= E <= 10000
+Sample Input 1:
+1
+4 2
+2 1
+4 3
+Sample Output 1:
+1 2 
+4 3 
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void popCon(vector<vector<int>> &edges, int n, int start, bool *visited,
+            vector<int> &v) {
+
+  v.push_back(start);
+  visited[start] = true;
+
+  for (auto i : edges[start]) {
+
+    if (i == start)
+      continue;
+
+    if (!visited[i])
+      popCon(edges, n, i, visited, v);
+  }
+}
+
+void printComponents(vector<vector<int>> &ans) {
+
+  for (int i = 0; i < ans.size(); i++) {
+    for (int j = 0; j < ans[i].size(); j++)
+      cout << ans[i][j] + 1 << " ";
+    cout << endl;
+  }
+}
+int main() {
+  int t;
+  cin >> t;
+  while (t--) {
+    int V, E;
+    cin >> V >> E;
+    vector<vector<int>> edges(V);
+
+    for (int i = 0; i < E; i++) {
+      int a, b;
+      cin >> a >> b;
+      a--;
+      b--;
+      edges[a].push_back(b);
+      edges[b].push_back(a);
+    }
+
+    bool *visited = new bool[V];
+    for (int i = 0; i < V; i++)
+      visited[i] = false;
+
+    vector<vector<int>> ans;
+    vector<int> temp;
+    for (int i = 0; i < V; i++) {
+
+      if (!visited[i]) {
+        popCon(edges, V, i, visited, temp);
+        sort(temp.begin(), temp.end());
+        ans.push_back(temp);
+        temp.clear();
+      }
+    }
+
+    printComponents(ans);
+  }
+
+  return 0;
+}
+
+
+
+
+
+Islands
+Send Feedback
+An island is a small piece of land surrounded by water . A group of islands is said to be connected if we can reach from any given island to any other island in the same group . Given N islands (numbered from 0 to N - 1) and M pair of integers (u and v) denoting island, u is connected to island v and vice versa. Can you count the number of connected groups of islands?
+Input Format:
+The first line of input will contain T(number of test cases), each test case follows as.
+Line 1: Two Integers N and M (separated by space)
+Next 'M' lines, each have two space-separated integers, 'u' and 'v', denoting that there exists an edge between Vertex 'u' and Vertex 'v'.
+Output Format:
+Print number of Islands for each test case in new line.
+Constraints:
+1 <= T <= 10
+1 <= N <= 1000
+1 <= M <= min((N*(N-1))/2, 1000)
+0 <= u[i] ,v[i] < N
+Output Return Format :
+The count the number of connected groups of islands
+Sample Input :
+1
+2 1
+0 1
+Sample Output :
+1 
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+void dfs_traversal(int **aj,int v,int *visited,int start){
+    visited[start]=1;
+    for(int i=0;i<v;i++){
+        if(aj[start][i]==1){
+            if(visited[i]==0){
+                dfs_traversal(aj,v,visited,i);
+            }
+        }
+    }
+}
+
+int main(){
+  int t;
+  cin>>t;
+  while(t--){
+    int v,e;
+    cin>>v>>e;
+    int **aj=new int*[v];
+    for(int i=0;i<v;i++){
+        aj[i]=new int[v];
+    }
+    while(e--){
+        int a,b;
+        cin>>a>>b;
+        aj[a][b]=1;
+        aj[b][a]=1;
+    }
+    int *visited=new int[v]{};
+    int count=0;
+    // counting number of groups
+    for(int i=0;i<v;i++){
+        if(visited[i]==0){
+            dfs_traversal(aj,v,visited,i);
+            count++;
+        }
+    }
+    cout<<count<<"\n";
+  }
+    return 0;
+}
+
+
+
+
+Coding Ninjas
+Send Feedback
+Given a NxM matrix containing Uppercase English Alphabets only. Your task is to tell if there is a path in the given matrix which makes the sentence “CODINGNINJA” .
+There is a path from any cell to all its neighbouring cells. A neighbour may share an edge or a corner.
+Input Format :
+First line will contain T(number of test case), each test case follows as.
+Line 1 : Two space separated integers N  and M, where N is number of rows and M is number of columns in the matrix.
+Next N lines : N rows of the matrix. First line of these N line will contain 0th row of matrix, second line will contain 1st row and so on
+Assume input to be 0-indexed based
+Output Format :
+Print 1 if there is a path which makes the sentence “CODINGNINJA” else print 0, for each test case in a new line
+Constraints :
+1 <= T <= 10
+1 <= N <= 1000
+1 <= M <= 1000
+Sample Input :
+1
+2 11
+CXDXNXNXNXA
+XOXIXGXIXJX
+Sample Output :
+1
+
+#include <bits/stdc++.h>
+using namespace std;
+int dir[8][2] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1},
+                 {0, 1},   {1, -1}, {1, 0},  {1, 1}};
+char pattern[11] = {'C', 'O', 'D', 'I', 'N', 'G', 'N', 'I', 'N', 'J', 'A'};
+int valid(int x, int y, int n, int m) {
+  return (x >= 0 and x < n and y >= 0 and y < m);
+}
+int DFS(string arr[], bool **used, int x, int y, int index, int n, int m) {
+  if (index == 11) {
+    return 1;
+  }
+  used[x][y] = true;
+  int newX, newY;
+  int found = 0;
+  for (int i = 0; i < 8; i++) {
+    newX = x + dir[i][0];
+    newY = y + dir[i][1];
+    if (valid(newX, newY, n, m) and arr[newX][newY] == pattern[index] and
+        !used[newX][newY]) {
+      found = found | DFS(arr, used, newX, newY, index + 1, n, m);
+    }
+  }
+  used[x][y] = false;
+  return found;
+}
+
+int solve(string arr[], int n, int m) {
+  int found = 0;
+  bool **used = new bool *[n];
+  for (int i = 0; i < n; i++) {
+    used[i] = new bool[m];
+    for (int j = 0; j < m; j++) {
+      used[i][j] = false;
+    }
+  }
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+      if (arr[i][j] == 'C') {
+        found = DFS(arr, used, i, j, 1, n, m);
+        if (found) {
+          break;
+        }
+      }
+    }
+    if (found)
+      break;
+  }
+  for (int i = 0; i < n; i++) {
+    delete[] used[i];
+  }
+  delete[] used;
+  return found;
+}
+
+int main() {
+
+  // write your code here
+  int t;
+  cin >> t;
+  while (t--) {
+    int n, m;
+    cin >> n >> m;
+    string arr[n];
+    for (int i = 0; i < n; i++) {
+      cin >> arr[i];
+    }
+    cout << solve(arr, n, m) << "\n";
+  }
+  return 0;
+}
+
+
+
+
+Connecting Dots
+Send Feedback
+Gary has a board of size NxM. Each cell in the board is a coloured dot. There exist only 26 colours denoted by uppercase Latin characters (i.e. A,B,...,Z). Now Gary is getting bore and wants to play a game. The key of this game is to find a cycle that contain dots of same colour. Formally, we call a sequence of dots d1, d2, ..., dk a cycle if and only if it meets the following condition:
+1. These k dots are different: if i ≠ j then di is different from dj.
+2. k is at least 4.
+3. All dots belong to the same colour.
+4. For all 1 ≤ i ≤ k - 1: di and di + 1 are adjacent. Also, dk and d1 should also be adjacent. Cells x and y are called adjacent if they share an edge.
+Since Gary is colour blind, he wants your help. Your task is to determine if there exists a cycle on the board.
+Assume input to be 0-indexed based.
+Input Format :
+Line 1 : Two integers N and M, the number of rows and columns of the board
+Next N lines : a string consisting of M characters, expressing colors of dots in each line. Each character is an uppercase Latin letter.
+Output Format :
+Return 1 if there is a cycle else return 0
+Constraints :
+2 ≤ N, M ≤ 400
+Sample Input :
+3 4
+AAAA
+ABCA
+AAAA
+Sample Output :
+1
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int dfs_search(vector<vector<char>> &board, int n, int m, int i, int j,
+               int **visited, char current_char) {
+  visited[i][j] = 1;
+  // base case
+  // check if any 2 directions from current are visited - means path found
+  int count = 0;
+  // up
+  if (i - 1 >= 0) {
+    if (visited[i - 1][j] == 1) {
+      count++;
+    }
+  }
+  // down
+  if (i + 1 < n) {
+    if (visited[i + 1][j] == 1) {
+      count++;
+    }
+  }
+  // left
+  if (j - 1 >= 0) {
+    if (visited[i][j - 1] == 1) {
+      count++;
+    }
+  }
+  // right
+  if (j + 1 < m) {
+    if (visited[i][j + 1] == 1) {
+      count++;
+    }
+  }
+  if (count >= 2) {
+    return 1;
+  }
+  // ---------------------------------------------------------------------------------
+  // find next routes
+
+  int ans = 0;
+  while (1) {
+    // check top
+    if (i - 1 >= 0) {
+      if (board[i - 1][j] == current_char && visited[i - 1][j] == 0) {
+        ans = dfs_search(board, n, m, i - 1, j, visited, current_char);
+      }
+    }
+    if (ans == 1)
+      break;
+    // check bottom
+    if (i + 1 < n) {
+      if (board[i + 1][j] == current_char && visited[i + 1][j] == 0) {
+        ans = dfs_search(board, n, m, i + 1, j, visited, current_char);
+      }
+    }
+    if (ans == 1)
+      break;
+    // check left
+    if (j - 1 >= 0) {
+      if (board[i][j - 1] == current_char && visited[i][j - 1] == 0) {
+        ans = dfs_search(board, n, m, i, j - 1, visited, current_char);
+      }
+    }
+    if (ans == 1)
+      break;
+    // check right
+    if (j + 1 < m) {
+      if (board[i][j + 1] == current_char && visited[i][j + 1] == 0) {
+        ans = dfs_search(board, n, m, i, j + 1, visited, current_char);
+      }
+    }
+    if (ans == 1)
+      break;
+    break;
+  }
+  visited[i][j] = 0;
+  return ans;
+}
+
+bool hasCycle(vector<vector<char>> &board, int n, int m) {
+  // Write your code here.
+  int **visited = new int *[n];
+  for (int i = 0; i < n; i++) {
+    visited[i] = new int[m];
+  }
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+      char current = board[i][j];
+      int result = dfs_search(board, n, m, i, j, visited, current);
+      if (result == 1) {
+        return true;
+      }
+      // for(int i=0;i<n;i++){
+      //     for(int j=0;j<m;j++){
+      //         visited[i][j]=0;
+      //     }
+      // }
+    }
+  }
+  return false;
+}
+
+int main() {
+    int t;
+    // cin>>t;
+    t=1;
+    while(t--){
+  int n, m;
+  cin >> n >> m;
+  vector<vector<char>> board(n, vector<char>(m));
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j < m; ++j) {
+      cin >> board[i][j];
+    }
+  }
+  cout << (hasCycle(board, n, m) ? "1" : "0");
+    }
+}
+
+
+
+Largest Piece
+Send Feedback
+Its Gary's birthday today and he has ordered his favourite square cake consisting of '0's and '1's . But Gary wants the biggest piece of '1's and no '0's . A piece of cake is defined as a part which consist of only '1's, and all '1's share an edge with eachother on the cake. Given the size of cake N and the cake , can you find the size of the biggest piece of '1's for Gary ?
+Input Format :
+First line will contain T(number of test cases), each test case follows as.
+Line 1 : An integer N denoting the size of cake 
+Next N lines : N characters denoting the cake
+Output Format :
+Print the size of the biggest piece of '1's and no '0'sfor each test case in a newline.
+Constraints:
+1 <= T <= 10
+1 <= N <= 1000
+Sample Input :
+1
+2
+11
+01
+Sample Output :
+3
+
+#include <iostream>
+#include <vector>
+using namespace std;
+#define NMAX 1001   //1 <= N <= 1000, you are alloting size 55x55 and later accessing n E [0,1000] which was giving RTE
+char cake[NMAX][NMAX];
+#include<bits/stdc++.h>
+void dfs(char cake[NMAX][NMAX], int n, int &k, int i, int j) {
+  k++;
+  cake[i][j] = '0';
+
+  if (i + 1 < n && cake[i + 1][j] == '1')
+    dfs(cake, n, k, i + 1, j);
+  if (i - 1 >= 0 && cake[i - 1][j] == '1')
+    dfs(cake, n, k, i - 1, j);
+  if (j + 1 < n && cake[i][j + 1] == '1')
+    dfs(cake, n, k, i, j + 1);
+  if (j - 1 >= 0 && cake[i][j - 1] == '1')
+    dfs(cake, n, k, i, j - 1);
+}
+
+int solve(int n, char cake[NMAX][NMAX]) {
+  
+  int ans = 0;
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+
+      if (cake[i][j] == '1') {
+        int k1 = 0;
+        dfs(cake, n, k1, i, j);
+        ans = max(ans, k1);
+      }
+    }
+  }
+  return ans;
+}
+
+
+int main() {
+  int t;
+  cin>>t;
+  while(t--)
+  {
+  int n;
+  cin >> n;
+  for (int i = 0; i < n; i++) {
+    scanf("%s", cake[i]);
+  }
+  cout << solve(n, cake) << endl;
+}
+}
+
+
+
+
+3 Cycle
+Send Feedback
+Given a graph with N vertices (numbered from 1 to N) and Two Lists (U,V) of size M where (U[i],V[i]) and (V[i],U[i]) are connected by an edge , then count the distinct 3-cycles in the graph. A 3-cycle PQR is a cycle in which (P,Q), (Q,R) and (R,P) are connected an edge.
+Input Format :
+Line 1 : Two integers N and M
+Line 2 : List u of size of M
+Line 3 : List v of size of M
+Return Format :
+The count the number of 3-cycles in the given Graph
+Constraints :
+1<=N<=100
+1<=M<=(N*(N-1))/2
+1<=u[i],v[i]<=N
+Sample Input:
+3 3
+1 2 3
+2 3 1
+Sample Output:
+1
+
+
+#include <bits/stdc++.h>
+using namespace std;
+#include <iostream>
+#include <vector>
+using namespace std;
+int count_cycles(int **arr, int n) {
+  int count = 0;
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      if (i != j && arr[i][j] == 1) {
+        for (int k = 0; k < n; k++) {
+          if (j != k && k != i && arr[j][k] == 1) {
+            if (arr[i][k] == 1) {
+              count += 1;
+            }
+          }
+        }
+      }
+    }
+  }
+  return count;
+}
+int solve(int n, int m, vector<int> u, vector<int> v) {
+  int **arr = new int *[n];
+  for (int i = 0; i < n; i++) {
+    arr[i] = new int[n];
+    for (int j = 0; j < n; j++) {
+      arr[i][j] = 0;
+    }
+  }
+  for (int i = 0; i < m; i++) {
+    arr[u[i] - 1][v[i] - 1] = 1;
+    arr[v[i] - 1][u[i] - 1] = 1;
+  }
+  return count_cycles(arr, n) / 6;
+}
+int main() {
+  // int t;
+  // cin>>t;
+  // while(t--){
+  int n, m;
+  vector<int> u, v;
+  cin >> n >> m;
+  for (int i = 0; i < m; i++) {
+    int x;
+    cin >> x;
+    u.push_back(x);
+    // v.push_back(y);
+  }
+  for (int i = 0; i < m; i++) {
+    int x;
+    cin >> x;
+    v.push_back(x);
+  }
+  cout << solve(n, m, u, v) << endl;
+  // write your code here
+}
+// }return 0;}
+
+
+
+
+
