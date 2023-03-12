@@ -1,0 +1,533 @@
+Coder's Rating
+Send Feedback
+Some of the more elite (and not-so-elite) coders around take part in a certain unnamed programming contest. In said contest, there are multiple types of competitions. Here, we consider the Open and High School competition types. For each type, each competitor receives a rating, an integer between 1 and 100000, inclusive. A coder's rating is based upon his or her level of performance in matches and is calculated using a complicated formula which, thankfully, you will not be asked to implement.
+Although the Open and High School ratings for a coder who has participated in both competition types lately are usually close, this is not always the case. In particular, High School matches are more about speed, since many coders are able to solve all the problems, whereas Open matches require more thinking and there is a steeper curve in terms of problem difficulty.
+Problem Statement
+You are given N coders (1 ≤ N ≤ 300000), conveniently numbered from 1 to N. Each of these coders participates in both High School and Open matches. For each coder, you are also given an Open rating Ai and a High School rating Hi. Coder i is said to be better than coder j if and only if both of coder i's ratings are greater than or equal to coder j's corresponding ratings, with at least one being greater. For each coder i, determine how many coders coder i is better than.
+Input Format
+On the first line of input is a single integer N, as described above. N lines then follow. Line i+1 contains two space-separated integers, Ai and Hi.
+Output Format
+ Line i should contain the number of coders that coder i is better than.
+Sample Input 1:
+8
+1798 1832
+862 700
+1075 1089
+1568 1557
+2575 1984
+1033 950
+1656 1649
+1014 1473
+Sample Output 1:
+6
+0
+2
+4
+7
+1
+5
+1
+Explanation
+1st code is better than 2nd, 3rd, 4th, 5th, 6th and 7th coder.
+Hence he is better than 6 coders.
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int N = (int)(1e6 + 5);
+
+int bit[N];
+
+typedef struct ratings {
+  int A, H, index;
+
+  ratings() {
+    A = 0;
+    H = 0;
+    index = 0;
+  }
+} ratings;
+
+void update(int idx, int delta) {
+  idx += 1;
+  for (; idx < N; idx += (idx & -idx)) {
+    bit[idx] += delta;
+  }
+}
+
+// Sum [0, r]
+int query(int r) {
+  int res = 0;
+  r += 1;
+  for (; r > 0; r -= (r & -r)) {
+    res += bit[r];
+  }
+  return res;
+}
+
+bool cmp(ratings a, ratings b) {
+  if (a.A != b.A)
+    return a.A < b.A;
+  return a.H < b.H;
+}
+
+int main() {
+  freopen("input.txt", "r", stdin);
+  freopen("out.txt", "w", stdout);
+
+  int n;
+  cin >> n;
+  ratings r[n];
+  for (int i = 0; i < n; i++) {
+    cin >> r[i].A >> r[i].H;
+    r[i].index = i;
+  }
+
+  sort(r, r + n, cmp);
+
+  int ans[n];
+  int cnt = 0;
+  for (int i = 0; i < n; i++) {
+    if (i < (n - 1) and r[i].A == r[i + 1].A and r[i].H == r[i + 1].H) {
+      cnt++;
+      ans[r[i].index] = query(r[i].H);
+    } else {
+      cnt++;
+      ans[r[i].index] = query(r[i].H);
+      update(r[i].H, cnt);
+      cnt = 0;
+    }
+  }
+
+  for (int i = 0; i < n; i++) {
+    cout << ans[i] << "\n";
+  }
+
+  return 0;
+}
+
+
+
+
+Distinct Query Problem
+Send Feedback
+Given a sequence of n numbers a1, a2, ..., an and a number of d-queries. A d-query is a pair (i, j) (1 ≤ i ≤ j ≤ n). For each d-query (i, j), you have to return the number of distinct elements in the subsequence ai, ai+1, ..., aj.
+Input Format:
+Line 1: n (1 ≤ n ≤ 30000).
+Line 2: n numbers a1, a2, ..., an (1 ≤ ai ≤ 10^6).
+Line 3: q (1 ≤ q ≤ 200000), the number of d-queries.
+In the next q lines, each line contains 2 numbers i, j representing a d-query (1 ≤ i ≤ j ≤ n).
+Output Format:
+For each d-query (i, j), print the number of distinct elements in the subsequence ai, ai+1, ..., aj in a single line.
+Sample Input 1:
+5
+1 1 2 1 3
+3
+1 5
+2 4
+3 5
+Sample Output 1:
+3
+2
+3 
+
+#include<cstdio>
+#include<algorithm>
+#include<cmath>
+#define N 220000
+#define N1 33000
+#define N2 1100000
+using namespace std;
+struct node{
+    int l,r,id;
+}data[N];
+int a[N1],n1,aa[N2],m,n,ans[N];
+bool cmp(node a,node b){
+    if ((a.l)/n1==(b.l)/n1) return a.r<b.r;
+    return ((a.l)/n1<(b.l)/n1);
+}
+
+inline int read(){
+    int x=0;char ch=getchar();
+    while (ch<'0'||ch>'9') ch=getchar();
+    while (ch>='0'&&ch<='9') {
+        x=x*10+ch-'0';ch=getchar();
+    }
+    return x;
+}
+int main(){
+    //freopen("dquery.in","r",stdin);
+    //freopen("dquery.out","w",stdout);
+    n=read();
+    for (int i=1;i<=n;++i) a[i]=read();
+    m=read();
+    for (int i=1;i<=m;++i) data[i].l=read(),data[i].r=read(),data[i].id=i;
+    n1=sqrt(n);
+    sort(data+1,data+m+1,cmp);  
+    //for (int i=1;i<=m;++i) printf("%d %d\n",data[i].l,data[i].r);
+    int cl=data[1].l,cr=data[1].r;
+    int tmp=0;
+    for (int i=data[1].l;i<=data[1].r;++i) if (++aa[a[i]]==1) tmp++;
+    ans[data[1].id]=tmp;
+    for (int i=2;i<=m;++i){
+        int l=data[i].l,r=data[i].r,id=data[i].id;
+        while (cl<l) if (--aa[a[cl++]]==0) tmp--;
+        while (cl>l) if (++aa[a[--cl]]==1) tmp++;
+         while (cr>r) if (--aa[a[cr--]]==0) tmp--;
+        while (cr<r) if (++aa[a[++cr]]==1) tmp++;
+        ans[id]=tmp;
+    }
+    for (int i=1;i<=m;++i) printf("%d\n",ans[i]);
+    return 0;
+}
+
+
+
+OrderSet - Problem
+Send Feedback
+In this problem, you have to maintain a dynamic set of numbers which support the two fundamental operations
+INSERT(S,x): if x is not in S, insert x into S
+DELETE(S,x): if x is in S, delete x from S
+and the two type of queries
+K-TH(S) : return the k-th smallest element of S
+COUNT(S,x): return the number of elements of S smaller than x
+Input Format:
+Line 1: Q , the number of operations
+In the next Q lines, the first token of each line is a character I, D, K or C meaning that the corresponding operation is INSERT, DELETE, K-TH or COUNT, respectively, following by a whitespace and an integer which is the parameter for that operation.
+Constraints:
+1 <= Q <= 2*10^5
+-10^9 <= x <= 10^9
+Output Format:
+For each query, print the corresponding result in a single line. In particular, for the queries K-TH, if k is larger than the number of elements in S, print the word 'invalid'.
+Sample Input 1:
+8
+I -1
+I -1
+I 2
+C 0
+K 2
+D -1
+K 1
+K 2
+Sample Output 1:
+1
+2
+2
+invalid
+
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+typedef tree<
+int ,
+null_type,
+less<int>,
+rb_tree_tag,
+tree_order_statistics_node_update>pbd_set;
+int main(){
+    pbd_set s;
+    int t;
+    scanf("%d ",&t);
+    while(t--){
+        char typ;
+        int n;
+        scanf(" %c%d",&typ , &n);
+        if(typ == 'I')
+            s.insert(n);
+        else if (typ == 'D')
+            s.erase(n);
+        else if (typ == 'K'){
+            int ans;
+            n--;
+            if(s.find_by_order(n) != s.end()){
+                ans = *s.find_by_order(n);
+                printf("%d\n",ans);
+            }
+            else 
+                printf("invalid\n");
+        }
+        else{
+            int ans = s.order_of_key(n);
+            printf("%d\n",ans);
+        }
+    }
+    return 0;
+}
+
+
+
+
+KQUERY
+Send Feedback
+Given a sequence of n numbers a1, a2, ..., an and a number of k- queries. A k-query is a triple (i, j, k) (1 ≤ i ≤ j ≤ n). For each k-query (i, j, k), you have to return the number of elements greater than k in the subsequence ai, ai+1, ..., aj.
+Input Format
+Line 1: Contains an integer N denoting the number of elements in the array
+Line 2: N space-separated integers denoting the elements of the array.
+Line 3: Number of queries Q
+Next Q line contain two space-separated integers i, j, k descrbing the current query
+Constraints:
+1 <= N <= 10^5
+1 <= Q <= 10^5
+1 <= arr[i] <= 10^9
+1 <= i <= j <= N
+1 <= k <= 10^9
+Output Format:
+For each k-query (i, j, k), print the number of elements greater than k in the subsequence ai, ai+1, ..., aj in a single line.
+
+#include <algorithm>
+#include <ctype.h>
+#include <iostream>
+#include <iterator>
+#include <map>
+#include <queue>
+#include <set>
+#include <stack>
+#include <stdio.h>
+#include <string.h>
+#include <vector>
+using namespace std;
+
+struct node {
+  int v;
+  int i;
+  int j;
+  int q;
+};
+
+typedef node node;
+
+int tree[2000002];
+node inp[230000];
+int n;
+int maxVal;
+
+bool operator<(node a, node b) {
+  if (a.v == b.v) {
+    return a.j > b.j;
+  }
+  return a.v > b.v;
+}
+
+int read(int idx) {
+  int sum = 0;
+  while (idx > 0) {
+    sum += tree[idx];
+    idx -= (idx & -idx);
+  }
+  return sum;
+}
+
+void update(int idx, int val) {
+  while (idx <= maxVal) {
+    tree[idx] += val;
+    idx += (idx & -idx);
+  }
+}
+
+int main() {
+  int m;
+  scanf("%d", &n);
+  maxVal = n;
+  for (int i = 0; i < n; i++) {
+    scanf("%d", &inp[i].v);
+    inp[i].i = i + 1;
+    inp[i].j = -1;
+    tree[i] = 0;
+  }
+  scanf("%d", &m);
+  int res[m];
+  for (int i = 0; i < m; i++) {
+    scanf("%d %d %d", &inp[i + n].i, &inp[i + n].j, &inp[i + n].v);
+    inp[i + n].q = i;
+  }
+
+  sort(inp, inp + n + m);
+
+  for (int i = 0; i < n + m; i++) {
+    if (inp[i].j == -1) {
+      update(inp[i].i, 1);
+    } else {
+      int result = read(inp[i].j) - read(inp[i].i - 1);
+      res[inp[i].q] = result;
+    }
+  }
+
+  for (int i = 0; i < m; i++)
+    printf("%d\n", res[i]);
+  return 0;
+}
+
+
+
+Shil and Wave Sequence
+Send Feedback
+Given a sequence A1 , A2 , A3 .. AN of length N. Find total number of wave subsequences having length greater than 1.
+Wave subsequence of sequence A1 , A2 , A3 .. AN is defined as a set of integers i1 , i2 .. ik such that Ai1 < Ai2 > Ai3 < Ai4 .... or Ai1 > Ai2 < Ai3 > Ai4 .... and i1 < i2 < ...< ik.Two subsequences i1 , i2 .. ik and j1 , j2 .. jm are considered different if k != m or there exists some index l such that il ! = jl
+Input Format:
+First line of input consists of integer N denoting total length of sequence.Next line consists of N integers A1 , A2 , A3 .. AN .
+Constraints:
+1 ≤ N ≤ 10^5
+1 ≤ Ai ≤ 10^5
+Output Format:
+Output total number of wave subsequences of given sequence. Since answer can be large, output its modulo with 10^9+7
+Sample Input 1:
+5
+1 3 5 4 2
+Sample Output 1:
+17
+Explanation:
+All the possible sequences are: [ 1 3 ] , [1 5 ] , [ 1 4 ] , [1 2 ] , [1 3 2] , [1 4 2 ] , [1 5 2] , [1 5 4] , [3 5] , [3 4] , [3 2] , [3 5 2] , [3 4 2] , [3 5 4] , [5 4] , [5 2 ] , [4 2] . Note that value in the bracket are the values from the original sequence whose positions are maintained.
+
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int query(int **BIT, int index, int op) 
+{
+    long long count = 0;
+    for(; index > 0; index -= index & (-index))
+        count = (count + BIT[index][op]) % 1000000007;
+    return count;
+}
+ 
+void update(int **BIT, int index, int n, int val, int op) 
+{
+    for(; index <= n; index += index & (-index)) 
+        BIT[index][op] = (BIT[index][op] + val) % 1000000007;
+}
+ 
+int main() 
+{
+    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+    int n;
+    cin >> n;
+    int arr[n], maxVal = 0;
+    for(int i = 0; i < n; i++) 
+    {
+        cin >> arr[i];
+        maxVal = max(maxVal, arr[i]);
+    }
+    int **BIT = new int*[maxVal + 1];
+    for(int i = 0; i <= maxVal; i++) 
+        BIT[i] = new int[3]();
+    long long ans = 0;
+    for(int i = 0; i < n; i++) 
+    {
+        long long a = (query(BIT, arr[i] - 1, 0) + query(BIT, arr[i] - 1, 2)) % 1000000007;
+        long long b = ((query(BIT, maxVal, 1) - query(BIT, arr[i], 1) + 1000000007) % 1000000007 + (query(BIT, maxVal, 2) - query(BIT, arr[i], 2) + 1000000007) % 1000000007) % 1000000007;
+        ans = (ans + (a + b) % 1000000007) % 1000000007;
+        update(BIT, arr[i], maxVal, b, 0);
+        update(BIT, arr[i], maxVal, a, 1);
+        update(BIT, arr[i], maxVal, 1, 2);
+    }
+    cout << ans << endl;
+    for(int i = 0; i <= maxVal; i++) 
+		delete[] BIT[i];
+    delete[] BIT;
+    return 0;
+}
+
+
+
+INCSEQ
+Send Feedback
+Given a sequence of N integers S1, ..., SN, compute the number of increasing subsequences of S with length K and that is, the number of K-tuples i1, ..., iK such that 1 ≤ i1 < ... < iK ≤ N and Si1 < ... < SiK.
+Input Format:
+The first line contains the two integers N and K. 
+Next line contains N space-separated integers denoting the elements of the array.
+Constraints:
+ 1 <= N <= 10^4
+ 1 <= K <= 50
+ 1 <= arr[i] <= 10^5
+Output Format:
+Print a single integer representing the number of increasing subsequences of S of length K, modulo 5,000,000.
+Sample Input 1:
+4 3
+1 2 2 10
+Sample Output 1:
+2
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef int  lli;
+lli arr[600000];
+vector<pair<lli,lli> > v;
+lli seg[600000][52];
+lli dp[600000][52];
+lli dp2[600000][52];
+#define mod 5000000
+bool comp(pair<int,int>  p1,pair<int,int> p2)
+ {
+   if(p1.first<p2.first) return true;
+   else if(p1.first==p2.first)
+   return p1.second>p2.second;
+   return false;
+ }
+
+void update(int idx,int start,int end,int ups,int upe,int didx,lli val)
+ {
+  if(start>end || upe<start || ups>end) return ;
+  else if(start==end && start==ups)
+    {
+      seg[idx][didx]=val;
+      return ;
+   }
+   int mid=(start+end)/2;
+   update(2*idx,start,mid,ups,ups,didx,val);
+   update(2*idx+1,mid+1,end,ups,upe,didx,val);
+   seg[idx][didx]=(seg[2*idx][didx]+seg[2*idx+1][didx])%mod;
+ }
+
+ lli  qry(int idx,int start,int end,int qs,int qe,int didx)
+ {
+  if(start>end || qe<start || qs>end) return 0 ;
+  else if(start>=qs && end<=qe)
+    {
+      return seg[idx][didx];
+   }
+   int mid=(start+end)/2;
+  lli q1= qry(2*idx,start,mid,qs,qe,didx);
+  lli q2= qry(2*idx+1,mid+1,end,qs,qe,didx);
+    return (q1+q2)%mod;
+ }
+
+
+int main()
+ {
+  int n,k;
+   cin>>n>>k;
+   for(int i=0;i<n;i++)
+     {
+     int a; cin>>a;
+     v.push_back({a,i});
+   }
+   sort(v.begin(),v.end(),comp);
+    
+   for(int i=0;i<n;i++)
+    {
+           int num=v[i].first;
+            int idx=v[i].second;
+            update(1,0,n-1,idx,idx,1,1);
+            dp[i][1]=1;
+             for(int j=2;j<=k;j++)
+                {
+              lli count=qry(1,0,n-1,0,idx-1,j-1);
+              dp[i][j]=(count);
+               update(1,0,n-1,idx,idx,j,count);       
+    }
+    }
+    
+     lli ans=0;
+     for(int i=0;i<n;i++)
+       {
+        ans=(ans+dp[i][k])%mod;
+   }
+    cout<<ans<<endl;
+ }
+ 
+ 
+ 
+ 
+ 
