@@ -1,0 +1,415 @@
+Area Of Convex Polygon
+Send Feedback
+A convex polygon is a set of n vertices that are joined by n edges, such that no two edges intersect and all angles are less than 180 degrees. We can represent a polygon by listing all the vertices, starting at one vertex and following the edges until that vertex is reached again. Thus, element 0 in the array represents the first vertex. The first vertex is connected to the second vertex (element 1), the second vertex is connected to the third vertex (element 2) and so on. The last element represents the last vertex, which is connected to the first vertex.
+Given the vertices of a polygon, return its exact area.
+Note: Get the integer part of the area. (It can be long). So get your answer in double, and typecast it into long.
+Input Format:
+First line of input will contain T(number of test cases), each test case follows.
+Line 1: Integer N denoting the number of points.
+Next N lines will denote the N cordinates (x,y) in a anticlockwise order.
+Constraints:
+1 <= T <= 10^5
+1 <= N <= 50
+1 <= X <= Y <= 10^5
+The given polygon is guranted to be convex.
+Output Format:
+For each test case, print the area of polygon in new line.
+Sample Input 1:
+1
+4
+1 5
+2 2
+9 2
+7 5
+Sample Output 1:
+19
+
+#include<bits/stdc++.h>
+using namespace std;
+struct point {
+    double x,y;
+    double cross(point p)
+    {
+    return x*p.y-y*p.x;
+    }
+};
+
+double polygonArea(vector <point> &v)
+{
+    double a=v.back().cross(v[0]);
+    for(int i=0; i<int(v.size()-1); i++)
+    {
+    a +=v[i].cross(v[i+1]);
+    }
+    return a/2;
+}
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+    int n;
+    cin>>n;
+     vector <point> v(n);
+     for(int i=0; i<n; i++)
+     {
+     double a,b;
+     cin>>a>>b;
+     v[i].x=a;
+     v[i].y=b;
+     }
+     int ans=polygonArea(v);
+     cout<<ans<<endl;
+    }
+}
+
+
+
+Surveyor
+Send Feedback
+A plot has been surveyed. Its boundary consists of segments that form a polygon. Each segment runs either North-South or East-West. Calculate the enclosed area.
+The i-th character of direction and the i-th element of length describe the direction and length of the i-th segment of the polygon's boundary as the surveyor walked it. If you start at the surveyor's starting point and walk according to the sequence of directions and lengths reported by the surveyor, you will traverse the boundary of the polygon, ending up back at the starting point. This traversal described by the given segments may be either clockwise or counterclockwise.
+Input Format:
+First line of input contains a string s
+Second line of input contains an array (space separated), with the length same as string s.
+Constraints:
+Direction string will have between 4 and 50 characters inclusive.
+Length will have the same number of elements as the number of characters in direction.
+Each element of direction will be an uppercase letter 'N', 'E', 'S', or 'W'.
+Each element of length will be between 1 and 1000 inclusive.
+The segments will represent a simple polygon. No two segments will touch or intersect (except that the last point of a segment is the first point of the next segment, and the last point of the final segment is the first point of the first segment).
+Output Format:
+For each input, print the area calculated.
+Sample Test Case
+NWWSE
+10 3 7 10 10
+Sample Ouput:
+100
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+ll solve(string s, int arr[], int n) {
+  ll ans = 0;
+  ll x = 0, y = 0, prev;
+  for (int i = 0; i < n; i++) {
+    prev = x;
+    if (s[i] == 'N') {
+      y += arr[i];
+    } else if (s[i] == 'S') {
+      y -= arr[i];
+    } else if (s[i] == 'E') {
+      x += arr[i];
+    } else {
+      x -= arr[i];
+    }
+    ans += (x - prev) * y;
+  }
+  return abs(ans);
+}
+int main() {
+  string s;
+  cin >> s;
+  int n = s.size();
+  int arr[n];
+
+  for (int i = 0; i < n; i++) {
+    cin >> arr[i];
+  }
+  ll ans = solve(s, arr, n);
+  cout << ans << endl;
+}
+
+
+
+
+
+Convex Hull
+Send Feedback
+Given a set of points in the plane, the Convex Hull of the set is the smallest convex polygon that contains all the points of it.
+Find out the convex hull for the given set of points.
+Input Format:
+First line of input contains integer N, representing number of points.
+Second line contains N space separated integers, which are the X coordinates.
+Third line contains N space separated integers, which are the Y coordinates.
+Constraints:
+1 <= N <= 10^5
+1 <= X[i] <= 10^4
+1 <= Y[i] <= 10^4
+Also input is given in such a way that the number of points on the hull doesn't exceed 50
+Output Format:
+Print the X coordinate and the Y coordinate of all the points seperated by space. Order doesn't matter.
+Sample Input:
+5
+2 1 7 9 7 
+2 5 5 2 4 
+Sample Output:
+1 5
+2 2
+9 2
+7 5
+
+#include <iostream>
+#include <vector>
+using namespace std;
+struct point {
+  int x, y;
+};
+bool crosser(point p, point q, point r) {
+  int x1 = q.x - p.x;
+  int y1 = q.y - p.y;
+  int x2 = r.x - q.x;
+  int y2 = r.y - q.y;
+  int value = x1 * y2 - y1 * x2;
+  return value < 0; // will change only when the cross prod is greater than 0
+  // if the cross product is =0, then the points are colinear.
+}
+void convex_hull(point *points, int n) {
+  vector<point> hull;
+  int left = 0;
+  for (int i = 1; i < n; i++) {
+    if (points[i].x < points[left].x) {
+      left = i;
+    }
+  }
+  // now left contains the index of the left most point
+  int p = left;
+  do {
+    hull.push_back(points[p]);
+    int q = (p + 1) % n; // so that it loops over the array(circular array)
+    for (int i = 0; i < n; i++) {
+      if (crosser(points[p], points[q], points[i])) {
+        q = i;
+      }
+    }
+    p = q;
+  } while (p != left);
+  for (auto i : hull) {
+    cout << i.x << " " << i.y << endl;
+  }
+}
+int main() {
+  int n;
+  cin >> n;
+  int *arr_x = new int[n];
+  int *arr_y = new int[n];
+  for (int i = 0; i < n; i++) {
+    cin >> arr_x[i];
+  }
+  for (int i = 0; i < n; i++) {
+    cin >> arr_y[i];
+  }
+  point *points = new point[n];
+  for (int i = 0; i < n; i++) {
+    point p;
+    p.x = arr_x[i];
+    p.y = arr_y[i];
+    points[i] = p;
+  }
+  convex_hull(points, n);
+}
+
+
+
+
+
+Collinear Points
+Send Feedback
+You are given a set of 3 points in a 2-D plane. You have to find out whether they are collinear or not.
+Input Format:
+First line of input will contain T, representing the number of test cases.
+Each test case contains three lines containing two space separated integers x and y, respectively, denoting the points in 2-D plane.
+Constraints:
+1 <= T <= 10^5
+-10^6 <= x, y <= 10^6
+Ouput Format:
+For each test case output "YES" if they are collinear and "NO" if they are not.
+Sample Input:
+2
+1 3
+1 4
+1 5
+-1 0
+ 0 1
+ 1 0
+Sample Output:
+YES 
+NO
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void collinear(int x1, int y1, int x2, int y2, int x3, int y3) {
+ 
+  int a = x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2);
+
+  if (a == 0)
+    cout<<"YES";
+  else
+    cout<<"NO";
+}
+int main(){
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int x1 , y1 , x2 , y2 , x3 , y3;
+        cin>>x1>>y1>>x2>>y2>>x3>>y3;
+        collinear( x1,  y1,  x2,  y2,  x3,  y3);
+        cout<<endl;
+    }
+return 0;
+}
+
+
+
+
+
+Ninja Investigations
+Send Feedback
+A recent non violent protest in Uptown Plaza took a drastic turn as a bomb was blasted by some resurgent. Ninja Investigations was hired to determine the responsible party. Using advanced satellite systems and GPS tracking of cell phones, the investigators determined the coordinates of every person in the plaza. Using some advanced algorithms, the investigative team has also determined the approximated coordinates of the bomb and the vicinity in which a person had to be if he planted the bomb. You have been given a very important task - narrow down the suspect pool. To do this, you have to find out whether a given person was in the vicinity of the bomb. Also print the probability that they planted the bomb. The probability can be calculated using the following formula:
+100 - (distance of point to be checked with approx coordinates of bomb /  total area of the vicinity).
+Note: A person in the plaza may not be carrying a phone and their coordinates might be unknown. But we can disregard such people, because the bomb was cell phone triggered, hence it would be impossible for a person not carrying the phone to plant and trigger the bomb.
+Note: Get the answer of distance and area in double, then typecast it in int. Print probability in int also.
+Input Format:
+First line contains integer t, representing the number of test cases.
+For each test case
+Line 1: contains integer n, number of vertices of vicinity.
+Next n lines contain coordinates of vertices of vicinity.
+Next line contains approximate coordinates of the bomb.
+Next line contains integer q, number of coordinates to be checked.
+Next q lines contain coordinates of the people to be checked.
+Output Format:
+For each test case, print “Yes” if the person is present in the vicinity of the bomb and the probability that he planted the bomb in the next line, otherwise print “No”.
+Sample Case 1:
+1
+3
+1 10
+9 1
+10 7
+5 6
+2
+8 6
+8 8
+Sample Output 1:
+Yes
+90
+No
+
+#include<bits/stdc++.h>
+using namespace std;
+#define INF 50000
+#define MIN(x,y) (x<y ? x:y)
+#define MAX(x,y) (x>y ? x:y)
+
+struct point 
+{
+double x,y;
+point(){}
+point(double a,double b)
+{
+     x=a;
+     y=b;
+}
+double cross(point p)
+{
+     return x*p.y-y*p.x;
+}
+double distance(point p)
+{
+    double dis=sqrt((pow(p.x-x,2.0)+pow(p.y-y,2.0))*1.0);
+}
+};
+
+double polygonArea(point arr[],int n)
+{
+     double a=arr[n-1].cross(arr[0]);
+     for(int i=0; i<int(n)-1; i++)
+     {
+     a +=arr[i].cross(arr[i+1]);
+     }
+     return a/2;
+}
+
+int probability_(point arr[],int n,point p,point app)
+{
+     int area=polygonArea(arr,n);
+     int dis=app.distance(p);
+     int prob=(dis*1.0/area*1.0)*100;
+     return 100-prob;
+}
+
+int isinside(point polygon[],int n,point p)
+{
+     int counter=0;
+     int i;
+     double xinters;
+     point p1,p2;
+     p1=polygon[0];
+     for(int i=1; i<=n; i++)
+     {
+       p2=polygon[i%n];
+       if(p.y>MIN(p1.y,p2.y))
+       {
+         if(p.y<=MAX(p1.y,p2.y)){
+           if(p.x<=MAX(p1.x,p2.x)){
+             if(p1.y!=p2.y)
+             {
+             xinters=(p.y-p1.y)*(p2.x-p1.x)/(p2.y-p1.y)+p1.x;
+             if(p1.x==p2.x || p.x<=xinters)
+             {
+              counter++;
+             }
+             }
+           }
+         }
+       }
+         p1=p2;
+       
+     }
+       if(counter%2==0)
+       {
+       return 1;
+       }
+       else{
+       return 0;
+       }
+     
+}
+
+int main()
+{
+     int t;
+     cin>>t;
+     while(t--)
+     {
+     int n;
+     cin>>n;
+     point arr[n];
+     for(int i=0; i<n; i++)
+     {
+     double a,b;
+     cin>>a>>b;
+     arr[i]=point(a,b);
+     }
+     double a,b;
+     cin>>a>>b;
+     point approx(a,b);
+     int q;
+     cin>>q; 
+     for(int i=0; i<q; i++)
+     {
+     int a,b;
+     cin>>a>>b;
+     point ch(a,b);
+     if(!isinside(arr,n,ch))
+     {
+     cout<<"Yes"<<endl;
+     cout<<probability_(arr,n,ch,approx)<<endl;
+     }else{
+     cout<<"No"<<endl;
+     }
+     }
+     }
+}
