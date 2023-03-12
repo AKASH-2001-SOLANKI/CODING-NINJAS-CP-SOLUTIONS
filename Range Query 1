@@ -1593,3 +1593,481 @@ int main()
  
  
  
+ 
+ 2 vs 3
+Send Feedback
+The fight for the best number in the globe is going to finally come to an end.The top two contenders for the best number are number 2 and number 3.It's the final the entire world was waiting for. Expectorates from all across the globe came to witness the breath taking finals.
+The finals began in an astonishing way.A common problem was set for both of them which included both these number.The problem goes like this.
+Given a binary string (that is a string consisting of only 0 and 1). They were supposed to perform two types of query on the string.
+Type 0: Given two indices l and r.Print the value of the binary string from l to r modulo 3.
+
+Type 1: Given an index l flip the value of that index if and only if the value at that index is 0.
+The problem proved to be a really tough one for both of them.Hours passed by but neither of them could solve the problem.So both of them wants you to solve this problem and then you get the right to choose the best number in the globe.
+Input format:
+The first line contains N denoting the length of the binary string .
+The second line contains the N length binary string.Third line contains the integer Q indicating the number of queries to perform.
+This is followed up by Q lines where each line contains a query.
+Output format:
+For each query of Type 0 print the value modulo 3.
+Constraints:
+1<= N <=10^5
+1<= Q <= 10^5
+0 <= l <= r < N
+Sample Input
+5
+10010
+6
+0 2 4
+0 2 3
+1 1
+0 0 4
+1 1
+0 0 3
+Sample Output
+2
+1
+2
+1
+
+
+#include <bits/stdc++.h>
+using namespace std;
+int power[100001];
+
+void buildtree(int *arr, int *tree, int start, int end, int treenode) {
+  if (start == end) {
+    tree[treenode] = arr[start];
+    return;
+  }
+
+  int mid = (start + end) / 2;
+  buildtree(arr, tree, start, mid, 2 * treenode);
+  buildtree(arr, tree, mid + 1, end, 2 * treenode + 1);
+  int left = tree[2 * treenode];
+  int right = tree[2 * treenode + 1];
+  tree[treenode] = ((left * power[end - mid]) % 3 + right) % 3;
+  return;
+}
+
+void flip(int *arr, int *tree, int start, int end, int treenode, int idx) {
+  if (start == end) {
+    arr[idx] = 1;
+    tree[treenode] = 1;
+    return;
+  }
+
+  int mid = (start + end) / 2;
+  if (idx > mid) {
+    flip(arr, tree, mid + 1, end, 2 * treenode + 1, idx);
+  } else {
+    flip(arr, tree, start, mid, 2 * treenode, idx);
+  }
+
+  int left = tree[2 * treenode];
+  int right = tree[2 * treenode + 1];
+  tree[treenode] = (left * power[end - mid] + right) % 3;
+  return;
+}
+
+int query(int *tree, int start, int end, int treenode, int left, int right) {
+  if (start > right || end < left) {
+    return 0;
+  }
+
+  if (start >= left && end <= right) {
+    return (tree[treenode] * power[right - end]) % 3;
+  }
+
+  int mid = (start + end) / 2;
+  int first = query(tree, start, mid, 2 * treenode, left, right);
+  int second = query(tree, mid + 1, end, 2 * treenode + 1, left, right);
+  return (first + second) % 3;
+}
+int main() {
+
+  int n;
+  cin >> n;
+  string s;
+  cin >> s;
+  int *arr = new int[n];
+  int *tree = new int[4 * n]();
+  for (int i = 0; i < n; i++) {
+    arr[i] = s[i] - '0';
+  }
+
+  power[0] = 1;
+  for (int i = 1; i < 100001; i++) {
+    power[i] = (power[i - 1] * 2) % 3;
+  }
+
+  buildtree(arr, tree, 0, n - 1, 1);
+  int q;
+  cin >> q;
+  while (q--) {
+    int type;
+    cin >> type;
+    if (type == 0) {
+      int left, right;
+      cin >> left >> right;
+      int ans = query(tree, 0, n - 1, 1, left, right);
+      cout << ans << endl;
+    } else {
+      int idx;
+      cin >> idx;
+      if (arr[idx] == 0) {
+        flip(arr, tree, 0, n - 1, 1, idx);
+      }
+    }
+  }
+  return 0;
+}
+
+
+
+Legion of Doom
+Send Feedback
+Lex Luthor’s Legion of Doom is a tough organization to get into, even for greatest supervillains. Recently, a spot has opened up because The Mad Hatter has retired. Harley Quinn doesn't want to waste this opportunity, and jumps at the chance of the interview. But she has a PhD in psychology, not in Computer Science. She has kidnapped you and will let you go only if you are able to solve the evil questions of Lex Luthor.
+You are given an array of N elements, which are initially all 0. After that you will be given C commands. They are -
+0 p q v - you have to add v to all numbers in the range of p to q (inclusive), where p and q are two indexes of the array.
+1 p q - output a line containing a single integer which is the sum of all the array elements between p and q (inclusive)
+Input Format:
+In the first line you'll be given T, number of test cases.
+
+Each test case will start with N and C. After that you'll be given C commands in the format as mentioned above
+Constraints:
+ 1 <= T <= 10
+ 1 <= N, C <= 10000
+ 1 <= val <= 10^8
+ 1 <= p <= q <= N
+Output Format:
+Print the answers of the queries in new line for each test case.
+Sample Input 1:
+1
+8 6
+0 2 4 26
+0 4 8 80
+0 4 5 20
+1 8 8 
+0 5 7 14
+1 4 8
+Sample Output 1:
+80  
+508
+
+#include <bits/stdc++.h>
+using namespace std;
+#define FastRead ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define endl '\n'
+#define int long long int
+#define pb push_back
+#define mp make_pair
+#define pii pair<int,int>
+#define mii map<int,int>
+#define set set<int>
+#define vec vector<int>
+#define pq priority_queue <int>
+#define pqr priority_queue <int, vector<int>, greater<int>>
+#define mod 1000000007
+#define inf 1e18
+#define ff first
+#define ss second
+#define For(i,a,b) for(int i=a;i<b;i++)
+
+//const int fx[]={+1,-1,+0,+0};
+//const int fy[]={+0,+0,+1,-1};
+//const int fx[]={+0,+0,+1,-1,-1,+1,-1,+1};   // Kings Move
+//const int fy[]={-1,+1,+0,+0,+1,+1,-1,-1};  // Kings Move
+//const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
+//const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
+
+int query(int*tree,int*lazy,int s,int e,int l,int r,int tn){
+    if(s>e)return 0;
+    if(lazy[tn]!=0){
+        tree[tn]+=lazy[tn]*(e-s+1);
+        if(s!=e){
+            lazy[2*tn]+=lazy[tn];
+            lazy[2*tn+1]+=lazy[tn];
+        }
+        lazy[tn]=0;
+    }
+    if(l>e||s>r){
+        return 0;
+    }
+    if(s>=l&&e<=r){
+        return tree[tn];
+    }
+    int mid=(s+e)/2;
+    int ans1=query(tree,lazy,s,mid,l,r,2*tn);
+    int ans2=query(tree,lazy,mid+1,e,l,r,2*tn+1);
+    
+    return ans1+ans2;
+}
+
+void update(int*tree,int *lazy,int s,int e,int l,int r,int tn,int v){
+    if(s>e)return;
+    if(lazy[tn]!=0){
+        tree[tn]+=lazy[tn]*(e-s+1);
+        if(s!=e){
+            lazy[2*tn]+=lazy[tn];
+            lazy[2*tn+1]+=lazy[tn];
+        }
+        lazy[tn]=0;
+    }
+    if(l>e||s>r){
+        return;
+    }
+    if(s>=l&&e<=r){
+        tree[tn]+=v*(e-s+1);
+        if(s!=e){
+            lazy[2*tn]+=v;
+            lazy[2*tn+1]+=v;
+        }
+        return;
+    }
+    int mid=(s+e)/2;
+    update(tree,lazy,s,mid,l,r,2*tn,v);
+    update(tree,lazy,mid+1,e,l,r,2*tn+1,v);
+    
+    tree[tn]=tree[2*tn]+tree[2*tn+1];
+}
+
+int32_t main(){
+	FastRead;
+	int t;
+    cin>>t;
+    while(t--){
+        int n,c;
+        cin>>n>>c;
+        int* tree = new int[4*n]();
+        int* lazy = new int[4*n]();
+        int l,r,v;
+        int type;
+        while(c--){
+            cin>>type;
+            if(type){
+            	cin>>l>>r;
+            	l--;r--;
+                cout<<query(tree,lazy,0,n-1,l,r,1)<<endl;
+            }else{
+            	cin>>l>>r>>v;
+                l--;r--;
+                update(tree,lazy,0,n-1,l,r,1,v);
+            }
+        }
+    }
+	return 0;
+}
+
+
+
+
+
+The GCD Dillema
+Send Feedback
+Dwight is always bragging about how amazing he is at solving complicated problems with much ease. Jim got tired of this and gave him an interesting problem to solve.
+Jim gave Dwight a sequence of integers a1, a2, ..., an and q queries x1, x2, ..., xq on it. For each query xi Dwight has to count the number of pairs (l, r) such that 1 ≤ l ≤ r ≤ n and GCD(al, al + 1, ..., ar) = xi. Dwight is feeling out of his depth here and asked you to be his Secret Assistant to the Regional Manager. Your first task is to help him solve the problem. Are you up to it?
+Input Format:
+First line of input contains an integer N, representing the number of elements in the sequence.
+Second line contains N space-separated integers denoting the elements of the sequence.
+Third line of input contains an integer Q, representing the number of queries.
+Next Q line contains an integer X.
+Constraints:
+1 < = N <= 10^4
+1 <= arr[i] <= 10^9
+1 <= Q <= 10^4
+1 <= X <= 10^9 
+Output Format:
+For each query, print the answer in a new line.
+Sample Input:
+2
+8 12 
+3
+8
+12
+4
+Sample Output:
+1
+1
+1
+
+#include <bits/stdc++.h>
+#define MAXN 100005
+#define K 25
+#define ll long long int
+using namespace std;
+
+int tc = 1, n, q, arr[MAXN + 1], st[MAXN][K], lg[MAXN + 1], curr, previous,
+    curr_gcd;
+map<int, ll> cnt;
+
+int gcd(int L, int R) {
+  int j = lg[R - L + 1];
+  return __gcd(st[L][j], st[R - (1 << j) + 1][j]);
+}
+
+int getMid(int i) {
+  int l = curr, r = n;
+  while (l < r - 1) {
+    int mid = (l + r) / 2;
+    if (gcd(i, mid) == curr_gcd)
+      l = mid;
+    else
+      r = mid;
+  }
+  return r;
+}
+
+void preprocess() {
+  ios::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+  lg[1] = 0;
+  for (int i = 2; i <= MAXN; i++)
+    lg[i] = lg[i / 2] + 1;
+}
+
+void input() {
+  scanf("%d", &n);
+  for (int i = 1; i <= n; i++)
+    scanf("%d", arr + i);
+}
+
+void solve() {
+  // preprocessing 1
+  for (int i = 1; i <= n; i++)
+    st[i][0] = arr[i];
+
+  for (int j = 1; j <= K; j++)
+    for (int i = 1; i + (1 << j) <= n + 1; i++)
+      st[i][j] = __gcd(st[i][j - 1], st[i + (1 << (j - 1))][j - 1]);
+
+  // preprocessing 2
+  for (int i = 1; i <= n; i++) {
+    curr = previous = i;
+    curr_gcd = arr[i];
+    while (curr < n) {
+      curr = getMid(i);
+      cnt[curr_gcd] += curr - previous;
+      curr_gcd = gcd(i, curr);
+      previous = curr;
+      if (curr_gcd == 1)
+        break;
+    }
+    cnt[curr_gcd] += n - curr + 1;
+  }
+
+  // solution
+  scanf("%d", &q);
+  for (int i = 0; i < q; i++) {
+    int x;
+    scanf("%d", &x);
+    printf("%lld\n", cnt[x]);
+  }
+  // cerr << (__gcd(__gcd(2,6),3)) << endl;
+}
+
+int main() {
+  preprocess();
+  while (tc--) {
+    input();
+    solve();
+  }
+  return 0;
+}
+
+
+
+
+Sheldon and Trains
+Send Feedback
+Sheldon always tells people, “When you have only one day to visit Los Angeles, make it a Train Day”. He loves spending time while travelling in trains and considers it a fun activity. Sheldon’s mom has come to visit him and he decides to take her out on a train tour of the city of Pasadena, along with his friend Howard. There are n train stations in the city. Howard knows how irritating Sheldon can be during a train ride. So, to keep him busy, Howard gives Sheldon a problem so interesting that he just cannot do anything else other than devote his entire mind to solving it. The problem goes like this. At the i-th station it's possible to buy only tickets to stations from i + 1 to ai (inclusive). No tickets are sold at the last station.
+Let ρi, j be the minimum number of tickets one needs to buy in order to get from stations i to station j. Sheldon’s task is to compute the sum of all values ρi, j among all pairs 1 ≤ i < j ≤ n. As brilliant as he may be, he asked for your help.
+Input Format:
+First line of input will contain N number of trains 
+Second line will contain N-1 space-separated integers denoting the values of ai
+Output Format:
+Print the answer as mentioned above
+Constraints:
+2 < = N <= 10^5
+i + 1 <=arr[i] <= N
+Sample Input 1:
+7
+2 7 5 7 6 7 
+Sample Output 1:
+29
+
+#include <bits/stdc++.h>
+using namespace std;
+#define Riep(n) for(int i=1;i<=n;i++)
+#define Riop(n) for(int i=0;i<n;i++)
+#define Rjep(n) for(int j=1;j<=n;j++)
+#define Rjop(n) for(int j=0;j<n;j++)
+#define mst(ss,b) memset(ss,b,sizeof(ss));
+typedef long long LL;
+const LL mod=1e9+7;
+const double PI=acos(-1.0);
+const int inf=0x3f3f3f3f;
+const int N=1e5+25;
+int n,a[N];
+LL dp[N];
+struct Tree
+{
+    int l,r,ans;
+}tr[4*N];
+void pushup(int o)
+{
+    if(a[tr[2*o].ans]>a[tr[2*o+1].ans])tr[o].ans=tr[2*o].ans;
+    else tr[o].ans=tr[2*o+1].ans;
+}
+void build(int o,int L,int R)
+{
+    tr[o].l=L;
+    tr[o].r=R;
+    if(L==R)
+    {
+        tr[o].ans=L;
+        return ;
+    }
+    int mid=(L+R)>>1;
+    build(2*o,L,mid);
+    build(2*o+1,mid+1,R);
+    pushup(o);
+}
+int query(int o,int L,int R)
+{
+    if(L<=tr[o].l&&R>=tr[o].r)return tr[o].ans;
+    int mid=(tr[o].l+tr[o].r)>>1;
+    if(R<=mid)return query(2*o,L,R);
+    else if(L>mid)return query(2*o+1,L,R);
+    else
+    {
+        int fl=query(2*o,L,mid),fr=query(2*o+1,mid+1,R);
+        if(a[fl]>a[fr])return fl;
+        else return fr;
+    }
+}
+int main()
+{
+    scanf("%d",&n);
+    Riep(n-1)scanf("%d",&a[i]);
+    a[n]=n-1;
+    build(1,1,n);
+    LL ans=0;
+    dp[n]=0;
+    for(int i=n-1;i>0;i--)
+    {
+        int temp=query(1,i+1,a[i]);
+        dp[i]=dp[temp]+(LL)(n-i-(a[i]-temp));
+        ans+=dp[i];
+    }
+    cout<<ans<<"\n";
+
+    return 0;
+}
+
+
+
+
+
+
+ 
