@@ -1,0 +1,353 @@
+Totient Function
+Send Feedback
+You are given an integer N and are supposed to find the value of Euler toient function for N phi(N)
+Input Format:
+First line of input will contain T(number of test case), each test case follows as.
+An integer N in new line.
+Output Format:
+For each test case print the answer in new line
+Constraints:
+1 <= T <= 100
+1 <= N <= 10^9
+Sample Input:
+2
+20
+21
+Sample Output:
+8 
+12
+
+/*
+You are given an integer N and are supposed to find the value of Euler toient
+function for N phi(N) Input Format: First line of input will contain T(number of
+test case), each test case follows as. An integer N in new line. Output Format:
+For each test case print the answer in new line
+Constraints:
+1 <= T <= 100
+1 <= N <= 10^9
+Sample Input:
+2
+20
+21
+Sample Output:
+8
+12
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+
+  int t;
+  cin >> t;
+  while (t--) {
+    int n;
+    cin >> n;
+    int temp = n;
+    int ans = n;
+    for (int i = 2; i * i <= n; i++) {
+      if ((temp % i) == 0) {
+        while ((temp % i) == 0)
+          temp /= i;
+
+        ans -= ans / i;
+      }
+    }
+    if (temp > 1) {
+      ans -= ans / temp;
+    }
+    cout << ans << endl;
+  }
+}
+
+
+Sum of LCM
+Send Feedback
+Given n, calculate and print the sum :
+LCM(1,n) + LCM(2,n) + .. + LCM(n,n)
+where LCM(i,n) denotes the Least Common Multiple of the integers i and n.
+Input Format :
+First line of input will contain T(number of test case), each test case follows as.
+An Integer N
+Output Format :
+Required sum for each test case in newline.
+Constraints :
+1 <= T <= 10^4
+1 <= n <= 10^5
+Sample Input 1 :
+1
+5
+Sample Output 1 :
+55
+Sample Input 2 :
+1
+2
+Sample Output 2 :
+4
+
+/*
+Given n, calculate and print the sum :
+LCM(1,n) + LCM(2,n) + .. + LCM(n,n)
+where LCM(i,n) denotes the Least Common Multiple of the integers i and n.
+Input Format :
+First line of input will contain T(number of test case), each test case follows
+as. An Integer N Output Format : Required sum for each test case in newline.
+Constraints :
+1 <= T <= 10^4
+1 <= n <= 10^5
+Sample Input 1 :
+1
+5
+Sample Output 1 :
+55
+Sample Input 2 :
+1
+2
+Sample Output 2 :
+4
+*/
+#include <bits/stdc++.h>
+using namespace std;
+unsigned long long int phi(unsigned long long int n) {
+  unsigned long long int result = n;
+  for (unsigned long long int i = 2; i * i <= n; i++) {
+    if (n % i == 0) {
+      while (n % i == 0)
+        n /= i;
+
+      result = (result * (i - 1)) / i;
+    }
+  }
+  if (n > 1)
+    result = (result * (n - 1)) / n;
+  return result;
+}
+
+int main() {
+
+  int t;
+  cin >> t;
+  while (t--) {
+    long long n;
+    cin >> n;
+    vector<long long> divisors;
+    for (long long i = 2; i <= sqrt(n); i++) {
+      if (n % i == 0) {
+
+        if (n / i == i) {
+          divisors.push_back(i);
+        } else {
+          divisors.push_back(i);
+          divisors.push_back(n / i);
+        }
+      }
+    }
+    unsigned long long int sum = 0;
+    for (int i = 0; i < divisors.size(); i++) {
+      sum = (sum + (phi(n / divisors[i]) * ((n * n) / divisors[i])));
+    }
+    sum = (sum + (phi(n) * (n * n)));
+    sum = (sum + 2 * n);
+    sum = sum / 2;
+    cout << sum << endl;
+  }
+  return 0;
+}
+
+
+
+
+
+Segmented Sieve Problem
+Send Feedback
+In this problem you have to print all primes from given interval.
+Input Format:
+First line of input will contain T(number of test cases), each test case follows as.
+
+On each line are written two integers L and U separated by a blank. L - lower bound of 
+interval, U - upper bound of interval.
+Output Format:
+For each test case output must contain all primes from interval [L; U] in increasing order.
+Constraints:
+1  <= T <= 100
+1 <= L <= U <= 10^9
+0 <= U - L <= 10^5
+Sample Input:
+2
+2 10
+3 7
+Sample Output:
+2 3 5 7
+3 5 7 
+
+/*
+In this problem you have to print all primes from given interval.
+Input Format:
+First line of input will contain T(number of test cases), each test case follows
+as. On each line are written two integers L and U separated by a blank. L -
+lower bound of interval, U - upper bound of interval. Output Format: For each
+test case output must contain all primes from interval [L; U] in increasing
+order. Constraints: 1  <= T <= 100 1 <= L <= U <= 10^9 0 <= U - L <= 10^5 Sample
+Input:
+2
+2 10
+3 7
+Sample Output:
+2 3 5 7
+3 5 7
+*/
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+  long long n = 1000000000;
+  long long size = sqrt(n);
+  bool arr[size];
+  // cout<<size<<endl;
+  arr[0] = false;
+  arr[1] = false;
+  for (long long i = 2; i <= size; i++) {
+    arr[i] = true;
+  }
+  for (long long i = 2; i <= size; i++) {
+    for (long long j = i * i; j <= size; j += i) {
+      arr[j] = false;
+    }
+  }
+  int t;
+  cin >> t;
+  while (t--) {
+    long long l, u;
+    cin >> l >> u;
+    bool isPrime[u - l + 1];
+    for (int i = 0; i <= u - l; i++) {
+      isPrime[i] = true;
+    }
+    if (u > size) {
+      for (long long i = 2; i <= size; i++) {
+        if (i * i > u) {
+          break;
+        }
+        if (arr[i] == true) {
+          long long base = (l / i) * i;
+          if (base < l) {
+            base = base + i;
+          }
+          for (long long j = base; j <= u; j += i) {
+            isPrime[j - l] = false;
+          }
+          if (base == i) {
+            isPrime[base - l] = true;
+          }
+        }
+      }
+      for (long long i = 0; i <= (u - l); i++) {
+        if (isPrime[i] == true) {
+          //cout << i + l << " ";
+        }
+      }
+    } else {
+      for (long long i = l; i <= u; i++) {
+        if (arr[i] == true) {
+           cout << i << " ";
+        }
+      }
+    }
+    cout << endl;
+  }
+  return 0;
+}
+
+
+
+
+
+Ninja Factor
+Send Feedback
+Ninja is given an array of integers of size N and Q queries, each query will be consists of two integers l, r and ninja is supposed to calculate the number of i such that the ninja factor of array[i] is a prime number where l <= i <= r
+Ninja factor of a Number A is defined as the number of integers B such that
+1 <= B <= A
+LCM (A, B) = A * B
+Input Format:
+ Line1: contain two space-separated integers N and Q denoting the number of elements in array and number of queries.
+Line2: contain N space-separated integers denoting the elements of the array
+Next, Q lines contain two space-separated integers l, r describing the query.
+Output Format:
+For each query print the answer in a newline.
+Constraints:
+1 <= N , Q <= 10^5
+1 <= arr[i] <= 10^9
+1 <= l, r <= N
+Sample Input:
+10 6
+8 8 6 8 6 7 10 7 9 9 
+2 10
+7 7
+5 7
+7 8
+6 10
+3 4
+Sample Output:
+2
+0
+1
+0
+0
+1
+Explanation:
+6 is the only number whose ninja factor is prime here(i.e. 2) {[LCM(1,6]=1*6; LCM(5, 6)=5*6}
+
+/*
+Ninja is given an array of integers of size N and Q queries, each query will be
+consists of two integers l, r and ninja is supposed to calculate the number of i
+such that the ninja factor of array[i] is a prime number where l <= i <= r Ninja
+factor of a Number A is defined as the number of integers B such that 1 <= B <=
+A LCM (A, B) = A * B Input Format: Line1: contain two space-separated integers N
+and Q denoting the number of elements in array and number of queries. Line2:
+contain N space-separated integers denoting the elements of the array Next, Q
+lines contain two space-separated integers l, r describing the query. Output
+Format: For each query print the answer in a newline. Constraints: 1 <= N , Q <=
+10^5 1 <= arr[i] <= 10^9 1 <= l, r <= N Sample Input: 10 6 8 8 6 8 6 7 10 7 9 9
+2 10
+7 7
+5 7
+7 8
+6 10
+3 4
+Sample Output:
+2
+0
+1
+0
+0
+1
+Explanation:
+6 is the only number whose ninja factor is prime here(i.e. 2) {[LCM(1,6]=1*6;
+LCM(5, 6)=5*6}
+*/
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+int main() {
+  ll n, q;
+  cin >> n >> q;
+  vector<ll> a(n + 1), dp(n + 1, 0);
+
+  for (ll i = 1; i <= n; ++i) {
+    cin >> a[i];
+    if (a[i] == 3 || a[i] == 4 || a[i] == 6)
+      dp[i] = 1;
+
+    dp[i] += dp[i - 1];
+  }
+
+  while (q--) {
+    ll l, r;
+    cin >> l >> r;
+    cout << dp[r] - dp[l - 1] << '\n';
+  }
+
+  return 0;
+}
+
+
