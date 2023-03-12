@@ -1,0 +1,1595 @@
+Minimum In SubArray
+Send Feedback
+You are given a sequence A[1], A[2], ..., A[N] of N numbers ( 0 ≤ A[i] ≤ 10^8 , 2 ≤ N ≤ 10^5 ). There are Q queries, and each query is defined in either of the following two ways:
+Query on range:
+You are given two numbers i and j; the answer to each query is the minimum number between the range (i, j) (including both i and j). Note that in this query, i and j lies in the range: [1, N].
+Update query:
+You are given two numbers i and B; update A[i] to B. Note that in this query, i lies in the range: [1, N].
+Input Format:
+The first line of input contains two integers: N and Q, representing the length of the sequence and the number of queries. 
+The second line of input contains N space-separated integers, A[i].  
+Next, Q lines contain the queries. Each line contains one character, followed by two space-separated integers. For the query on range, the character will be q and for the update query, the character will be u. 
+Constraints:
+1 ≤ i ≤ N
+0 ≤ B ≤ 10^8
+1 ≤ i <= j ≤ N
+Output Format:
+For each query on range, print the minimum number between the range, in a new line.
+Sample Input 1:
+4 3
+5 2 4 3
+q 1 3
+u 1 1
+q 3 4
+Sample Output 1:
+2
+3
+
+/* Range Minimum Query
+Given an array A of size N, there are two types of queries on this array.
+1) q l r: In this query you need to print the minimum in the sub-array A[l:r].
+2) u x y: In this query you need to update A[x]=y.
+Input:
+First line of the test case contains two integers, N and Q, size of array A and
+number of queries. Second line contains N space separated integers, elements of
+A. Next Q lines contain one of the two queries. Output: For each type 1 query,
+print the minimum element in the sub-array A[l:r]. Contraints: 1≤N,Q,y≤10^5
+1≤l,r,x≤N
+Sample Input :
+5 5
+1 5 2 4 3
+q 1 5
+q 1 3
+q 3 5
+u 3 6
+q 1 5
+Sample Output :
+1
+1
+2
+1 */
+
+#include <algorithm>
+#include <climits>
+#include <iostream>
+
+using namespace std;
+void buildtree(int *arr, int *tree, int start, int end, int treenode) {
+  if (start == end) {
+    tree[treenode] = arr[start];
+    return;
+  }
+  int mid = (start + end) / 2;
+  buildtree(arr, tree, start, mid, 2 * treenode);
+  buildtree(arr, tree, mid + 1, end, 2 * treenode + 1);
+  tree[treenode] = min(tree[2 * treenode], tree[2 * treenode + 1]);
+}
+void updatetree(int *arr, int *tree, int start, int end, int treenode,
+                int index, int value) {
+  if (start == end) {
+    arr[index] = value;
+    tree[treenode] = value;
+    return;
+  }
+  int mid = (start + end) / 2;
+  if (index > mid) // right
+  {
+    updatetree(arr, tree, mid + 1, end, 2 * treenode + 1, index, value);
+  } else // left
+  {
+    updatetree(arr, tree, start, mid, 2 * treenode, index, value);
+  }
+  tree[treenode] = min(tree[2 * treenode], tree[2 * treenode + 1]);
+}
+int query(int *tree, int start, int end, int treenode, int left, int right) {
+  if (start > right || end < left) {
+    return INT_MAX;
+  }
+
+  if (start >= left && end <= right) {
+    return tree[treenode];
+  }
+  int mid = (start + end) / 2;
+  int ans1 = query(tree, start, mid, 2 * treenode, left, right);
+  int ans2 = query(tree, mid + 1, end, 2 * treenode + 1, left, right);
+  return min(ans1, ans2);
+}
+int main() {
+  int n, q;
+  cin >> n >> q;
+  int *arr = new int[n];
+  for (int i = 0; i < n; i++) {
+    cin >> arr[i];
+  }
+  int *tree = new int[4 * n];
+  buildtree(arr, tree, 0, n - 1, 1);
+  // at this point of time i have my tree with me.
+  while (q--) {
+    char query_type;
+    cin >> query_type;
+    if (query_type == 'q') {
+      int l, r;
+      cin >> l >> r;
+      cout << query(tree, 0, n - 1, 1, l - 1, r - 1) << endl;
+    } else {
+      int x, y;
+      cin >> x >> y;
+      // we need to update arr[x]=y;
+      updatetree(arr, tree, 0, n - 1, 1, x - 1, y);
+    }
+  }
+}
+
+// #include<iostream>
+// //segment tree->
+// using namespace std;
+// void buildtree(int* arr, int* tree, int start, int end, int treenode)
+// {
+// 	if (start == end)
+// 	{
+// 		tree[treenode] = arr[start];
+// 		return;
+// 	}
+// 	int mid = (start + end) / 2;
+// 	buildtree(arr, tree, start, mid, 2 * treenode);
+// 	buildtree(arr, tree, mid + 1, end, 2 * treenode + 1);
+// 	tree[treenode] = tree[2 * treenode] + tree[2 * treenode + 1];
+// }
+// void updatetree(int* arr, int* tree, int start, int end, int treenode, int
+// index, int value)
+// {
+// 	if (start == end)
+// 	{
+// 		arr[index] = value;
+// 		tree[treenode] = value;
+// 		return;
+// 	}
+// 	int mid = (start + end) / 2;
+// 	if (index > mid)//right
+// 	{
+// 		updatetree(arr, tree, mid + 1, end, 2 * treenode + 1, index,
+// value);
+// 	}
+// 	else//left
+// 	{
+// 		updatetree(arr, tree, start, mid, 2 * treenode, index, value);
+// 	}
+// 	tree[treenode] = tree[2 * treenode] + tree[2 * treenode + 1];
+// }
+// int query(int* tree, int start, int end, int treenode, int left, int right)
+// {
+// 	//completely outside the given range
+// 	if (start > right || end < left)
+// 	{
+// 		return 0;
+// 	}
+// 	//completely inside the given range
+// 	if (start >= left && end <= right)
+// 	{
+// 		return tree[treenode];
+// 	}
+// 	//partially inside the given range
+// 	int mid = (start + end) / 2;
+// 	int ans1 = query(tree, start, mid, 2 * treenode, left, right);
+// 	int ans2 = query(tree, mid + 1, end, 2 * treenode + 1, left, right);
+// 	return ans1 + ans2;
+// }
+// int main()
+// {
+// 	int n;
+// 	cin >> n;
+// 	int* arr = new int[n];
+// 	for (int i = 0; i < n; i++)
+// 	{
+// 		cin >> arr[i];
+// 	}
+// 	int* tree = new int[2 * n];
+// 	for (int i = 0; i < 2 * n; i++)
+// 	{
+// 		tree[i] = 0;
+// 	}
+// 	buildtree(arr, tree, 0, n - 1, 1);
+// 	//printing tree.
+// 	cout << endl;
+// 	cout << n << endl;
+// 	for (int i = 0; i < 2 * n; i++)
+// 	{
+// 		cout << tree[i] << " ";
+// 	}
+// 	updatetree(arr, tree, 0, n - 1, 1, 2, 10);
+// 	//printing tree again.
+// 	cout << endl;
+// 	cout << n << endl;
+// 	for (int i = 0; i < 2 * n; i++)
+// 	{
+// 		cout << tree[i] << " ";
+// 	}
+// 	//responding to query
+// 	int ans = query(tree, 0, n - 1, 1, 2, 4);
+// 	cout << endl << ans << endl;
+// 	return 0;
+// }
+
+
+
+
+Maximum Pair Sum
+Send Feedback
+You are given a sequence A[1], A[2], ..., A[N], ( 0 ≤ A[i] ≤ 10^8 , 2 ≤ N ≤ 10^5 ). There are two types of operations and they are defined as follows:
+Update:
+This will be indicated in the input of a 'U' followed by space and then two integers i and x.
+U i x
+This operation sets the value of A[i] to x.
+Query:
+This will be indicated in the input of a 'Q' followed by a single space and then two integers x and y.
+Q x y
+You must find two integers i and j such that x ≤ i, j ≤ y and i != j, such that the sum A[i]+A[j] is maximized. Print the sum A[i]+A[j].
+Input Format:
+The first line of input contains an integer N, representing the length of the sequence. 
+The second line of input contains of N space separated integers, A[i]. 
+The third line of input contains an integer Q, Q ≤ 10^5, representing the number of operations. 
+Next Q lines contain the operations.
+Constraints:
+1 ≤ i ≤ N
+0 ≤ x ≤ 10^8
+1 ≤ x < y ≤ N
+Output Format:
+For each query, print the maximum sum mentioned above, in a new line.
+Sample Input 1:
+5
+1 2 3 4 5
+6
+Q 2 4
+Q 2 5
+U 1 6
+Q 1 5
+U 1 7
+Q 1 5
+Sample Output 1:
+7
+9
+11
+12
+
+
+/* You are given a sequence A[1], A[2], ..., A[N], ( 0 ≤ A[i] ≤ 10^8 , 2 ≤ N ≤
+10^5 ). There are two types of operations and they are defined as follows:
+Update:
+This will be indicated in the input by a 'U' followed by space and then two
+integers i and x. U i x, 1 ≤ i ≤ N, and x, 0 ≤ x ≤ 10^8. This operation sets the
+value of A[i] to x. Query: This will be indicated in the input by a 'Q' followed
+by a single space and then two integers i and j. Q x y, 1 ≤ x < y ≤ N. You must
+find i and j such that x ≤ i, j ≤ y and i != j, such that the sum A[i]+A[j] is
+maximized. Print the sum A[i]+A[j]. Input The first line of input consists of an
+integer N representing the length of the sequence. Next line consists of N space
+separated integers A[i]. Next line contains an integer Q, Q ≤ 10^5, representing
+the number of operations. Next Q lines contain the operations. Output Output the
+maximum sum mentioned above, in a separate line, for each Query. Input:
+5
+1 2 3 4 5
+6
+Q 2 4
+Q 2 5
+U 1 6
+Q 1 5
+U 1 7
+Q 1 5
+Output:
+7
+9
+11
+12 */
+
+#include <algorithm>
+#include <climits>
+#include <iostream>
+#include <utility>
+using namespace std;
+
+pair<int, int> query(pair<int, int> *tree, int start, int end, int treeNode,
+                     int left, int right) {
+
+  // Completely out
+  if (left > end || right < start) {
+    pair<int, int> temp = make_pair(INT_MIN, INT_MIN);
+    return temp;
+  }
+
+  // Completely inside
+  if (start >= left && end <= right) {
+    return tree[treeNode];
+  }
+
+  // Partially inside
+  int mid = (start + end) / 2;
+
+  pair<int, int> l = query(tree, start, mid, 2 * treeNode + 1, left, right);
+  pair<int, int> r = query(tree, mid + 1, end, 2 * treeNode + 2, left, right);
+
+  pair<int, int> result;
+  result.first = max(l.first, r.first);
+  result.second = min(max(l.first, r.second), max(l.second, r.first));
+  return result;
+}
+
+void update(int *arr, pair<int, int> *tree, int start, int end, int treeNode,
+            int idx, int value) {
+  int mid = (start + end) / 2;
+
+  if (start == end) {
+    arr[idx] = value;
+    tree[treeNode] = make_pair(value, INT_MIN);
+    return;
+  }
+
+  if (idx <= mid) {
+    update(arr, tree, start, mid, 2 * treeNode + 1, idx, value);
+  } else {
+
+    update(arr, tree, mid + 1, end, 2 * treeNode + 2, idx, value);
+  }
+
+  pair<int, int> left = tree[2 * treeNode + 1];
+  pair<int, int> right = tree[2 * treeNode + 2];
+
+  tree[treeNode].first = max(left.first, right.first);
+  tree[treeNode].second =
+      min(max(left.first, right.second), max(left.second, right.first));
+  return;
+}
+
+void create(int *arr, pair<int, int> *tree, int start, int end, int treeNode) {
+  if (end == start) {
+    tree[treeNode] = make_pair(arr[start], INT_MIN);
+    return;
+  }
+
+  int mid = (start + end) / 2;
+
+  create(arr, tree, start, mid, 2 * treeNode + 1);
+  create(arr, tree, mid + 1, end, 2 * treeNode + 2);
+
+  pair<int, int> left = tree[2 * treeNode + 1];
+  pair<int, int> right = tree[2 * treeNode + 2];
+
+  tree[treeNode].first = max(left.first, right.first);
+  tree[treeNode].second =
+      min(max(left.first, right.second), max(left.second, right.first));
+  // ye isliye kiya jisse tree[treenode].first ka data tree[treenode].second mei
+  // nahi aa jaye hume max and second max daalne hien .first and .second mei.
+  return;
+}
+
+int main() {
+  int n, q;
+  cin >> n;
+
+  int *arr = new int[n];
+  for (int i = 0; i < n; ++i) {
+    cin >> arr[i];
+  }
+
+  cin >> q;
+  pair<int, int> *tree = new pair<int, int>[4 * n];
+  create(arr, tree, 0, n - 1, 0);
+  while (q--) {
+    char a;
+    int b, c;
+    cin >> a >> b >> c;
+
+    if (a == 'Q') {
+      pair<int, int> result = query(tree, 0, n - 1, 0, b - 1, c - 1);
+      cout << result.first + result.second << endl;
+    } else {
+      update(arr, tree, 0, n - 1, 0, b - 1, c);
+    }
+  }
+
+  return 0;
+}
+
+
+
+
+Maximum Sum In Subarray
+Send Feedback
+You are given a sequence A[1], A[2], ..., A[N].
+A query is defined as follows:
+Query(x,y) = Max { a[i]+a[i+1]+...+a[j] ; x ≤ i ≤ j ≤ y }. 
+Given M queries, write a program that outputs the results of these queries.
+Input Format:
+The first line of input contains an integer N.
+In the second line contains N space separated integers.
+The third line contains the integer M.
+Next M lines contains 2 integers x and y.
+Output Format:
+For each query, print the answer in a new line.
+Constraints:
+1 <= N <= 10^5
+1 < = Q <= 10^5
+-10^4 <= arr[i] <= 10^4
+Sample Input 1:
+3 
+-1 2 3 
+1
+1 2
+Sample Output 1:
+2
+
+/* You are given a sequence A[1], A[2], ..., A[N] . ( |A[i]| ≤ 15007 , 1 ≤ N ≤
+50000 ). A query is defined as follows: Query(x,y) = Max { a[i]+a[i+1]+...+a[j]
+; x ≤ i ≤ j ≤ y }. Given M queries, your program must output the results of
+these queries. Input The first line of the input file contains the integer N. In
+the second line, N numbers follow. The third line contains the integer M. M
+lines follow, where line i contains 2 numbers xi and yi. Output Your program
+should output the results of the M queries, one query per line. Sample Input:
+3
+-1 2 3
+1
+1 2
+Sample Output:
+2 */
+
+#include <algorithm>
+#include <climits>
+#include <iostream>
+using namespace std;
+struct attrs {
+  int max_sum;
+  int sum;
+  int best_prefix_sum;
+  int best_suffix_sum;
+};
+void build_tree(int *arr, attrs *tree, int start, int end, int treenode) {
+  if (start == end) {
+    tree[treenode].sum = arr[start];
+    tree[treenode].max_sum = arr[start];
+    tree[treenode].best_suffix_sum = arr[start];
+    tree[treenode].best_prefix_sum = arr[start];
+    return;
+  }
+  int mid = (start + end) / 2;
+  build_tree(arr, tree, start, mid, 2 * treenode);
+  build_tree(arr, tree, mid + 1, end, 2 * treenode + 1);
+  tree[treenode].sum = tree[2 * treenode].sum + tree[2 * treenode + 1].sum;
+  tree[treenode].best_prefix_sum =
+      max(tree[2 * treenode].best_prefix_sum,
+          tree[2 * treenode].sum + tree[2 * treenode + 1].best_prefix_sum);
+  tree[treenode].best_suffix_sum =
+      max(tree[2 * treenode + 1].best_suffix_sum,
+          tree[2 * treenode + 1].sum + tree[2 * treenode].best_suffix_sum);
+  tree[treenode].max_sum = max(
+      tree[2 * treenode].max_sum,
+      max(tree[2 * treenode + 1].max_sum,
+          max(tree[2 * treenode].sum + tree[2 * treenode + 1].best_prefix_sum,
+              max(tree[2 * treenode + 1].sum +
+                      tree[2 * treenode].best_suffix_sum,
+                  tree[2 * treenode].best_suffix_sum +
+                      tree[2 * treenode + 1].best_prefix_sum))));
+}
+attrs query(attrs *tree, int start, int end, int treenode, int left,
+            int right) {
+  // completely outside
+  if (start > right || end < left) {
+    return {-100000, -100000, -100000, -100000};
+    // not used int min here because during recursion it will become +ve if any
+    // number is subtracted from it.
+  }
+  // completely inside
+  if (start >= left && end <= right) {
+    return tree[treenode];
+  }
+  // partially outside and partially inside
+  int mid = (start + end) / 2;
+  attrs q1 = query(tree, start, mid, 2 * treenode, left, right);
+  attrs q2 = query(tree, mid + 1, end, 2 * treenode + 1, left, right);
+  attrs ans;
+  ans.sum = q1.sum + q2.sum;
+  ans.best_prefix_sum = max(q1.best_prefix_sum, q1.sum + q2.best_prefix_sum);
+  ans.best_suffix_sum = max(q1.best_suffix_sum + q2.sum, q2.best_suffix_sum);
+  ans.max_sum =
+      max(q1.max_sum,
+          max(q2.max_sum, max(q1.sum + q2.best_prefix_sum,
+                              max(q2.sum + q1.best_suffix_sum,
+                                  q1.best_suffix_sum + q2.best_prefix_sum))));
+  return ans;
+}
+int main() {
+  int n;
+  cin >> n;
+  int *arr = new int[n];
+  attrs *tree = new attrs[4 * n];
+  for (int i = 0; i < n; i++) {
+    cin >> arr[i];
+  }
+  build_tree(arr, tree, 0, n - 1, 1);
+  int m;
+  cin >> m;
+  while (m--) {
+    int xi, yi;
+    cin >> xi >> yi;
+    cout << query(tree, 0, n - 1, 1, xi - 1, yi - 1).max_sum << endl;
+    // note that i have written xi-1 and yi-1. do you know why? because the
+    // inputs are not indexes.
+  }
+}
+
+
+
+
+Sum Of Squares
+Send Feedback
+Segment trees are extremely useful. In particular "Lazy Propagation" (i.e. see here, for example) allows one to compute sums over a range in O(lg(n)), and update ranges in O(lg(n)) as well. In this problem you will compute something much harder:
+The sum of squares over a range with range updates of 2 types:
+1) increment in a range
+2) set all numbers the same in a range.
+There will be T test cases in the input file. First line of the input contains two positive integers, N and Q.
+The next line contains N integers, each at most 1000. Each of the next Q lines starts with a number, which indicates the type of operation:
+2 st nd -- return the sum of the squares of the numbers with indices in [st, nd] {i.e., from st to nd inclusive} (1 <= st <= nd <= N).
+
+1 st nd x -- add "x" to all numbers with indices in [st, nd] (1 <= st <= nd <= N, and 1 <= x <= 1,000).
+
+0 st nd x -- set all numbers with indices in [st, nd] to "x" (1 <= st <= nd <= N, and 1 <= x <= 1,000).
+Input Format:
+First line of input will contain T(number of test case), each test case follows as.
+Line 1: contain two space-separated integers denoting the value of N and Q respectively
+Line 2: contain N space-separated integers denoting th value of array elements
+Next Q line contain the space separated value for queries as defined as above.
+Constraints:
+1 <= T <= 10
+1 <= N <= 10000
+1 <= arr[i] <= 1000
+1 <= Q <= 10000
+Output Format:
+For each test case, print the answer in new line for query of type 2
+Sample Input 1:
+2
+4 5
+1 2 3 4
+2 1 4
+0 3 4 1
+2 1 4
+1 3 4 1
+2 1 4
+1 1
+1
+2 1 1
+Sample Output 1:
+30
+7
+13
+1
+
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define pii pair<int, int>
+#define pb push_back
+#define mp make_pair
+#define mod 1000000009
+template <class T> class segmentTree {
+public:
+  segmentTree() {
+    height = 1;
+    left_most = 1 << height;
+    right_most = (left_most << 1) - 1;
+    tree = new T[right_most];
+  }
+  segmentTree(int s) {
+    size = s;
+    height = ceil(log2(s));
+    left_most = 1 << height;
+    right_most = (left_most << 1) - 1;
+    tree = new T[right_most + 9];
+  }
+  void init(T *arr) { build(arr); }
+  void fill_ans() {
+    initalize(1, left_most, right_most);
+    for (int i = left_most; i < left_most + size; i++) {
+      for (int j = 1; j <= 26; j++)
+        if (tree[i].arr[j]) {
+          cout << char(j + 96);
+          break;
+        }
+    }
+  }
+  void Update(int pos, T val) {
+    point_update(1, left_most, right_most, left_most + pos, val);
+  }
+  void Update(int l, int r, T val) {
+    range_update(1, left_most, right_most, left_most + l, left_most + r, val);
+  }
+  T Query(int pos) {
+    return point_query(1, left_most, right_most, left_most + pos);
+  }
+  T Query(int l, int r) {
+    return range_query(1, left_most, right_most, left_most + l, left_most + r);
+  }
+
+private:
+  T *tree;
+  int size, left_most, right_most, height;
+  void build(T *arr) {
+    for (int i = 0; i < size; i++)
+      tree[left_most + i] = arr[i];
+    initalize(1, left_most, right_most);
+  }
+  void initalize(int root, int left_most, int right_most) {
+    if (left_most == right_most)
+      return;
+    int mid = (left_most + right_most) >> 1, l_child = (root << 1),
+        r_child = (root << 1) + 1;
+    tree[root].split(tree[l_child], tree[r_child]);
+    initalize(l_child, left_most, mid);
+    initalize(r_child, mid + 1, right_most);
+    tree[root].merge(tree[l_child], tree[r_child]);
+  }
+  void point_update(int root, int left_most, int right_most, int pos, T val) {
+    if (left_most == right_most && root == pos) {
+      tree[root].update(val);
+      return;
+    }
+    int mid = (left_most + right_most) >> 1, l_child = root << 1,
+        r_child = (root << 1) + 1;
+    tree[root].split(tree[l_child], tree[r_child]);
+    if (pos <= mid)
+      point_update(l_child, left_most, mid, pos, val);
+
+    else
+      point_update(r_child, mid + 1, right_most, pos, val);
+    tree[root].merge(tree[l_child], tree[r_child]);
+  }
+  void range_update(int root, int left_most, int right_most, int l, int r,
+                    T val) {
+    if (l <= left_most && r >= right_most) {
+      tree[root].update(val);
+      return;
+    }
+    int mid = (left_most + right_most) >> 1, l_child = root << 1,
+        r_child = (root << 1) + 1;
+    tree[root].split(tree[l_child], tree[r_child]);
+    if (l <= mid)
+      range_update(l_child, left_most, mid, l, r, val);
+    if (r > mid)
+      range_update(r_child, mid + 1, right_most, l, r, val);
+    tree[root].merge(tree[l_child], tree[r_child]);
+  }
+  T range_query(int root, int left_most, int right_most, int l, int r) {
+    if (l <= left_most && r >= right_most)
+      return tree[root];
+    int mid = (left_most + right_most) >> 1, l_child = root << 1,
+        r_child = (root << 1) + 1;
+    tree[root].split(tree[l_child], tree[r_child]);
+    T l_node, r_node, temp;
+    if (l <= mid)
+      l_node = range_query(l_child, left_most, mid, l, r);
+    if (r > mid)
+      r_node = range_query(r_child, mid + 1, right_most, l, r);
+    tree[root].merge(tree[l_child], tree[r_child]);
+    temp.merge(l_node, r_node);
+    return temp;
+  }
+  T point_query(int root, int left_most, int right_most, int pos) {
+    if (left_most == right_most && root == pos)
+      return tree[root];
+    int mid = (left_most + right_most) >> 1, l_child = root << 1,
+        r_child = (root << 1) + 1;
+    T temp;
+    tree[root].split(tree[l_child], tree[r_child]);
+    if (pos <= mid)
+      temp = point_query(l_child, left_most, mid, pos);
+    else
+      temp = point_query(r_child, mid + 1, right_most, pos);
+    tree[root].merge(tree[l_child], tree[r_child]);
+    return temp;
+  }
+};
+class node {
+public:
+  ll sum, sq_sum, lazy1, lazy2;
+  int child_count;
+  void merge(node &a, node &b) {
+    sum = a.sum + b.sum;
+    sq_sum = a.sq_sum + b.sq_sum;
+    child_count = a.child_count + b.child_count;
+    lazy1 = lazy2 = 0;
+  }
+  void split(node &a, node &b) {
+    if (lazy1) {
+      a.sq_sum += lazy1 * lazy1 * (ll)a.child_count + 2LL * lazy1 * a.sum;
+      b.sq_sum += lazy1 * lazy1 * (ll)b.child_count + 2LL * lazy1 * b.sum;
+      a.sum += lazy1 * a.child_count;
+      b.sum += lazy1 * b.child_count;
+      a.lazy1 += lazy1;
+      b.lazy1 += lazy1;
+      lazy1 = 0;
+    }
+    if (lazy2) {
+      a.sq_sum = a.child_count * lazy2 * lazy2;
+      a.sum = a.child_count * lazy2;
+      a.lazy2 += lazy2;
+      b.sq_sum = b.child_count * lazy2 * lazy2;
+      b.sum = b.child_count * lazy2;
+      b.lazy2 += lazy2;
+    }
+  }
+  void update(node &a) {
+    if (a.lazy1) {
+      sq_sum = sq_sum + a.lazy1 * a.lazy1 * child_count + 2LL * a.lazy1 * sum;
+      sum += a.lazy1 * child_count;
+      lazy1 += a.lazy1;
+    }
+
+    if (a.lazy2) {
+      sq_sum = child_count * a.lazy2 * a.lazy2;
+      sum = child_count * a.lazy2;
+      lazy2 += a.lazy2;
+    }
+  }
+  node() {
+    sum = sq_sum = lazy1 = lazy2 = 0;
+    child_count = 0;
+  }
+  node(ll a, ll l1, ll l2) {
+    sum = a;
+    sq_sum = a * a;
+    child_count = 1;
+    lazy1 = l1;
+    lazy2 = l2;
+  }
+};
+node arr[100009];
+int main() {
+  int t;
+  scanf("%d", &t);
+  for (int test = 1; test <= t; test++) {
+    int n, temp, q;
+    scanf("%d%d", &n, &q);
+    segmentTree<node> s(n);
+    for (int i = 0; i < n; i++) {
+      scanf("%d", &temp);
+      arr[i] = node(temp, 0, 0);
+    }
+    s.init(arr);
+    while (q--) {
+      int l, r, k, val;
+      scanf("%d%d%d", &k, &l, &r);
+      l--, r--;
+      if (k == 2) {
+        printf("%lld\n", s.Query(l, r).sq_sum);
+      } else if (k == 1) {
+        scanf("%d", &val);
+        s.Update(l, r, node(0, val, 0));
+      } else {
+        scanf("%d", &val);
+        s.Update(l, r, node(0, 0, val));
+      }
+    }
+  }
+  return 0;
+}
+
+
+
+
+
+Maximum Query
+Send Feedback
+You are given an array of integet of size N and Q queries in form of (l, r). You are supposed to find the maximum value of array between index l and r (both inclusive)
+Input Format:
+First line of input contain an integer N (number of elements in the array)
+Second line contain N space-separated integers denoting the elements of the array
+Third line contain an integer Q (number of queries to be processed)
+Next Q line contain two space-separated integers denoting l and r.
+Output Format:
+For each test case print the output in newline.
+Constraints:
+1 <= N <= 10^4
+1 <= Q <= 10^6
+1 <= arr[i] <= 10^9
+0 <= l <= r < N
+Sample Input:
+5
+1 2 3 5 4
+2 #include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+
+void buildTree(vector<ll> &ar, vector<ll> &tree, int start, int end,
+               int treeIdx) {
+  if (start == end) {
+    tree[treeIdx] = ar[start];
+    return;
+  }
+
+  int mid = (start + end) >> 1;
+
+  buildTree(ar, tree, start, mid, treeIdx * 2);
+  buildTree(ar, tree, mid + 1, end, treeIdx * 2 + 1);
+
+  tree[treeIdx] = max(tree[treeIdx * 2], tree[treeIdx * 2 + 1]);
+}
+
+void update(vector<ll> &ar, vector<ll> &tree, int start, int end, int treeIdx,
+            int idx, ll value) {
+  if (start == end) {
+    ar[idx] = value;
+    tree[treeIdx] = value;
+    return;
+  }
+
+  int mid = (start + end) >> 1;
+
+  if (idx > mid) {
+    update(ar, tree, mid + 1, end, treeIdx * 2 + 1, idx, value);
+  } else {
+    update(ar, tree, start, mid, treeIdx * 2, idx, value);
+  }
+
+  tree[treeIdx] = max(tree[treeIdx * 2], tree[treeIdx * 2 + 1]);
+}
+
+int query(vector<ll> &tree, int start, int end, int treeIdx, int left,
+          int right) {
+  if (start > right || end < left)
+    return -1e9;
+
+  if (start >= left && end <= right)
+    return tree[treeIdx];
+
+  int mid = (start + end) >> 1;
+
+  int ans1 = query(tree, start, mid, treeIdx * 2, left, right);
+  int ans2 = query(tree, mid + 1, end, treeIdx * 2 + 1, left, right);
+
+  return max(ans1, ans2);
+}
+
+void run_cases() {
+  ll n;
+  cin >> n;
+
+  vector<ll> ar(n);
+
+  for (int i = 0; i < n; i++) {
+    cin >> ar[i];
+  }
+
+  vector<ll> tree(4 * n);
+
+  buildTree(ar, tree, 0, n - 1, 1);
+
+  ll q;
+  cin >> q;
+
+  while (q-- > 0) {
+    ll a, b;
+    cin >> a >> b;
+
+    cout << query(tree, 0, n - 1, 1, a, b) << endl;
+  }
+}
+
+int main() { run_cases(); }
+
+
+
+
+Counting Even/Odd
+Send Feedback
+Tanmay and Rohit are best buddies. One day Tanmay gives Rohit a problem to test his intelligence and skills. He gives him an array of N natural numbers and asks him to solve the following queries:-
+Query 0:
+0 x y
+This operation modifies the element present at index x to y.
+Query 1:
+1 l r 
+This operation counts the number of even numbers in range l to r inclusive.
+Query 2:
+2 l r 
+This operation counts the number of odd numbers in range l to r inclusive.
+Input Format:
+First line of the input contains the number N. 
+Next line contains N natural numbers. 
+Next line contains an integer Q followed by Q queries.
+0 x y - modify the number at index x to y. 
+1 x y - count the number of even numbers in range l to r inclusive.
+2 x y - count the number of odd numbers in range l to r inclusive.
+Constraints:
+1<=N,Q<=10^5
+1<=l<=r<=N 
+0<=Ai<=10^9
+1<=x<=N
+0<=y<=10^9
+Output Format:
+ For each query, print the answer in a new line.
+Note: Indexing starts from 1
+Sample Input 1:
+6
+1 2 3 4 5 6
+4
+1 2 5
+2 1 4
+0 5 4
+1 1 6
+Sample Output 1:
+2
+2
+4
+
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node{
+    int even;
+    int odd;
+};
+
+void buildtree(int* arr,node* tree,int start,int end,int treenode){
+    if(start == end){
+        if(arr[start] % 2 == 0){
+            tree[treenode].even = 1;
+            tree[treenode].odd = 0;
+        }else{
+            tree[treenode].odd = 1;
+            tree[treenode].even = 0;
+        }
+        return;
+    }
+    
+    int mid = (start+end)/2;
+    buildtree(arr,tree,start,mid,2*treenode);
+    buildtree(arr,tree,mid+1,end,2*treenode+1);
+    
+    tree[treenode].even = tree[2*treenode].even + tree[2*treenode+1].even;
+    tree[treenode].odd = tree[2*treenode].odd + tree[2*treenode+1].odd;
+    return;
+}
+
+void update(int* arr,node* tree,int start,int end,int treenode,int idx,int val){
+    if(start == end){
+        arr[start] = val;
+        if(val % 2 == 0){
+            tree[treenode].even = 1;
+            tree[treenode].odd = 0;
+        }else{
+            tree[treenode].odd = 1;
+            tree[treenode].even = 0;
+        }
+        
+        return;
+    }
+    int mid = (start+end)/2;
+    if(idx > mid){
+        update(arr,tree,mid+1,end,2*treenode+1,idx,val);
+    }else{
+        update(arr,tree,start,mid,2*treenode,idx,val);
+    }
+    
+    tree[treenode].even = tree[2*treenode].even + tree[2*treenode+1].even;
+    tree[treenode].odd = tree[2*treenode].odd + tree[2*treenode+1].odd;
+    return;
+    
+}
+
+
+node query(node* tree,int start,int end,int treenode,int left,int right){
+    
+    if(start > right || end < left){
+        return {0,0};
+    }
+    
+    if(start >= left && end <= right){
+        return tree[treenode];
+    }
+    
+    int mid = (start+end)/2;
+    node first = query(tree,start,mid,2*treenode,left,right);
+    node second = query(tree,mid+1,end,2*treenode+1,left,right);
+    node res;
+    res.even = first.even + second.even;
+    res.odd = first.odd + second.odd;
+    
+    return res;
+}
+
+int main() {
+
+	int n;
+    cin >> n;
+    int* arr = new int[n];
+    node* tree = new node[4*n];
+    for(int i=0;i<n;i++){
+        cin >> arr[i];
+    }
+    buildtree(arr,tree,0,n-1,1);
+    int q;
+    cin >> q;
+    while(q--){
+        int type;
+        cin >> type;
+        if(type == 1){
+            int left,right;
+            cin >> left >> right;
+            node ans = query(tree,0,n-1,1,left-1,right-1);
+            cout << ans.even << endl;
+        }else if(type == 2){
+            int left,right;
+            cin >> left >> right;
+            node ans = query(tree,0,n-1,1,left-1,right-1);
+            cout << ans.odd << endl;
+        }else{
+            int idx,val;
+            cin >> idx >> val;
+            update(arr,tree,0,n-1,1,idx-1,val);
+        }
+    }
+    return 0;
+}
+
+
+
+This is Sparta!
+Send Feedback
+King Leonidas of Sparta is preparing his men and country for a war against the Persian King Xerxes. He has N soldiers with him and he has arranged them in a line at The Hot Gates. Let us number them from 1 to N. Leonidas will fight Xerxes' army for Q days, and each day he can send only one of his men to fight.
+For each warrior, we know 2 traits: Strength and Cowardice. These are given to us in a form of integer. Each day, Leonidas can choose his warrior from a range Li to Ri, and he will choose the warrior with maximum Strength value. If there is more than one warrior having the same maximum Strength value, he will choose the warrior with minimum Cowardice value. If there is still more than 1 warrior with the same maximum Strength value and same minimum Cowardice value, he chooses the one with lower index in line.
+King Leonidas is ready to lay his life for Sparta. You, his right hand man, have to help him save Sparta by helping him choose a warrior for each day.
+Input Format:
+First line contains a single integer N, denoting the number of warriors Leonidas has. 
+Second line contains N space separated integers, representing Strength of ith warrior. 
+Third line contains N space separated integers, representing Cowardice of ith warrior
+Next line contains a single integer Q, denoting the number of days Queen Vasya chooses a warrior. 
+Each of the next Q lines contains 2 integers Li and Ri.
+Constraints:
+1 ≤ N,Q ≤ 10^5
+1 ≤ Ai,Bi ≤ 10^9
+1 ≤ Li ≤ Ri
+Output Format:
+For each Li and Ri, print the index of the warrior that King Leonidas should choose.
+Sample Input 1:
+5
+1 8 4 6 8
+4 8 6 3 7
+4
+1 4
+2 4
+3 4
+1 5
+Sample Output 1:
+2
+2
+4
+5
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+struct node{
+    ll str;
+    ll pow;
+    ll idx;
+};
+
+void buildTree(vector<pair<ll,ll>>&ar , vector<node>&tree , int start , int end , int treeIdx){
+        if(start == end){
+            tree[treeIdx].str = ar[start].first;
+            tree[treeIdx].pow = ar[start].second;
+            tree[treeIdx].idx = start + 1;
+            return;
+        }
+
+        int mid = (start + end) >> 1;
+
+        buildTree(ar , tree , start , mid , treeIdx * 2);
+        buildTree(ar , tree , mid + 1 , end , treeIdx * 2 + 1);
+
+        node one = tree[treeIdx * 2];
+        node two = tree[treeIdx * 2 + 1];
+
+        if(one.str < two.str) swap(one , two);
+
+        node ans;
+
+        if(one.str > two.str){
+            ans = one;
+        }else{
+            ans.str = one.str;
+            if(one.pow < two.pow){
+                 ans.pow = one.pow;
+                 ans.idx = one.idx;
+            }else if(one.pow > two.pow){
+                 ans.pow = two.pow;
+                 ans.idx = two.idx;
+            }else{
+                 ans.pow = one.pow;
+                 ans.idx = min(one.idx , two.idx);
+            }
+        }
+
+        tree[treeIdx] = ans;
+}
+
+node query(vector<node>&tree , int start , int end , int treeIdx , int left , int right){
+      if(start > right || end < left){
+          node here;
+          here.str = -1e9;
+          here.pow = 1e9;
+          here.idx = 1e8;
+          return here;
+      }
+
+      if(start >= left && end <= right) return tree[treeIdx];
+
+      int mid = (start + end) >> 1;
+
+      node one = query(tree , start , mid , treeIdx * 2 , left , right);
+      node two = query(tree , mid + 1 , end , treeIdx * 2 + 1 , left , right);
+
+      if(one.str < two.str) swap(one , two);
+
+      node ans;
+
+      if(one.str > two.str){
+          ans = one;
+      }else{
+         ans.str = one.str;
+         if(one.pow < two.pow){
+              ans.pow = one.pow;
+              ans.idx = one.idx;
+           }else if(one.pow > two.pow){
+              ans.pow = two.pow;
+              ans.idx = two.idx;
+            }else{
+              ans.pow = one.pow;
+              ans.idx = min(one.idx , two.idx);
+            }
+        }
+
+        return ans;
+}
+
+void run_cases(){
+     ll n;  
+     cin >> n; 
+
+     vector<pair<ll,ll>>ar(n);
+
+     for(int i = 0; i < n; i++){
+           cin >> ar[i].first;
+     }
+
+     for(int i = 0; i < n; i++){
+           cin >> ar[i].second;
+     }
+
+     vector<node>tree(4 * n);
+
+     buildTree(ar , tree , 0 , n - 1 , 1);
+
+     ll q;
+     cin >> q;
+
+     while(q-- > 0){
+         ll l , r;
+         cin >> l >> r; 
+
+         cout << query(tree , 0 , n - 1 , 1 , l - 1 , r - 1).idx<< endl;
+     }
+
+
+}
+
+int main()
+{
+  run_cases();
+ }
+ 
+ 
+ 
+ 
+ 
+0 1
+3 4
+Sample Output:
+2
+5
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+
+void buildTree(vector<ll> &ar, vector<ll> &tree, int start, int end,
+               int treeIdx) {
+  if (start == end) {
+    tree[treeIdx] = ar[start];
+    return;
+  }
+
+  int mid = (start + end) >> 1;
+
+  buildTree(ar, tree, start, mid, treeIdx * 2);
+  buildTree(ar, tree, mid + 1, end, treeIdx * 2 + 1);
+
+  tree[treeIdx] = max(tree[treeIdx * 2], tree[treeIdx * 2 + 1]);
+}
+
+void update(vector<ll> &ar, vector<ll> &tree, int start, int end, int treeIdx,
+            int idx, ll value) {
+  if (start == end) {
+    ar[idx] = value;
+    tree[treeIdx] = value;
+    return;
+  }
+
+  int mid = (start + end) >> 1;
+
+  if (idx > mid) {
+    update(ar, tree, mid + 1, end, treeIdx * 2 + 1, idx, value);
+  } else {
+    update(ar, tree, start, mid, treeIdx * 2, idx, value);
+  }
+
+  tree[treeIdx] = max(tree[treeIdx * 2], tree[treeIdx * 2 + 1]);
+}
+
+int query(vector<ll> &tree, int start, int end, int treeIdx, int left,
+          int right) {
+  if (start > right || end < left)
+    return -1e9;
+
+  if (start >= left && end <= right)
+    return tree[treeIdx];
+
+  int mid = (start + end) >> 1;
+
+  int ans1 = query(tree, start, mid, treeIdx * 2, left, right);
+  int ans2 = query(tree, mid + 1, end, treeIdx * 2 + 1, left, right);
+
+  return max(ans1, ans2);
+}
+
+void run_cases() {
+  ll n;
+  cin >> n;
+
+  vector<ll> ar(n);
+
+  for (int i = 0; i < n; i++) {
+    cin >> ar[i];
+  }
+
+  vector<ll> tree(4 * n);
+
+  buildTree(ar, tree, 0, n - 1, 1);
+
+  ll q;
+  cin >> q;
+
+  while (q-- > 0) {
+    ll a, b;
+    cin >> a >> b;
+
+    cout << query(tree, 0, n - 1, 1, a, b) << endl;
+  }
+}
+
+int main() { run_cases(); }
+
+
+
+
+Counting Even/Odd
+Send Feedback
+Tanmay and Rohit are best buddies. One day Tanmay gives Rohit a problem to test his intelligence and skills. He gives him an array of N natural numbers and asks him to solve the following queries:-
+Query 0:
+0 x y
+This operation modifies the element present at index x to y.
+Query 1:
+1 l r 
+This operation counts the number of even numbers in range l to r inclusive.
+Query 2:
+2 l r 
+This operation counts the number of odd numbers in range l to r inclusive.
+Input Format:
+First line of the input contains the number N. 
+Next line contains N natural numbers. 
+Next line contains an integer Q followed by Q queries.
+0 x y - modify the number at index x to y. 
+1 x y - count the number of even numbers in range l to r inclusive.
+2 x y - count the number of odd numbers in range l to r inclusive.
+Constraints:
+1<=N,Q<=10^5
+1<=l<=r<=N 
+0<=Ai<=10^9
+1<=x<=N
+0<=y<=10^9
+Output Format:
+ For each query, print the answer in a new line.
+Note: Indexing starts from 1
+Sample Input 1:
+6
+1 2 3 4 5 6
+4
+1 2 5
+2 1 4
+0 5 4
+1 1 6
+Sample Output 1:
+2
+2
+4
+
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node{
+    int even;
+    int odd;
+};
+
+void buildtree(int* arr,node* tree,int start,int end,int treenode){
+    if(start == end){
+        if(arr[start] % 2 == 0){
+            tree[treenode].even = 1;
+            tree[treenode].odd = 0;
+        }else{
+            tree[treenode].odd = 1;
+            tree[treenode].even = 0;
+        }
+        return;
+    }
+    
+    int mid = (start+end)/2;
+    buildtree(arr,tree,start,mid,2*treenode);
+    buildtree(arr,tree,mid+1,end,2*treenode+1);
+    
+    tree[treenode].even = tree[2*treenode].even + tree[2*treenode+1].even;
+    tree[treenode].odd = tree[2*treenode].odd + tree[2*treenode+1].odd;
+    return;
+}
+
+void update(int* arr,node* tree,int start,int end,int treenode,int idx,int val){
+    if(start == end){
+        arr[start] = val;
+        if(val % 2 == 0){
+            tree[treenode].even = 1;
+            tree[treenode].odd = 0;
+        }else{
+            tree[treenode].odd = 1;
+            tree[treenode].even = 0;
+        }
+        
+        return;
+    }
+    int mid = (start+end)/2;
+    if(idx > mid){
+        update(arr,tree,mid+1,end,2*treenode+1,idx,val);
+    }else{
+        update(arr,tree,start,mid,2*treenode,idx,val);
+    }
+    
+    tree[treenode].even = tree[2*treenode].even + tree[2*treenode+1].even;
+    tree[treenode].odd = tree[2*treenode].odd + tree[2*treenode+1].odd;
+    return;
+    
+}
+
+
+node query(node* tree,int start,int end,int treenode,int left,int right){
+    
+    if(start > right || end < left){
+        return {0,0};
+    }
+    
+    if(start >= left && end <= right){
+        return tree[treenode];
+    }
+    
+    int mid = (start+end)/2;
+    node first = query(tree,start,mid,2*treenode,left,right);
+    node second = query(tree,mid+1,end,2*treenode+1,left,right);
+    node res;
+    res.even = first.even + second.even;
+    res.odd = first.odd + second.odd;
+    
+    return res;
+}
+
+int main() {
+
+	int n;
+    cin >> n;
+    int* arr = new int[n];
+    node* tree = new node[4*n];
+    for(int i=0;i<n;i++){
+        cin >> arr[i];
+    }
+    buildtree(arr,tree,0,n-1,1);
+    int q;
+    cin >> q;
+    while(q--){
+        int type;
+        cin >> type;
+        if(type == 1){
+            int left,right;
+            cin >> left >> right;
+            node ans = query(tree,0,n-1,1,left-1,right-1);
+            cout << ans.even << endl;
+        }else if(type == 2){
+            int left,right;
+            cin >> left >> right;
+            node ans = query(tree,0,n-1,1,left-1,right-1);
+            cout << ans.odd << endl;
+        }else{
+            int idx,val;
+            cin >> idx >> val;
+            update(arr,tree,0,n-1,1,idx-1,val);
+        }
+    }
+    return 0;
+}
+
+
+
+This is Sparta!
+Send Feedback
+King Leonidas of Sparta is preparing his men and country for a war against the Persian King Xerxes. He has N soldiers with him and he has arranged them in a line at The Hot Gates. Let us number them from 1 to N. Leonidas will fight Xerxes' army for Q days, and each day he can send only one of his men to fight.
+For each warrior, we know 2 traits: Strength and Cowardice. These are given to us in a form of integer. Each day, Leonidas can choose his warrior from a range Li to Ri, and he will choose the warrior with maximum Strength value. If there is more than one warrior having the same maximum Strength value, he will choose the warrior with minimum Cowardice value. If there is still more than 1 warrior with the same maximum Strength value and same minimum Cowardice value, he chooses the one with lower index in line.
+King Leonidas is ready to lay his life for Sparta. You, his right hand man, have to help him save Sparta by helping him choose a warrior for each day.
+Input Format:
+First line contains a single integer N, denoting the number of warriors Leonidas has. 
+Second line contains N space separated integers, representing Strength of ith warrior. 
+Third line contains N space separated integers, representing Cowardice of ith warrior
+Next line contains a single integer Q, denoting the number of days Queen Vasya chooses a warrior. 
+Each of the next Q lines contains 2 integers Li and Ri.
+Constraints:
+1 ≤ N,Q ≤ 10^5
+1 ≤ Ai,Bi ≤ 10^9
+1 ≤ Li ≤ Ri
+Output Format:
+For each Li and Ri, print the index of the warrior that King Leonidas should choose.
+Sample Input 1:
+5
+1 8 4 6 8
+4 8 6 3 7
+4
+1 4
+2 4
+3 4
+1 5
+Sample Output 1:
+2
+2
+4
+5
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+struct node{
+    ll str;
+    ll pow;
+    ll idx;
+};
+
+void buildTree(vector<pair<ll,ll>>&ar , vector<node>&tree , int start , int end , int treeIdx){
+        if(start == end){
+            tree[treeIdx].str = ar[start].first;
+            tree[treeIdx].pow = ar[start].second;
+            tree[treeIdx].idx = start + 1;
+            return;
+        }
+
+        int mid = (start + end) >> 1;
+
+        buildTree(ar , tree , start , mid , treeIdx * 2);
+        buildTree(ar , tree , mid + 1 , end , treeIdx * 2 + 1);
+
+        node one = tree[treeIdx * 2];
+        node two = tree[treeIdx * 2 + 1];
+
+        if(one.str < two.str) swap(one , two);
+
+        node ans;
+
+        if(one.str > two.str){
+            ans = one;
+        }else{
+            ans.str = one.str;
+            if(one.pow < two.pow){
+                 ans.pow = one.pow;
+                 ans.idx = one.idx;
+            }else if(one.pow > two.pow){
+                 ans.pow = two.pow;
+                 ans.idx = two.idx;
+            }else{
+                 ans.pow = one.pow;
+                 ans.idx = min(one.idx , two.idx);
+            }
+        }
+
+        tree[treeIdx] = ans;
+}
+
+node query(vector<node>&tree , int start , int end , int treeIdx , int left , int right){
+      if(start > right || end < left){
+          node here;
+          here.str = -1e9;
+          here.pow = 1e9;
+          here.idx = 1e8;
+          return here;
+      }
+
+      if(start >= left && end <= right) return tree[treeIdx];
+
+      int mid = (start + end) >> 1;
+
+      node one = query(tree , start , mid , treeIdx * 2 , left , right);
+      node two = query(tree , mid + 1 , end , treeIdx * 2 + 1 , left , right);
+
+      if(one.str < two.str) swap(one , two);
+
+      node ans;
+
+      if(one.str > two.str){
+          ans = one;
+      }else{
+         ans.str = one.str;
+         if(one.pow < two.pow){
+              ans.pow = one.pow;
+              ans.idx = one.idx;
+           }else if(one.pow > two.pow){
+              ans.pow = two.pow;
+              ans.idx = two.idx;
+            }else{
+              ans.pow = one.pow;
+              ans.idx = min(one.idx , two.idx);
+            }
+        }
+
+        return ans;
+}
+
+void run_cases(){
+     ll n;  
+     cin >> n; 
+
+     vector<pair<ll,ll>>ar(n);
+
+     for(int i = 0; i < n; i++){
+           cin >> ar[i].first;
+     }
+
+     for(int i = 0; i < n; i++){
+           cin >> ar[i].second;
+     }
+
+     vector<node>tree(4 * n);
+
+     buildTree(ar , tree , 0 , n - 1 , 1);
+
+     ll q;
+     cin >> q;
+
+     while(q-- > 0){
+         ll l , r;
+         cin >> l >> r; 
+
+         cout << query(tree , 0 , n - 1 , 1 , l - 1 , r - 1).idx<< endl;
+     }
+
+
+}
+
+int main()
+{
+  run_cases();
+ }
+ 
+ 
+ 
+ 
+ 
