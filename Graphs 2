@@ -1,0 +1,454 @@
+Kruskal's Algorithm
+Send Feedback
+Given an undirected, connected and weighted graph G(V, E) with V number of vertices (which are numbered from 0 to V-1) and E number of edges.
+Find and print the total weight of Minimum Spanning Tree (MST) using Kruskal's algorithm.
+Input Format :
+First line will contain T(number of test case), each test case follows as. 
+Line 1: Two Integers V and E (separated by space)
+Next E lines : Three integers ei, ej and wi, denoting that there exists an edge between vertex ei and vertex ej with weight wi (separated by space)
+Output Format :
+Weight of MST for each test case in new line.
+Constraints :
+1 <= T <= 10
+2 <= V, E <= 10^5
+1 <= wt <= 10^4
+Sample Input 1 :
+1
+4 4
+0 1 3
+0 3 5
+1 2 1
+2 3 8
+Sample Output 1 :
+9
+
+#include<bits/stdc++.h>
+using namespace std;
+#include <iostream>
+
+class Solution
+{
+	public:
+	//Function to find sum of weights of edges of the Minimum Spanning Tree.
+    int spanningTree(int V, vector<vector<int>> adj[]) {
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        vector<bool> visited(V);
+        int answer = 0;
+        pq.push({ 0, 0 });
+        while (!pq.empty()) {
+            pair<int, int> node = pq.top();
+            pq.pop();
+            if (visited[node.second]) continue;
+            visited[node.second] = true;
+            answer += node.first;
+            for (vector<int> &edge : adj[node.second])
+                if (!visited[edge[0]]) pq.push({ edge[1], edge[0] });
+        }
+        return answer;
+    }
+};
+
+
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--) {
+        int V, E;
+        cin >> V >> E;
+        vector<vector<int>> adj[V];
+        int i=0;
+        while (i++<E) {
+            int u, v, w;
+            cin >> u >> v >> w;
+            vector<int> t1,t2;
+            t1.push_back(v);
+            t1.push_back(w);
+            adj[u].push_back(t1);
+            t2.push_back(u);
+            t2.push_back(w);
+            adj[v].push_back(t2);
+        }
+        
+        Solution obj;
+    	cout << obj.spanningTree(V, adj) << "\n";
+    }
+
+    return 0;
+}
+
+
+
+
+Prim's Algorithm
+Send Feedback
+Given an undirected, connected and weighted graph G(V, E) with V number of vertices (which are numbered from 0 to V-1) and E number of edges.
+Find and print the total weight of Minimum Spanning Tree (MST) using Prim's algorithm.
+Input Format :
+First line will contain T(number of test case), each test case follows as. 
+Line 1: Two Integers V and E (separated by space)
+Next E lines : Three integers ei, ej and wi, denoting that there exists an edge between vertex ei and vertex ej with weight wi (separated by space)
+Output Format :
+Weight of MST for each test case in new line.
+Constraints :
+1 <= T <= 10
+2 <= V, E <= 10^5
+1 <= wt <= 10^4
+Sample Input 1 :
+1
+4 4
+0 1 3
+0 3 5
+1 2 1
+2 3 8
+Sample Output 1 :
+9
+
+#include <bits/stdc++.h>
+using namespace std;
+#include <iostream>
+
+class Solution {
+public:
+  // Function to find sum of weights of edges of the Minimum Spanning Tree.
+  int spanningTree(int V, vector<vector<int>> adj[]) {
+    priority_queue<pair<int, int>, vector<pair<int, int>>,
+                   greater<pair<int, int>>>
+        pq;
+    vector<bool> visited(V);
+    int answer = 0;
+    pq.push({0, 0});
+    while (!pq.empty()) {
+      pair<int, int> node = pq.top();
+      pq.pop();
+      if (visited[node.second])
+        continue;
+      visited[node.second] = true;
+      answer += node.first;
+      for (vector<int> &edge : adj[node.second])
+        if (!visited[edge[0]])
+          pq.push({edge[1], edge[0]});
+    }
+    return answer;
+  }
+};
+
+int main() {
+  int t;
+  cin >> t;
+  while (t--) {
+    int V, E;
+    cin >> V >> E;
+    vector<vector<int>> adj[V];
+    int i = 0;
+    while (i++ < E) {
+      int u, v, w;
+      cin >> u >> v >> w;
+      vector<int> t1, t2;
+      t1.push_back(v);
+      t1.push_back(w);
+      adj[u].push_back(t1);
+      t2.push_back(u);
+      t2.push_back(w);
+      adj[v].push_back(t2);
+    }
+
+    Solution obj;
+    cout << obj.spanningTree(V, adj) << "\n";
+  }
+
+  return 0;
+}
+
+
+
+
+
+Dijkstra's Algorithm
+Send Feedback
+Given an undirected, connected and weighted graph G(V, E) with V number of vertices (which are numbered from 0 to V-1) and E number of edges.
+Find and print the shortest distance from the source vertex (i.e. Vertex 0) to all other vertices (including source vertex also) using Dijkstra's Algorithm.
+Print the ith vertex number and the distance from source in one line separated by space. Print different vertices in different lines.
+Note : Order of vertices in output doesn't matter.
+Input Format :
+First line will contain T(number of test case), each test case follows as.
+Line 1: Two Integers V and E (separated by space)
+Next E lines : Three integers ei, ej and wi, denoting that there exists an edge between vertex ei and vertex ej with weight wi (separated by space)
+Output Format :
+In different lines, ith vertex number and its distance from source (separated by space)
+Constraints :
+1 <= T <= 10
+2 <= V, E <= 10^3
+Sample Input 1 :
+1
+4 4
+0 1 3
+0 3 5
+1 2 1
+2 3 8
+Sample Output 1 :
+0 0
+1 3
+2 4
+3 5
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int getMinVertex(int *dist, bool *visited, int n) {
+  int minVertex = -1;
+  for (int i = 0; i < n; i++) {
+    if (!visited[i] && ((minVertex == -1) || (dist[i] < dist[minVertex])))
+      minVertex = i;
+  }
+  return minVertex;
+}
+
+void dijkstra(int **edges, int n) {
+  bool *visited = new bool[n];
+  memset(visited, false, (n) * sizeof(bool));
+  int *dist = new int[n];
+  for (int i = 0; i < n; i++) {
+    dist[i] = INT_MAX / 10;
+  }
+  dist[0] = 0;
+  for (int i = 0; i < n - 1; i++) {
+    int minVertex = getMinVertex(dist, visited, n);
+    visited[minVertex] = true;
+    for (int j = 0; j < n; j++) {
+      if (edges[minVertex][j] && !visited[j]) {
+        int currD = dist[minVertex] + edges[minVertex][j];
+        if (currD < 0) {
+          cout << "Negative weight edge detected" << endl;
+          return;
+        }
+        if (dist[j] > currD) {
+          dist[j] = currD;
+        }
+      }
+    }
+  }
+  for (int i = 0; i < n; i++) {
+    cout << i << " " << dist[i]`oaicite : {
+      "index" : 0, "invalid_reason"
+          : "Malformed citation <<endl;\n    }\n    delete []visited;\n    "
+            "delete []dist;\n}\n\nint main(){\n\n    int t;\n    cin>>t;\n    "
+            "while(t--)\n    {\n        int v,e;\n        cin>>v>>"
+    }
+    `e;
+    int **edges = new int *[v];
+    for (int i = 0; i < v; i++) {
+      edges[i] = new int[v];
+      memset(edges[i], 0, (v) * sizeof(int));
+    }
+    for (int i = 0; i < e; i++) {
+      int sv, ev, w;
+      cin >> sv >> ev >> w;
+      edges[sv][ev] = w;
+      edges[ev][sv] = w;
+    }
+
+    dijkstra(edges, v);
+    for (int i = 0; i < v; i++) {
+      delete[] edges[i];
+    }
+    delete[] edges;
+  }
+  return 0;
+}
+
+
+
+
+
+Bellman-Ford Algorithm
+Send Feedback
+you are given a weighted directed graph G with n vertices and m edges, and two specified vertex src and des. You want to find the length of shortest paths from vertex src to des. The graph may contain the edges with negative weight.
+Input Format:
+First line of input will contain T(number of test case), each test case follows as.
+Line1: contain two space-separated integers N and M denoting the number of vertex and number of edges in graph respectively.
+Line2: contain two space-separated integers src, des.
+Next M line will contain three space-separated integers a, b, wt representing the edge from a to b with weight wt.
+Output Format:
+For each test case print the distance of des from src in new line.
+Note: In case of no path is found print (10 ^ 9) in that case.
+Constraints:
+1 <= T <= 100
+1 <= N <= 200
+1 <= M <= min(800, N*(N-1))
+1 <= a,b <= N
+-10^5 <= wt <= 10^5
+Sample Input:
+1
+3 6
+3 1
+3 1 -2
+1 3 244
+2 3 -2
+2 1 201
+3 2 220
+1 2 223
+Sample output:
+-2
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+class Edge {
+public:
+  int v1;
+  int v2;
+  int weight;
+};
+const int INF = 1e9;
+void bellmanFord(int n, int e, Edge **edges, int src, int dst) {
+  int *dist = new int[n + 1];
+  for (int i = 0; i < n + 1; i++) {
+    dist[i] = INF;
+  }
+  dist[src] = 0;
+
+  for (int i = 0; i < n - 1; i++) {
+    for (int j = 0; j < e; j++) {
+      int u = edges[j]->v1;
+      int v = edges[j]->v2;
+      int w = edges[j]->weight;
+
+      if (dist[u] != INF && (dist[v] > dist[u] + w)) {
+        dist[v] = dist[u] + w;
+      }
+    }
+  }
+  cout << dist[dst] << endl;
+}
+
+int main() {
+  int t;
+  cin >> t;
+  while (t--) {
+    int n, e;
+    cin >> n >> e;
+    Edge **edges = new Edge *[e];
+    int src, dst;
+    cin >> src >> dst;
+    for (int i = 0; i < e; i++) {
+      edges[i] = new Edge();
+      cin >> edges[i]->v1 >> edges[i]->v2 >> edges[i]->weight;
+    }
+    bellmanFord(n, e, edges, src, dst);
+  }
+  return 0;
+}
+
+
+
+
+
+Floyd-Warshall Algorithm
+Send Feedback
+You are given an undirected weighted graph G with n vertices. And Q queries, each query consists of two integers a and b and you have print the distance of shortest path between a and b.
+Note: If there is no path between a and b print 10^9
+Input Format:
+First line of Input will contain T(number of test cases), each test case follows as.
+Line1: contains two space-separated integers N and M denoting the number of vertex and edge in graph.
+Next M line contain three space-separated integers a, b, c denoting the edge between a and b with weight c.
+Next line will contain Q (number of queries)
+Next Q lines will contain two space-separated integers a and b.
+Output Format:
+For each query of each test case print the answer in a newline.
+Constraints:
+1 <= T <= 50
+1 <= N <= 100
+1 <= M <= 10^4
+1 <= Q <= 10^4
+1 <= wt <= 10^5 (for each edge)
+Note: Graph may contain multiple edges.
+Sample Input:
+1
+3 6
+3 1 4
+1 3 17
+2 3 2
+1 3 7
+3 2 11
+2 3 15
+3
+1 1 
+2 2 
+2 3 
+Sample output:
+0
+0
+2
+
+#include <bits/stdc++.h>
+using namespace std;
+#define fio                                                                    \
+  ios_base::sync_with_stdio(false);                                            \
+  cin.tie(NULL);                                                               \
+  cout.tie(NULL)
+#define int long long int
+#define rep(i, n) for (int i = 0; i < n; i++)
+#define fo(i, k, n) for (int i = k; i <= n; i++)
+#define mod 1000000007
+
+void solve() {
+  int n, m, a, b, w;
+  cin >> n >> m;
+
+  int arr[n + 1][n + 1];
+
+  // initialise arr with INT_MAX
+  rep(i, n + 1) {
+    rep(j, n + 1) {
+      arr[i][j] = INT_MAX;
+      if (i == j)
+        arr[i][j] = 0; // a vertex is reachable ti itself in 0 time
+    }
+  }
+
+  rep(i, m) { // take input vertices and weight
+    cin >> a >> b >> w;
+    if (w < arr[a][b]) { // storing minimum weight for a pair of vertex
+      arr[a][b] = w;
+      arr[b][a] = w;
+    }
+  }
+
+  // Flyod Warshall Algorithm
+  fo(k, 1, n) {
+    fo(i, 1, n) {
+      fo(j, 1, n) {
+        if (arr[i][k] != INT_MAX and arr[k][j] != INT_MAX)
+          arr[i][j] = min(arr[i][j], arr[i][k] + arr[k][j]);
+      }
+    }
+  }
+
+  int q;
+  cin >> q;
+  // answering queries
+  rep(i, q) {
+    int l, r;
+    cin >> l >> r;
+    cout << arr[l][r] << "\n";
+  }
+}
+
+signed main() {
+  fio;
+
+  int t = 1;
+  cin >> t;
+
+  while (t--)
+    solve();
+
+  return 0;
+}
+
+
+
+
