@@ -1,0 +1,745 @@
+Maximum XOR Subarray
+Send Feedback
+Given an array of N integers, find the subarray whose XOR is maximum.
+Input Format:
+First line of input contains an integer N, representing number of elements in array.
+Next line contains N space-separated integers.
+Constraints:
+1 <= N <= 10^6
+1 <= A[i] <=10^5 
+Output Format:
+Print XOR of the subarray whose XOR of all elements in subarray is maximum over all subarrays.
+Sample Input 1:
+4
+1 2 3 4
+Sample Output 1:
+7
+
+#include <algorithm>
+#include <iostream>
+using namespace std;
+struct trie {
+  int cnt;
+  trie *children[2];
+  // left denotes 0
+  // right denotes 1
+  trie() // contructor
+  {
+    cnt = 0;
+    children[0] = NULL;
+    children[1] = NULL;
+  }
+};
+void insert_trie(int val, trie *root) {
+  trie *node = root, *newNode, temp;
+  int i = 0;
+  for (i = 31; i >= 0; i--) {
+    bool k = (1 << i) & val; // k is set if ith position is set in val
+    // cout<<k;
+    if (node->children[k] == NULL) {
+      newNode = new trie;
+      newNode->cnt = 1;
+      node->children[k] = newNode;
+    } else
+      (node->children[k]->cnt)++;
+    node = node->children[k];
+  }
+  // cout<<"\n";
+}
+int query(int val, trie *root) {
+  int ans = 0;
+  trie *node = root;
+  if (root == NULL)
+    return 0;
+  for (int i = 31; i >= 0; i--) {
+    int bit = (val >> i) & 1;
+
+    if (node->children[1 - bit] != NULL) {
+      node = node->children[1 - bit];
+      ans = ans * 2 + 1;
+    } else {
+      node = node->children[bit];
+      ans *= 2;
+    }
+  }
+  return ans;
+}
+int main() {
+  int n, xor_till_i;
+  int ans = 0;
+  cin >> n;
+  int *arr = new int[n];
+  trie *root = new trie;
+  xor_till_i = 0;
+  insert_trie(xor_till_i, root);
+  for (int i = 0; i < n; i++) {
+    cin >> arr[i];
+    xor_till_i ^= arr[i];
+    ans = max(ans, query(xor_till_i, root));
+    insert_trie(xor_till_i, root);
+  }
+  cout << ans << endl;
+}
+
+
+
+
+Sub - XOR
+Send Feedback
+Given an array of positive integers, you have to print the number of subarrays whose XOR is less than K. Subarrays are defined as a sequence of continuous elements Ai, Ai + 1, ..., Aj. XOR of a subarray is defined as Ai ^ Ai + 1 ^ ... ^ Aj. Symbol ^ is Exclusive Or.
+Input Format:
+First line of input contains N and K, space separated.
+Second line of input contains N space separated.integers.
+Constraints:
+1 ≤ N ≤ 10^5
+1 ≤ A[i] ≤ 10^5
+1 ≤ K ≤ 10^6
+Output Format:
+For each test case, print the required answer.
+
+#include<bits/stdc++.h>
+#include <iostream>
+using namespace std;
+class trienode {
+public:
+  int left_count, right_count;
+  trienode *left;
+  trienode *right;
+  trienode() {
+    left_count = 0;
+    right_count = 0;
+    left = NULL;  // left denotes 0
+    right = NULL; // right denotes 1
+  }
+};
+void insert(trienode *root, int element) {
+  for (int i = 31; i >= 0; i--) {
+    int x = (element >> i) & 1;
+
+    if (x) // if the current bit is 1
+    {
+      root->right_count++;
+      if (root->right == NULL)
+        root->right = new trienode();
+      root = root->right;
+    } else {
+      root->left_count++;
+      if (root->left == NULL)
+        root->left = new trienode();
+      root = root->left;
+    }
+  }
+}
+int query(trienode *root, int element, int k) {
+  if (root == NULL)
+    return 0;
+  int res = 0;
+  for (int i = 31; i >= 0; i--) {
+    bool current_bit_of_k = (k >> i) & 1;
+    bool current_bit_of_element = (element >> i) & 1;
+    if (current_bit_of_k) // if the current bit of k is 1
+    {
+      if (current_bit_of_element) // if current bit of element is 1
+      {
+        res += root->right_count;
+        if (root->left == NULL)
+          return res;
+        root = root->left;
+      }
+
+      else // if current bit of element is 0
+      {
+        res += root->left_count;
+        if (root->right == NULL)
+          return res;
+        root = root->right;
+      }
+    } else // if the current bit of k is zero
+    {
+      if (current_bit_of_element) // if current bit of element is 1
+      {
+        if (root->right == NULL)
+          return res;
+        root = root->right;
+      } else // if current bit of element is 0
+      {
+        if (root->left == NULL)
+          return res;
+        root = root->left;
+      }
+    }
+  }
+  return res;
+}
+int main() {
+  int t = 1;
+  // cin >> t;
+  while (t--) {
+    int n, k;
+    cin >> n >> k;
+    int temp, temp1,
+        temp2 = 0; // will be using these three for storing current XOR
+    // we will not be storing the inputs in the array
+    trienode *root = new trienode();
+    insert(root, 0);
+    long long total = 0;
+    for (int i = 0; i < n; i++) {
+      cin >> temp;
+      temp1 = temp2 ^ temp;
+      total += query(root, temp1, k);
+      insert(root, temp1);
+      temp2 = temp1;
+    }
+    cout << total << endl;
+  }
+  return 0;
+}
+
+
+
+
+Search Engine
+Send Feedback
+Let us see how search engines work. Consider the following simple auto complete feature. When you type some characters in the text bar, the engine automatically gives best matching options among it's database. Your job is simple. Given an incomplete search text, output the best search result.
+Each entry in engine's database has a priority factor attached to it. We consider a result / search suggestion best if it has maximum weight and completes the given incomplete search query. For each query in the input, print the maximum weight of the string in the database, that completes the given incomplete search string. In case no such string exists, print -1.
+Note: All the strings in database will be unique.
+Input Format:
+First line contains two integers n and q, which represent number of database entries and number of search queries need to be completed. 
+Next n lines contain a string s and an integer weight, which are the database entry and it's corresponding priority.
+Next q lines follow, each line having a string t, which needs to be completed.
+Constraints:
+1 ≤ n, weight, len(s), len(t) ≤ 10^6
+1 ≤ q ≤ 10^5
+Total length of all strings in database entries ≤ 10^6
+Total length of all query strings ≤ 10^6
+Output Format:
+Output q lines, each line containing the maximum possible weight of the match for given query, else -1, in case no valid result is obtained.
+Sample Input 1:
+2 1
+potential 10
+potent 8
+pot
+Sample Output 1:
+10
+
+typedef struct Node {
+  Node *next[26];
+  int maxSubtree;
+  Node() {
+    maxSubtree = 0;
+    for (int i = 0; i < 26; i++)
+      next[i] = NULL;
+  }
+  ~Node() {
+    for (int i = 0; i < 26; i++) {
+      if (next[i] != NULL) {
+        delete next[i];
+      }
+    }
+  }
+} Node;
+void insert(Node *curr, pair<string, int> &databaseEntry, int index) {
+  // Setting the Priority of the current text.
+  if (index == databaseEntry.first.length()) {
+    curr->maxSubtree = databaseEntry.second;
+    return;
+  }
+  curr->maxSubtree = max(curr->maxSubtree, databaseEntry.second);
+
+  // Getting the next character.
+  int nextIndex = (int)(databaseEntry.first[index] - 'a');
+
+  // Creating a new node in Trie.
+  if (curr->next[nextIndex] == NULL) {
+    curr->next[nextIndex] = new Node();
+  }
+  insert(curr->next[nextIndex], databaseEntry, index + 1);
+}
+int query(Node *curr, string &txt, int index) {
+  // String not found.
+  if (curr == NULL)
+    return -1;
+
+  //  String found.
+  if (index == txt.length()) {
+    return curr->maxSubtree;
+  }
+  // The next character that we need.
+  int nextIndex = (int)(txt[index] - 'a');
+  return query(curr->next[nextIndex], txt, index + 1);
+}
+vector<int> searchEngine(vector<pair<string, int>> database,
+                         vector<string> text) {
+  Node *root = new Node();
+  int n = database.size();
+  // Inserting the database in the Trie.
+  for (int i = 0; i < n; i++) {
+    insert(root, database[i], 0);
+  }
+  vector<int> ans;
+  // Iterating in each query.
+  for (auto &i : text) {
+    // Appending the answer in 'ans'.
+    ans.push_back(query(root, i, 0));
+  }
+  delete root;
+  return ans;
+}
+
+
+
+
+Help Me Pradyumana!
+Send Feedback
+Pradyumn is tired of using auto - correct feature in his smartphone. He needs to correct his auto - correct more times than the auto - correct corrects him. Pradyumn is thinking to make his own app for mobile which will restrict auto - correct feature, instead it will provide auto - completion. Whenever Pradyumn types factorial, auto - correct changes it to fact. Pradyumn's App will show options such as fact, factorial, factory. Now, he can chose from any of these options. As Pradyumn is busy with his front - end work of his App. He asks you to help him. He said "You will be given set of words(words may repeat too but counted as one only). Now, as user starts the app, he will make queries(in lowercase letters only). So, you have to print all the words of dictionary which have the prefix same as given by user as input. And if no such words are available, add this word to your dictionary." As you know, Pradyumn want this app to be as smart as him :P So, implement a program for him such that he can release it on Fun Store.
+Input Format:
+Single integer N which denotes the size of words which are input as dictionary
+N lines of input, where each line is a string of consisting lowercase letter
+Single integer Q which denotes the number of queries.
+Q number of lines describing the query string on each line given by user
+Constraints:
+1 ≤ N ≤ 30000
+sum(len(string[i])) ≤ 2∗10^5
+1 ≤ Q ≤ 10^3
+Output Format:
+If auto - completions exists, output all of them in lexicographical order else output "No suggestions" without quotes
+Sample Input 1:
+3
+fact
+factorial
+factory
+2
+fact
+pradyumn
+Sample Output 1:
+fact
+factorial
+factory
+No suggestions
+
+/* Pradyumn is tired of using auto - correct feature in his smartphone. He needs
+to correct his auto - correct more times than the auto - correct corrects him.
+Pradyumn is thinking to make his own app for mobile which will restrict auto -
+correct feature, instead it will provide auto - completion. Whenever Pradyumn
+types factorial, auto - correct changes it to fact. Pradyumn's App will show
+options such as fact, factorial, factory. Now, he can chose from any of these
+options. As Pradyumn is busy with his front - end work of his App. He asks you
+to help him. He said "You will be given set of words(words may repeat too but
+counted as one only). Now, as user starts the app, he will make queries(in
+lowercase letters only). So, you have to print all the words of dictionary which
+have the prefix same as given by user as input. And if no such words are
+available, add this word to your dictionary." As you know, Pradyumn want this
+app to be as smart as him :P So, implement a program for him such that he can
+release it on Fun Store. INPUT CONSTRAINTS 1â¤Nâ¤30000 sum(len(string[i]))â¤2â10^5
+1â¤Qâ¤10^3
+INPUT FORMAT
+Single integer N which denotes the size of words which are input as dictionary
+N lines of input, where each line is a string of consisting lowercase letter
+Single integer Q which denotes the number of queries.
+Q number of lines describing the query string on each line given by user
+OUTPUT FORMAT
+If auto - completions exists, output all of them in lexicographical order else
+output "No suggestions" without quotes
+
+NOTE: All strings are lowercase
+SAMPLE INPUT
+3
+fact
+factorial
+factory
+2
+fact
+pradyumn
+SAMPLE OUTPUT
+fact
+factorial
+factory
+No suggestions */
+
+#include <iostream>
+#include <string>
+using namespace std;
+class trienode {
+public:
+  trienode **children;
+  // bro u need a variable to check that that the leaf is node or not..
+  // app leaf node ese check kar rhe the.. ki agar kisi root ka koi child nhi
+  // hai to vo leaf hai but suppose apne insert kiya = fact, facti, facto aapne
+  // query ki "fac" ki... to jab aapka program leaf node check karta tha vo
+  // "fact" print nhi karta because "fact" ke child hai so u have to mention the
+  // lead node
+  bool isLeaf = false;
+  trienode() {
+    children = new trienode *[26];
+    isLeaf = false;
+    for (int i = 0; i < 26; i++) {
+      children[i] = NULL;
+    }
+  }
+};
+void insert(string s, trienode *root) {
+  if (s.length() == 0) {
+    // is insertion is over.. apko us node ko leaf node manna padega
+    root->isLeaf = true;
+    return;
+  }
+  trienode *current;
+  int index = s[0] - 'a';
+  if (root->children[index] != NULL) {
+    current = root->children[index];
+  } else {
+    current = new trienode();
+    root->children[index] = current;
+    current = root->children[index];
+  }
+  insert(s.substr(1), current);
+}
+void helper(trienode *current, string prefix) {
+  bool checker = true;
+  // jo apne leaf node check krne ka method kiya hai vo galat hai
+  // reason upar bata diya hai
+  // this is new method to check
+  if (current->isLeaf) {
+    cout << prefix << endl;
+  }
+  // for (int i = 0; i < 26; i++)
+  // {
+  //     if (current->children[i] != NULL)
+  //     {
+  //         checker = false; //false means that this is not the leaf node.
+  //     }
+  // }
+  // if (checker == true) //leaf node
+  // {
+  //     cout << prefix << endl;
+  //     return;
+  // }
+  for (int i = 0; i < 26; i++) {
+    trienode *temp = current;
+    if (temp->children[i] != NULL) {
+      char suffix = (int)i + (int)'a';
+      helper(current->children[i], prefix + suffix);
+    }
+  }
+}
+void printer(trienode *root, string s) {
+  trienode *current = root;
+  for (int i = 0; i < s.length(); i++) {
+    int index = s[i] - 'a';
+    if (current->children[index] != NULL) {
+      current = current->children[index];
+    } else {
+      cout << "No suggestions" << endl;
+      insert(s, root);
+      return;
+    }
+  }
+
+  helper(current, s);
+}
+int main() {
+  int n;
+  cin >> n;
+  trienode *root = new trienode();
+  for (int i = 0; i < n; i++) {
+    string s;
+    cin >> s;
+    insert(s, root);
+  }
+  int q;
+  cin >> q;
+  for (int i = 0; i < q; i++) {
+    string s;
+    cin >> s;
+    printer(root, s);
+  }
+}
+
+
+
+
+Code Breaker
+Send Feedback
+Jack Ryan is one of the world’s most famous cryptographers. He has been recently tasked with breaking a code with which our country’s enemies are communicating. He has thought of a possible break in the code, using a very complex system of strings, which thankfully, you have nothing to do with. You are tasked with a little problem. Jack will give you n strings, labelled S1, S2, …. Sn, along with q queries.
+In each query, you have an integer X and a string CODE. You will take into consideration strings S1 to SX. Among these selected strings, consider all the strings such that their longest common prefix with CODE is the maximum possible. Now, from these strings, print the lexicographically smallest one. This would give Jack tremendous insight into further breaking the code. Can you help him?
+Input Format:
+The first line of the input contains a single integer N.
+N lines follow. For each valid i, the i-th of these lines contains Chef's string Si.
+The next line contains a single integer Q.
+The following Q lines describe queries. Each of these lines contains an interger R, followed by a space and a string P
+Constraints:
+1 ≤ n ≤ 100,000 
+1 ≤ |Si| ≤ 10 for each valid i
+1 ≤ q ≤ 100,000
+1 ≤ X ≤ n
+1 ≤ |CODE| ≤ 10
+Output Format:
+For each query, print a single line containing the string that satisfies the required conditions — the answer to that query.
+Sample Input 1:
+4
+abcd
+abce
+abcdex
+abcde
+3
+3 abcy
+3 abcde
+4 abcde
+Sample Output 1:
+abcd
+abcdex
+abcde
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define fast                                                                   \
+  ios_base::sync_with_stdio(0);                                                \
+  cin.tie(0);                                                                  \
+  cout.tie(0);
+#define endl "\n"
+#define ll long long int
+
+struct node {
+
+  node *nxt[26];
+  int index[26] = {0};
+  bool is_last = false;
+  int last_index = 1e6 + 7;
+  node() {
+    for (int i = 0; i < 26; i++) {
+      nxt[i] = NULL;
+      index[i] = 1e6 + 7;
+    }
+  }
+};
+
+node *root;
+
+void insert_trie(string s, int pos) {
+
+  node *cur = root;
+  for (int i = 0; i < s.size(); i++) {
+
+    int imap = s[i] - 'a';
+    if (cur->nxt[imap] == NULL) {
+      cur->nxt[imap] = new node();
+      cur->index[imap] = pos;
+    }
+    cur->index[imap] = min(cur->index[imap], pos);
+    cur = cur->nxt[imap];
+  }
+
+  cur->is_last = true;
+  cur->last_index = min(cur->last_index, pos);
+
+  return;
+}
+
+void search_trie(string p, int r) {
+
+  node *cur = root;
+  int i = 0;
+  while (i < p.size()) {
+
+    int imap = p[i] - 'a';
+    if (cur->nxt[imap] != NULL && cur->index[imap] <= r) {
+      cout << p[i];
+      i++;
+      cur = cur->nxt[imap];
+    } else {
+      break;
+    }
+  }
+
+  // now u have to find lexo smallest string ;
+
+  while (cur != NULL) {
+
+    if (cur->is_last && cur->last_index <= r) {
+      break;
+    }
+
+    bool flag = false;
+
+    for (int j = 0; j < 26; j++) {
+      if (cur->nxt[j] != NULL && cur->index[j] <= r) {
+        flag = true;
+        cout << (char)(j + 'a');
+        cur = cur->nxt[j];
+        break;
+      }
+    }
+  }
+
+  return;
+}
+
+void solve() {
+
+  root = new node();
+
+  int n;
+  cin >> n;
+
+  for (int i = 1; i <= n; i++) {
+    string s;
+    cin >> s;
+    insert_trie(s, i);
+  }
+
+  int q;
+  cin >> q;
+
+  while (q--) {
+
+    int r;
+    string p;
+
+    cin >> r >> p;
+
+    search_trie(p, r);
+
+    cout << endl;
+  }
+
+  return;
+}
+
+int main() {
+  // your code goes here
+  int t = 1;
+  // cin>>t;
+  for (int tc = 1; tc <= t; tc++) {
+    // cout<<"Case #"<<t<<": ";
+    solve();
+  }
+
+  return 0;
+}
+
+
+
+Ninja and Multiset
+Send Feedback
+Our problem setter, Ninja, is fascinated by different types of sets. Quite recently, he came across a new term- Multiset. Multiset is a set, where equal elements are allowed. He started experimenting with it and has managed to frame a pretty interesting problem for you to solve.
+You are given a multiset G, initially containing only 0, and a few queries q. Queries are actually of 3 types:
+"+ x" — This query adds an integer x to the given multiset.
+"- x" — This query erases one occurrence of x from the given multiset. Before this query is encountered, it is guaranteed that the multiset will contain integer x at least once.
+"? x" — In this query, you are given integer x and you need to compute the maximum value of bitwise exclusive OR (also known as XOR) of integer x and some integer y from the given multiset.
+Input Format:
+First line on input contain Q (number of queries ).
+Next Q line contain Q queries as defined above.
+Output Format:
+For each query of type '?' print the answer in new line
+Constraints:
+1 <= Q <= 10^5
+1 <= x <= 10^9
+Sample Input 1:
+8
+? 8
+? 5
++ 10
+? 5
+? 4
++ 4
+- 4
+? 10
+Sample Output 1:
+8
+5
+15
+14
+10
+Explanation:
+Initially the multiset contains only the integer 0. So for the first query, answer is 8 XOR 0 = 8.
+Similarily, the answer for second query is 5 XOR 0 = 5.
+After the third query, 10 is added to the multiset.
+For the fourth query, 5 will be XOR'ed with 0 and 10. Out of these, 5 XOR 10 = 15 is max.
+Similarily, for the fifth query, 4 will be XOR'ed with 0 and 10. Out of these, 4 XOR 10 = 14 is max.
+After the sixth query, 4 is added to the multiset.
+After the seventh query, 4 is erased from the multiset.
+For the last query, 10 is XOR'ed with 0 and 10. Out of these, 10 XOR 0 = 10 is max.
+
+#include <bits/stdc++.h>
+using namespace std;
+struct trie {
+  trie *left = NULL, *right = NULL;
+  int count = 0;
+  void insert(int index, int val) {
+    if (index < 0)
+      return;
+    int a = (1ll << index);
+    int b = (a & val);
+    if (b == 0) {
+      if (left == NULL)
+        left = new trie();
+      left->count++;
+      left->insert(index - 1, val);
+    } else {
+      if (right == NULL)
+        right = new trie();
+      right->count++;
+      right->insert(index - 1, val);
+    }
+  }
+  void delete_(int index, int val) {
+    if (index < 0)
+      return;
+    int a = (1ll << index), b = (a & val);
+    if (b == 0) {
+      if (left == NULL)
+        left = new trie();
+      left->count--;
+      left->delete_(index - 1, val);
+    } else {
+      if (right == NULL)
+        right = new trie();
+      right->count--;
+      right->delete_(index - 1, val);
+    }
+  }
+  int max_(int index, int val) {
+    int ans = 0;
+    if (index < 0)
+      return 0;
+    int a = (1ll << index), b = (a & val);
+    if (b == 0) {
+      if (right && right->count > 0) {
+        ans += (a);
+        ans += (right->max_(index - 1, val));
+      } else if (left && left->count > 0) {
+        ans += (left->max_(index - 1, val));
+      } else
+        return ans;
+    } else {
+      if (left && left->count > 0) {
+        ans += (a);
+        ans += (left->max_(index - 1, val));
+      } else if (right && right->count > 0) {
+        ans += (right->max_(index - 1, val));
+      } else
+        return ans;
+    }
+    return ans;
+  }
+};
+int main() {
+  trie *head = new trie();
+  int q;
+  cin >> q;
+  while (q--) {
+    char x, y;
+    int a, b, c, d;
+    cin >> x;
+    cin >> a;
+    if (x == '+') {
+      head->insert(31, a);
+    } else if (x == '-') {
+      head->delete_(31, a);
+    } else {
+      b = max(a, head->max_(31, a));
+      cout << b << endl;
+    }
+  }
+}
